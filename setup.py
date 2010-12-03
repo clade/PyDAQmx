@@ -7,7 +7,7 @@ setup(name="PyDAQmx", version='1.0',
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
-      url='http://packages.python.org/PyDAQmx/'
+      url='http://packages.python.org/PyDAQmx/',
       license='''\
 This software can be used under one of the following two licenses: \
 (1) The BSD license. \
