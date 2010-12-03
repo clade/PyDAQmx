@@ -3,18 +3,18 @@ Welcome to PyDAQmx's documentation!
 ===================================
 
 This package alows users to use data acquisition hardware from `National 
-Instrument`_ with python. It makes an interface between the NIDAQmx driver 
-and python. It currently works only with Windows OS.
+Instrument`_ with Python. It makes an interface between the NIDAQmx driver 
+and Python. It currently works only on Windows OS.
 
-The package is not an open source driver from NI acquisition hardware. You first need to install the driver provided by NI
+The package is not an open source driver for NI acquisition hardware. You first need to install the driver provided by NI.
 
-Compare to similar package, the PyDAQmx module is a full interface to 
-the NIDAQmx ansi C driver. It imports all the functions from the driver 
+Compare to similar packages, the PyDAQmx module is a full interface to 
+the NIDAQmx ANSI C driver. It imports all the functions from the driver 
 and also imports all the predefined constants. This provided an almost 
-one to one match between C and python code.
+one to one match between C and Python code.
 
-A more convenient Object oriented interface is provided, where the mecanism 
-of taskHandle in C is replace with a Task object.
+A more convenient object oriented interface is provided, where the mecanisms 
+of taskHandle in C is replace with a :ref:`Task-object`.
 
 Installation
 ============
@@ -32,6 +32,11 @@ To install PyDAQmx, download the package and run the command
 You can also directly **move** the :file:`PyDAQmx` directory to a location
 that Python can import from (directory in which scripts 
 using :mod:`PyDAQmx` are run, etc.)
+
+Source code
+===========
+
+The `source code <https://github.com/clade/PyDAQmx>`_ is available on GitHub.
 
 Available documentation
 =======================

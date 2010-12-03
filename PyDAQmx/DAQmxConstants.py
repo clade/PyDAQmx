@@ -13,6 +13,7 @@ include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
 # The first group is the name of the constant
 # The second group the value
 define = re.compile(r'\#define (\S+)\s*(".*"|\S*)')
+notempty = re.compile(r'\S')
 
 # List containing all the name of the constant
 constant_list = []

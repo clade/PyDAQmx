@@ -1,6 +1,6 @@
 # Full path of the NIDAQmx.h file
 # Default location on Windows XP
-dot_h_file = 'C:\Program Files\National Instruments\NI-DAQ\DAQmx ANSI C\NIDAQmx.h'
+dot_h_file = 'C:\Program Files\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
 
 # Name (and eventually path) of the library
 # Default on Windows is nicaiu

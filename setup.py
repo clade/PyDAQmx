@@ -13,9 +13,9 @@ This software can be used under one of the following two licenses: \
 (2) Any other license, as long as it is obtained from the original \
 author.''',
 
-      description='Interface to the National Instrument PyDAQmx driver'
+      description='Interface to the National Instrument PyDAQmx driver',
 
-      log_description=u'''\
+      long_description=u'''\
 Overview
 ========
 
@@ -57,8 +57,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 .. _National Instrument: http://www.ni.com
 .. _Pierre Cladé: mailto:pierre.clade@spectro.jussieu.fr
 
-''', 
- 
+''',  
       keywords=['DAQmx', 'National Instrument', 'Data Acquisition'],
       classifiers=[
         'Development Status :: 4 - Beta',
@@ -72,21 +71,8 @@ Please send bug reports or feedback to `Pierre Cladé`_.
         'Topic :: Scientific/Engineering :: Physics',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-    ],
-
-
-]
+        'Topic :: Software Development :: Libraries :: Python Modules'],
       packages=["PyDAQmx"]
-
-
-
-
-
-
-
-
-
 
 )
 

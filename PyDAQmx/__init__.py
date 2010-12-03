@@ -1,7 +1,7 @@
 from DAQmxTypes import *
 from DAQmxConstants import *
 from DAQmxFunctions import *
-from Task import Task()
+from Task import Task
 
 
 __version_info__ = (1, 0, 0)

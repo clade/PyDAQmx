@@ -142,8 +142,11 @@ be removed::
 
    print "Acquired %d points\n"%read.value
 
-The Task object
-===============
+
+.. _Task-object:
+
+Task object
+===========
 
 The PyDAQmx package indroduce an object oriented interface to the 
 DAQmx package. Basically, you replace the taskHandle mecanism with
@@ -162,14 +165,14 @@ The above example now reads::
   data = numpy.zeros((1000,), dtype=numpy.float64)
 
   #DAQmx Configure Code
-  task.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
-  task.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
+  analog_input.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
+  analog_input.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
 
   #DAQmx Start Code
-  task.StartTask()
+  analog_input.StartTask()
 
   #DAQmx Read Code
-  task.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
+  analog_input.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
 
   print "Acquired %d points\n"%read.value
 
