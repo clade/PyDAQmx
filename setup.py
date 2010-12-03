@@ -7,6 +7,7 @@ setup(name="PyDAQmx", version='1.0',
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
+      url='http://packages.python.org/PyDAQmx/'
       license='''\
 This software can be used under one of the following two licenses: \
 (1) The BSD license. \
@@ -33,6 +34,10 @@ one to one match between C and python code.
 A more convenient Object oriented interface is provided, where the mecanism 
 of taskHandle in C is replace with a Task object.
 
+**Detailed information** about this package can be found on its `main
+website`_.
+
+
 
 Installation
 ============
@@ -56,7 +61,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 
 .. _National Instrument: http://www.ni.com
 .. _Pierre Cladé: mailto:pierre.clade@spectro.jussieu.fr
-
+.. _main website: http://packages.python.org/PyDAQmx/
 ''',  
       keywords=['DAQmx', 'National Instrument', 'Data Acquisition'],
       classifiers=[
@@ -71,8 +76,8 @@ Please send bug reports or feedback to `Pierre Cladé`_.
         'Topic :: Scientific/Engineering :: Physics',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
-        'Topic :: Software Development :: Libraries :: Python Modules'],
-      packages=["PyDAQmx"]
+        'Topic :: Software Development :: Libraries :: Python Modules'], 
+     packages=["PyDAQmx"]
 
 )
 
