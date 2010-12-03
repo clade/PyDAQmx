@@ -1,11 +1,9 @@
-This package provide an interface to python of
-the NIDAQmx driver of National Instrument. 
-
+This package provides an interface in Python for the NIDAQmx driver of National Instrument. 
 
 To install this package:
-*First install the NIDAQmx driver. 
-*Then run python setup.py install
+* First install the NIDAQmx driver. 
+* Then run 'python setup.py install'
 
-This package has been tested with the version 8.01 on windows XP.
+This package has been tested with the version 8.01 of NIDAQmx on windows XP.
 
 
