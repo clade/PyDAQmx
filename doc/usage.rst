@@ -62,6 +62,10 @@ PyDAQmx with numpy (recommended way)::
         DAQmxReadAnalogF64(taskHandle,1,10.0,
 	    DAQmx_Val_GroupByChannel,data,1,byref(read),None)
 
+
+Example
+=======
+
 Let us look to a complete example, the Acq-IntClk.c example from AI category (AnalogIn/MeasureVoltage/Acq_IntClk.c)::
 
     #include <stdio.h>
@@ -148,24 +152,25 @@ is a method of the Task object. The name is the same without the DAQmx at
 the begining and the taskHandle argument of the function is removed.
 
 The above example now reads:: 
-    from PyDAQmx import Task
-    from PyDAQmx.DAQmxConstants import *
-    from PyDAQmx.DAQmxTypes import *
 
-    analog_input = Task()
-    read = int32()
-    data = numpy.zeros((1000,), dtype=numpy.float64)
+  from PyDAQmx import Task
+  from PyDAQmx.DAQmxConstants import *
+  from PyDAQmx.DAQmxTypes import *
 
-    # DAQmx Configure Code
-    task.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
-    task.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
+  analog_input = Task()
+  read = int32()
+  data = numpy.zeros((1000,), dtype=numpy.float64)
 
-    #DAQmx Start Code
-    task.StartTask()
+  #DAQmx Configure Code
+  task.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
+  task.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
 
-    #DAQmx Read Code
-    task.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
+  #DAQmx Start Code
+  task.StartTask()
 
-   print "Acquired %d points\n"%read.value
+  #DAQmx Read Code
+  task.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
+
+  print "Acquired %d points\n"%read.value
 
 

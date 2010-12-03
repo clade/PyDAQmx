@@ -1,8 +1,8 @@
 {% extends "!layout.html" %}
 
-{#% block rootrellink %#}
-        {#{ toctree() }#}
-{#% endblock %#}
+{% block rootrellink %}
+        {{ toctree() }}
+{% endblock %}
 
 
 {% block relbar1 %}
@@ -64,7 +64,7 @@ pathto("_static/logo.png", 1) }}" border="0" alt="PyDAQmx"/></a>
           {%- endif %}
           {%- block sidebarglobaltoc %}
             <h3>{{ _('Global Table of Contents') }}</h3>
-            {#{ toctree() }#}
+            {{ toctree() }}
           {%- endblock %}
           {%- block sidebarsearch %}
           {%- if pagename != "search" %}
