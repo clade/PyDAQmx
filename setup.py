@@ -3,7 +3,7 @@
 #from distutils.core import setup
 from setuptools import setup
 
-setup(name="PyDAQmx", version='1.0',
+setup(name="PyDAQmx", version='1.0.1',
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
@@ -22,7 +22,7 @@ Overview
 
 This package alows users to use data acquisition hardware from `National 
 Instrument`_ with python. It makes an interface between the NIDAQmx driver 
-and python. It currently works only with Windows OS.
+and python. It currently works only on Windows.
 
 The package is not an open source driver from NI acquisition hardware. You first need to install the driver provided by NI
 
@@ -46,12 +46,13 @@ You need first to install the NI DAQmx driver which is provided with your
 data-acquisition hardware. Please verify that you have install together with 
 the driver the C API (which should be the case by default). 
 
-To install PyDAQmx, download the package and run the command 
-   python setup.py install
+To install PyDAQmx, download the package and run the command:: 
 
-You can also directly **move** the :file:`PyDAQmx` directory to a location
+  python setup.py install
+
+You can also directly move the PyDAQmx directory to a location
 that Python can import from (directory in which scripts 
-using :mod:`PyDAQmx` are run, etc.)
+using PyDAQmx are run, etc.)
 
 Contact
 =======

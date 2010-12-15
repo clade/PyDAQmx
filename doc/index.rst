@@ -23,7 +23,7 @@ You need first to install the NI DAQmx driver which is provided with your
 data-acquisition hardware. Please verify that you have install together with 
 the driver the C API (which should be the case by default). 
 
-To install PyDAQmx, download the package and run the command 
+To install PyDAQmx, download the `package`_ and run the command 
 
 .. code-block:: sh
 
@@ -64,4 +64,4 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 
 .. _National Instrument: http://www.ni.com
 .. _Pierre Cladé: mailto:pierre.clade@spectro.jussieu.fr
-
+.. _package: http://pypi.python.org/pypi/PyDAQmx 
