@@ -20,7 +20,7 @@ author.''',
 Overview
 ========
 
-This package alows users to use data acquisition hardware from `National 
+This package allows users to use data acquisition hardware from `National 
 Instrument`_ with python. It makes an interface between the NIDAQmx driver 
 and python. It currently works only on Windows.
 
@@ -64,7 +64,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 .. _Pierre Cladé: mailto:pierre.clade@spectro.jussieu.fr
 .. _main website: http://packages.python.org/PyDAQmx/
 ''',  
-      keywords=['DAQmx', 'National Instrument', 'Data Acquisition'],
+      keywords=['DAQmx', 'National Instrument', 'Data Acquisition','nidaq','nidaqmx'],
       classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
