@@ -14,7 +14,7 @@ class MultiChannelAnalogInput():
                         reset: booleen
     Methodes:
         read(name), return the value of the input name
-        readAll(), retourne a dictionnary name:value
+        readAll(), return a dictionnary name:value
     """
     def __init__(self,physicalChannel, limit = None, reset = False):
         if type(physicalChannel) == type(""):
