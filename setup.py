@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
+x# -*- coding: utf-8 -*-
 
 #from distutils.core import setup
 from setuptools import setup
 
-setup(name="PyDAQmx", version='1.0.1',
+setup(name="PyDAQmx", version='1.0.2',
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
