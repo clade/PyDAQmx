@@ -32,7 +32,7 @@ def catch_error(f):
         return error
     return mafunction
         
-DAQlib= windll.LoadLibrary("nicaiu.dll")
+DAQlib = windll.LoadLibrary("nicaiu.dll")
 
 ######################################
 # Array
