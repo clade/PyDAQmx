@@ -31,10 +31,11 @@ and python. It currently works only on Windows.
 
 The package is not an open source driver from NI acquisition hardware. You first need to install the driver provided by NI
 
-Compare to similar package, the PyDAQmx module is a full interface to 
-the NIDAQmx ansi C driver. It imports all the functions from the driver 
-and also imports all the predefined constants. This provided an almost 
-one to one match between C and python code.
+Compare to similar package, the PyDAQmx module is a full interface to
+the NIDAQmx ansi C driver. It imports all the functions from the
+driver and also imports all the predefined constants. This provided an
+almost one to one match between C and python code. Examples using
+callback functions are provided.
 
 A more convenient Object oriented interface is provided, where the mecanism 
 of taskHandle in C is replace with a Task object.
@@ -117,10 +118,11 @@ and python. It currently works only on Windows.
 
 The package is not an open source driver from NI acquisition hardware. You first need to install the driver provided by NI
 
-Compare to similar package, the PyDAQmx module is a full interface to 
-the NIDAQmx ansi C driver. It imports all the functions from the driver 
-and also imports all the predefined constants. This provided an almost 
-one to one match between C and python code.
+Compare to similar package, the PyDAQmx module is a full interface to
+the NIDAQmx ansi C driver. It imports all the functions from the
+driver and also imports all the predefined constants. This provided an
+almost one to one match between C and python code. Examples using
+callback functions are provided.
 
 A more convenient Object oriented interface is provided, where the mecanism 
 of taskHandle in C is replace with a Task object.
