@@ -83,7 +83,7 @@ char_etoile = re.compile(r'(char)\s*\*([^\*]*)\Z') # match "char * name"
 void_etoile = re.compile(r'(void)\s*\*([^\*]*)\Z') # match "void * name"
 char_array = re.compile(r'(char)\s*([^\s]*)\[\]') # match "char name[]"
 dots = re.compile('\.\.\.')
-
+call_back = re.compile(r'([^\s]*CallbackPtr)\s*([^\s]*)') # Match "DAQmxDoneEventCallbackPtr callbackFunction"
 
 function_list = [] # The list of all function 
 # function_dict: the keys are function name, the value is a dictionnary 
@@ -99,7 +99,7 @@ for line in include_file:
             function_list.append(name)
             arg_string = fonction_parser.match(line).group(2)
             if re.search('callbackFunction',arg_string):
-                pass # The module do not support callbackFunction
+                pass # callbackFunction are processed separately 
             else:
                 arg_list=[]
                 arg_name = []
@@ -128,6 +128,9 @@ for line in include_file:
                     elif char_array.search(arg):
                         arg_list.append(c_char_p)
                         arg_name.append(char_array.search(arg).group(2))
+                    elif call_back.search(arg):
+                        arg_list.append( eval(pointer_type.search(arg).group(1)) )
+                        arg_name.append(pointer_type.search(arg).group(2))                        
                     elif dots.search(arg):
                         pass
                     else:
@@ -140,7 +143,16 @@ for line in include_file:
 
 include_file.close()
 
-#function_list = function_list[2:]
+# Functions using callback in NIDAQmx.h 
+DAQmxRegisterEveryNSamplesEvent = catch_error( DAQlib.DAQmxRegisterEveryNSamplesEvent )
+DAQmxRegisterEveryNSamplesEvent.argtypes = [TaskHandle,int32, uInt32, uInt32, type(DAQmxRegisterEveryNSamplesEvent), c_void_p]
+
+DAQmxRegisterDoneEvent = catch_error( DAQlib.DAQmxRegisterDoneEvent )
+DAQmxRegisterDoneEvent.argtypes = [TaskHandle, uInt32, type(DAQmxDoneEventCallbackPtr) , c_void_p]
+
+DAQmxRegisterSignalEvent = catch_error( DAQlib.DAQmxRegisterSignalEvent)
+DAQmxRegisterSignalEvent.argtypes = [TaskHandle,int32, uInt32, type(DAQmxRegisterSignalEvent), c_void_p]
+
  
 
 

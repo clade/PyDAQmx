@@ -15,3 +15,7 @@ uInt64 = c_ulonglong
 bool32 = uInt32 
 TaskHandle = uInt32
 
+# CFUNCTYPE defined in NIDAQmx.h
+DAQmxEveryNSamplesEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, uInt32, c_void_p)
+DAQmxDoneEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, c_void_p)
+DAQmxSignalEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, c_void_p)
