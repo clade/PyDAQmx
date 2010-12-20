@@ -71,7 +71,6 @@ include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
 ################################
 # Regular expression to parse the NIDAQmx.h file
 # Almost all the function define in NIDAQmx.h file are imported
-# Exceptions are function containing callbackFunction
 ################################
 fonction_parser = re.compile(r'.* (DAQ\S+)\s*\((.*)\);')
 const_char = re.compile(r'(const char)\s*([^\s]*)\[\]')
