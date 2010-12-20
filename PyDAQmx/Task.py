@@ -6,7 +6,7 @@ from DAQmxFunctions import *
 # the DAQmx in front of the name
 task_function_list = [name for name in function_dict.keys() if \
                  (function_dict[name]['arg_type'][0] is TaskHandle) and\
-                 function_dict[name]['arg_name'][0] =="taskHandle"]
+                 'task' in function_dict[name]['arg_name'][0]]
 
 
 class Task():
@@ -14,8 +14,28 @@ class Task():
         taskHandle = TaskHandle(0)
         DAQmxCreateTask("",byref(taskHandle))
         self.taskHandle = taskHandle
-    def __del__(self): #Clear the task before deleting the object
-        self.ClearTask()
+        self.__cleared = False #Flag to clear the task only once
+    def __del__(self):
+        """ Clear automatically the task to be able to reallocate resources """ 
+        # Clear the task before deleting the object
+        # If the task as already been manually cleared, nothing is done
+        # This prevent to clear a task that has a Handle attributes to a new task
+        # See this example
+        # a = Task(), ..., a.ClearTask(), b = Task(), del(a)
+        # b has the same taskHandle as a, and deleting a will clear the task of b   
+        try: 
+            if not self.__cleared:
+                self.ClearTask()
+        except DAQError:
+            pass
+    def ClearTask(self):
+        DAQmxClearTask(self.taskHandle)
+        self.__cleared = True
+    def __repr__(self):
+        return "Task number %d"%self.taskHandle.value
+
+# Remove ClearTask in task_functon_list
+task_function_list = [name for name in task_function_list if name not in ['DAQmxClearTask']]
 
 for function_name in task_function_list:
     name = function_name[5:] # remove the DAQmx in front of the name
