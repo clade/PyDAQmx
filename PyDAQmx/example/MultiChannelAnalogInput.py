@@ -8,13 +8,13 @@ from PyDAQmx.DAQmxConstants import *
 class MultiChannelAnalogInput():
     """Class to create an multi-channel analog input
     
-    Utilisation: AI = SimpleAnalogInput(physicalChannel)
+    Utilisation: AI = MultiChannelInput(physicalChannel)
         physicalChannel: a string or a list of string
     optional parameter: limit: tuple or list of tuple, the AI limit values
                         reset: booleen
     Methodes:
         read(name), return the value of the input name
-        readAll(), retourne a dictionnary name:value
+        readAll(), return a dictionnary name:value
     """
     def __init__(self,physicalChannel, limit = None, reset = False):
         if type(physicalChannel) == type(""):
