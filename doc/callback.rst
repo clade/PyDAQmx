@@ -7,19 +7,23 @@ How to use callback function in PyDAQmx
 
 Callback function are implemented in PyDAQmx. With ctypes, you can
 convert a Python function to a CFunction that can be as an argument to
-a function loaded with ctypes. 
+a function loaded with ctypes (The CFunction types are defined in
+:mod:`PyDAQmx.DAQmxTypes`).
 
 The :mod:`PyDAQmx.DAQmxCallBack` module provide an mechanism to send
 data to the callback function (see the second example)
 
-An complete example is available on the GitHub `repository <https://github.com/clade/PyDAQmx>`_, in the :file:`PyDAQmx\example` directory. 
+An complete example is available on the GitHub `repository
+<https://github.com/clade/PyDAQmx>`_, in the :file:`PyDAQmx\example`
+directory.
 
 Simple example
 --------------
 
 Using a callback function is a three steps problem:
-* Define the python function, with the right arguments
-* Transform the function to de CFunction
+
+* Define the Python function, with the correct arguments
+* Transform the function to a CFunction
 * Regiter the call back within NIDAQmx
 
 Here is the code::
@@ -29,14 +33,15 @@ Here is the code::
         print "Status",status.value
 	return 0 # The function should return an integer
 	 
-    # Convert the python function to a CFunction      
+    # Convert the python function to a CFunction
+    # The name is defined in DAQmxTypes
     DoneCallback = DAQmxDoneEventCallbackPtr(DoneCallback_py)
 
     # Register the function
     DAQmxRegisterDoneEvent(taskHandle,0,DoneCallback,None)
 
 Send data to a callback function
-------------------------------
+--------------------------------
 
 :mod:`PyDAQmx` uses the :mod:`weakref` module to send data to a
 callback function. You need to first register your data to get an id
@@ -72,4 +77,3 @@ Here is an example::
      EveryNCallback = DAQmxEveryNSamplesEventCallbackPtr(EveryNCallback_py)
 
      DAQmxRegisterEveryNSamplesEvent(taskHandle,DAQmx_Val_Acquired_Into_Buffer,1000,0,EveryNCallback,id_data)
-
