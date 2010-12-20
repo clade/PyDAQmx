@@ -1,5 +1,11 @@
 import weakref
 
+""" This package import helper functions to pass data to call back functions
+
+See examples
+"""
+
+
 # NIDAQmx allow to pass a pointer to a data structure in callbask function
 # If this function is implemented in Python, we would like this data to be a Python object.
 # This object will not (and will not) be used in C but we want to pass a reference to it.
@@ -33,6 +39,6 @@ def create_callbackdata_id(obj):
     return oid
 
 def get_callbackdata_from_id(oid):
-    """Retrive an object stored using create_callbackdata_id    
+    """Retrieve an object stored using create_callbackdata_id    
     """
     return _id2obj_dict[oid]
