@@ -1,6 +1,7 @@
 import re
+import sys
 from ctypes import *
-from DAQmxConfig import dot_h_file
+from DAQmxConfig import dot_h_file, lib_name
 from DAQmxTypes import *
 
 class DAQError(Exception):
@@ -31,8 +32,11 @@ def catch_error(f):
 
         return error
     return mafunction
-        
-DAQlib = windll.LoadLibrary("nicaiu.dll")
+if sys.platform.startswith('win'):        
+    DAQlib = windll.LoadLibrary(lib_name)
+elif sys.platform.startswith('linux'):
+    DAQlib = cdll.LoadLibrary(lib_name)
+# else other platforms will already have barfed importing DAQmxConfig
 
 ######################################
 # Array

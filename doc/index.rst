@@ -4,7 +4,7 @@ Welcome to PyDAQmx's documentation!
 
 This package alows users to use data acquisition hardware from `National 
 Instrument`_ with Python. It makes an interface between the NIDAQmx driver 
-and Python. It currently works only on Windows OS.
+and Python. The package works on Windows and Linux.
 
 The package is not an open source driver for NI acquisition hardware. You first need to install the driver provided by NI.
 
@@ -59,7 +59,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
    
    Overview <self>
    Installation <installation>
-   Haow to use PyDAQmx <usage>
+   How to use PyDAQmx <usage>
 
 
 .. _National Instrument: http://www.ni.com

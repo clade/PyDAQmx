@@ -10,9 +10,28 @@ The PyNIDAQmx module uses ctypes to interface the dll.
 This module uses ctypes to make the interface with DAQmx. We advise to 
 user of PyDAQmx to have a look at the documentation of ctypes.
 
+Three modules are defined: 
+
+* :mod:`PyDAQmx.DAQmxTypes`, this module maps the types defined by
+  National Instrument to the corresponding ctypes types.
+* :mod:`PyDAXmx.DAQmxConstants`, this module imports all the
+  predefined constant (like DAQmx_Val_Cfg_Default, DAQmx_Val_Rising,
+  etc.) that are defined in the NIDAQmx.h file. 
+* :mod:`PyDAQmx.DAQmxFunctions`, this module imports all the funtions
+  defined in the NIDAQmx.h file (like DAQmxCreateTask,
+  DAQmxCfgSampClkTiming, etc.)
+
+Furthermore, an object oriented interface is introduced in the
+:mod:`PyDAQmx.Task` module. See the section :ref:`Task-object`.
+
+
+Argument types
+--------------
+
 All the types used by NI and defined in the NIDAQmx.h file are 
-translated to ctypes. You need to import them 
-from PyDAQmx.DAQmxTypes import *
+translated to ctypes. You need to import them::
+
+	from PyDAQmx.DAQmxTypes import *
 
 The module convert automatically variable to the right type. You need 
 only to declare the type of the variable if it is a pointer.

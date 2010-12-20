@@ -8,7 +8,7 @@ from setuptools import setup
 # So I remove the accent of the author name in this case
 # TODO: find an automatic way of removing accent if version<2.6
 if sys.version_info[:2]>=(2,6): # Unicode accent does not work on earlier version
-    setup(name="PyDAQmx", version='1.0.1',
+    setup(name="PyDAQmx", version='1.1.0',
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
@@ -64,6 +64,12 @@ Contact
 
 Please send bug reports or feedback to `Pierre Cladé`_.
 
+Version history
+===============
+Main changes:
+
+* 1.1 Add linux support
+
 
 .. _National Instrument: http://www.ni.com
 .. _Pierre Cladé: mailto:pierre.clade@spectro.jussieu.fr
@@ -87,7 +93,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 
 )
 else: # version of python <2.6. Remove the unicode  
-      setup(name="PyDAQmx", version='1.0.1',
+      setup(name="PyDAQmx", version='1.1.0',
       author='Pierre Clade', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer='Pierre Clade',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
@@ -143,6 +149,11 @@ Contact
 
 Please send bug reports or feedback to `Pierre Clade`_.
 
+Version history
+===============
+Main changes:
+
+* 1.1 Add linux support
 
 .. _National Instrument: http://www.ni.com
 .. _Pierre Clade: mailto:pierre.clade@spectro.jussieu.fr
