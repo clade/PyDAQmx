@@ -17,30 +17,30 @@ class MyList(list):
     pass
 
 # list where the data are stored
-a = MyList()
-id_a = create_callbackdata_id(a)
+data = MyList()
+id_a = create_callbackdata_id(data)
 
 
 
 # Define two Call back functions
 def EveryNCallback_py(taskHandle, everyNsamplesEventType, nSamples, callbackData_ptr):
-    b = get_callbackdata_from_id(callbackData_ptr)
+    callbackdata = get_callbackdata_from_id(callbackData_ptr)
     read = int32()
     data = zeros(1000)
     DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByScanNumber,data,1000,byref(read),None)
-    b.extend(data.tolist())
-    print '.',
+    callbackdata.extend(data.tolist())
+    print "Acquired total %d samples"%len(data)
     return 0 # The function should return an integer
 
 # Convert the python function to a CFunction      
-EveryNCallback = DAQmxEveryNSamplesEventCallbackPtr( EveryNCallback_py )
+EveryNCallback = DAQmxEveryNSamplesEventCallbackPtr(EveryNCallback_py)
 
 def DoneCallback_py(taskHandle, status, callbackData):
     print "Status",status.value
-    return 0
+    return 0 # The function should return an integer
 
 # Convert the python function to a CFunction      
-DoneCallback = DAQmxDoneEventCallbackPtr( DoneCallback_py )
+DoneCallback = DAQmxDoneEventCallbackPtr(DoneCallback_py)
 
 
 #Beginning of the script
