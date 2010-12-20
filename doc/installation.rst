@@ -13,7 +13,7 @@ of the file :file:`NiDAQmx.h`. On Windows XP, it's location is
 If this not the case on your system, modify the file :file:`DAQmxConfig.py` in the 
 module. 
 
-To install PyDAQmx, download the package and run the command 
+To install PyDAQmx, download the `package`_ and run the command 
 
 .. code-block:: sh
 
@@ -22,3 +22,6 @@ To install PyDAQmx, download the package and run the command
 You can also directly **move** the :file:`PyDAQmx` directory to a location
 that Python can import from (directory in which scripts 
 using :mod:`PyDAQmx` are run, etc.)
+
+
+.. _package: http://pypi.python.org/pypi/PyDAQmx 

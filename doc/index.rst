@@ -45,8 +45,12 @@ Available documentation
 
 The :doc:`usage` gives you some example on how to use :mod:`PyDAQmx`. 
 
-The part :doc:`installation` describe the installation and configuration of 
-:mod:`PyDAQmx`
+The part :doc:`installation` describes the installation and configuration of 
+:mod:`PyDAQmx`.
+
+The part :doc:`callback` gives code examples to use callback functions. 
+
+Examples are available of the GitHub `repositery <https://github.com/clade/PyDAQmx>`_. 
 
 Contact
 =======
