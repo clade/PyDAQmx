@@ -11,11 +11,12 @@ class DAQError(Exception):
         error -- Error number from NI
         message -- explanation of the error
     """
-    def __init__(self, error, mess):
+    def __init__(self, error, mess, fname):
         self.error = error
         self.mess = mess
+        self.fname = fname
     def __str__(self):
-        return self.mess
+        return self.mess + '\n in function '+self.fname
 
 def catch_error(f):
     def mafunction(*arg):
@@ -23,7 +24,7 @@ def catch_error(f):
         if error<0:
             errBuff = create_string_buffer(2048)
             DAQmxGetExtendedErrorInfo(errBuff,2048)
-            raise DAQError(error,errBuff.value)
+            raise DAQError(error,errBuff.value, f.__name__)
         elif error>0:
             errBuff = create_string_buffer(2048)
             DAQmxGetErrorString (error, errBuff, 2048);
@@ -98,43 +99,40 @@ for line in include_file:
             name = fonction_parser.match(line).group(1)
             function_list.append(name)
             arg_string = fonction_parser.match(line).group(2)
-            if re.search('callbackFunction',arg_string):
-                pass # callbackFunction are processed separately 
-            else:
-                arg_list=[]
-                arg_name = []
-                for arg in re.split(',',arg_string):
-                    if const_char.search(arg):
-                        arg_list.append(c_char_p)
-                        arg_name.append(const_char.search(arg).group(2))
-                    elif simple_type.search(arg): 
-                        arg_list.append( eval(simple_type.search(arg).group(1)))
-                        arg_name.append(simple_type.search(arg).group(2))
-                    elif pointer_type.search(arg): 
-                        arg_list.append( eval('POINTER('+pointer_type.search(arg).group(1)+')') )
-                        arg_name.append(pointer_type.search(arg).group(2))
-                    elif pointer_type2.search(arg):
-                        if pointer_type2.search(arg).group(2) == 'readArray' or pointer_type2.search(arg).group(2) == 'writeArray':
-                            arg_list.append(array_type(pointer_type2.search(arg).group(1)))
-                        else:    
-                            arg_list.append( eval('POINTER('+pointer_type2.search(arg).group(1)+')') )
-                            arg_name.append(pointer_type2.search(arg).group(2))
-                    elif char_etoile.search(arg):
-                        arg_list.append(c_char_p)
-                        arg_name.append(char_etoile.search(arg).group(2))
-                    elif void_etoile.search(arg):
-                        arg_list.append(c_void_p)
-                        arg_name.append(void_etoile.search(arg).group(2))
-                    elif char_array.search(arg):
-                        arg_list.append(c_char_p)
-                        arg_name.append(char_array.search(arg).group(2))
-                    elif call_back.search(arg):
-                        arg_list.append( eval(pointer_type.search(arg).group(1)) )
-                        arg_name.append(pointer_type.search(arg).group(2))                        
-                    elif dots.search(arg):
-                        pass
-                    else:
-                        pass
+            arg_list=[]
+            arg_name = []
+            for arg in re.split(',',arg_string):
+                if const_char.search(arg):
+                    arg_list.append(c_char_p)
+                    arg_name.append(const_char.search(arg).group(2))
+                elif simple_type.search(arg): 
+                    arg_list.append( eval(simple_type.search(arg).group(1)))
+                    arg_name.append(simple_type.search(arg).group(2))
+                elif pointer_type.search(arg): 
+                    arg_list.append( eval('POINTER('+pointer_type.search(arg).group(1)+')') )
+                    arg_name.append(pointer_type.search(arg).group(2))
+                elif pointer_type2.search(arg):
+                    if pointer_type2.search(arg).group(2) == 'readArray' or pointer_type2.search(arg).group(2) == 'writeArray':
+                        arg_list.append(array_type(pointer_type2.search(arg).group(1)))
+                    else:    
+                        arg_list.append( eval('POINTER('+pointer_type2.search(arg).group(1)+')') )
+                        arg_name.append(pointer_type2.search(arg).group(2))
+                elif char_etoile.search(arg):
+                    arg_list.append(c_char_p)
+                    arg_name.append(char_etoile.search(arg).group(2))
+                elif void_etoile.search(arg):
+                    arg_list.append(c_void_p)
+                    arg_name.append(void_etoile.search(arg).group(2))
+                elif char_array.search(arg):
+                    arg_list.append(c_char_p)
+                    arg_name.append(char_array.search(arg).group(2))
+                elif call_back.search(arg):
+                    arg_list.append( eval(call_back.search(arg).group(1)) )
+                    arg_name.append(call_back.search(arg).group(2))                        
+                elif dots.search(arg):
+                    pass
+                else:
+                    pass
                 function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}                
                 cmd1 = name+' =  catch_error( DAQlib.'+name+' )'
                 cmd2 = 'DAQlib.'+name+'.argtypes = arg_list'
@@ -144,14 +142,14 @@ for line in include_file:
 include_file.close()
 
 # Functions using callback in NIDAQmx.h 
-DAQmxRegisterEveryNSamplesEvent = catch_error( DAQlib.DAQmxRegisterEveryNSamplesEvent )
-DAQmxRegisterEveryNSamplesEvent.argtypes = [TaskHandle,int32, uInt32, uInt32, type(DAQmxRegisterEveryNSamplesEvent), c_void_p]
+#DAQmxRegisterEveryNSamplesEvent = catch_error( DAQlib.DAQmxRegisterEveryNSamplesEvent )
+#DAQmxRegisterEveryNSamplesEvent.argtypes = [TaskHandle,int32, uInt32, uInt32, type(DAQmxRegisterEveryNSamplesEvent), c_void_p]
 
-DAQmxRegisterDoneEvent = catch_error( DAQlib.DAQmxRegisterDoneEvent )
-DAQmxRegisterDoneEvent.argtypes = [TaskHandle, uInt32, type(DAQmxDoneEventCallbackPtr) , c_void_p]
+#DAQmxRegisterDoneEvent = catch_error( DAQlib.DAQmxRegisterDoneEvent )
+#DAQmxRegisterDoneEvent.argtypes = [TaskHandle, uInt32, type(DAQmxDoneEventCallbackPtr) , c_void_p]
 
-DAQmxRegisterSignalEvent = catch_error( DAQlib.DAQmxRegisterSignalEvent)
-DAQmxRegisterSignalEvent.argtypes = [TaskHandle,int32, uInt32, type(DAQmxRegisterSignalEvent), c_void_p]
+#DAQmxRegisterSignalEvent = catch_error( DAQlib.DAQmxRegisterSignalEvent)
+#DAQmxRegisterSignalEvent.argtypes = [TaskHandle,int32, uInt32, type(DAQmxRegisterSignalEvent), c_void_p]
 
  
 
