@@ -16,6 +16,8 @@ one to one match between C and Python code.
 A more convenient object oriented interface is provided, where the mecanisms 
 of taskHandle in C is replace with a :ref:`Task-object`.
 
+The module support callback functions, see :doc:`callback`
+
 Installation
 ============
 
@@ -60,6 +62,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
    Overview <self>
    Installation <installation>
    How to use PyDAQmx <usage>
+   Example of callback <callback>
 
 
 .. _National Instrument: http://www.ni.com

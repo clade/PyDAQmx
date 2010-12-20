@@ -1,5 +1,6 @@
 from PyDAQmx import *
 from PyDAQmx.DAQmxCallBack import *
+from numpy import zeros
 
 """This example is a PyDAQmx version of the ContAcq_IntClk.c example
 It illustrates the use of callback function
