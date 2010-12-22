@@ -1,4 +1,5 @@
 from DAQmxFunctions import *
+from DAQmxCallBack import *
 
 # Create a list of the name of the function that uses TastHandle as the firs argument
 # All the function of this list will be converted to method of the task object
@@ -33,6 +34,64 @@ class Task():
         self.__cleared = True
     def __repr__(self):
         return "Task number %d"%self.taskHandle.value
+    def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
+        """Register the method named name as the callback function for EveryNSamplesEvent
+        
+        
+        With this method you can register a method of the class Task as a callback function. 
+        The parameters everyNsamplesEventType, nSamples and options are the same 
+        as the DAQmxRegisterEveryNSamplesEvent parameters
+        
+        No parameters are passed to the method        
+        """
+        self_id = create_callbackdata_id(self)
+        # Define the python function
+        def EveryNCallback_py(taskHandle, everyNsamplesEventType, nSamples, self_id):
+            self = get_callbackdata_from_id(self_id)
+            getattr(self,name)()
+            return 0
+        # Transform the python function to a CFunction
+        self.EveryNCallback_C = DAQmxEveryNSamplesEventCallbackPtr(EveryNCallback_py)
+        # Register the function
+        self.RegisterEveryNSamplesEvent(everyNsamplesEventType,nSamples,options,self.EveryNCallback_C,self_id)
+    def AutoRegisterDoneEvent(self, options, name='DoneCallback'):
+        """Register the method named name as the callback function for DoneEvent
+        
+        With this method you can register a method of the class Task as a callback function. 
+        The parameter options is the same as the DAQmxRegisterDoneEvent parameters
+        
+        The method registered as one parameter, status        
+        """
+        self_id = create_callbackdata_id(self)
+        # Define the python function
+        def DoneCallback_py(taskHandle, status, self_id):
+            getattr(get_callbackdata_from_id(self_id),name)(status)
+            return 0
+        # Transform the python function to a CFunction
+        self.DoneCallback_C = DAQmxDoneEventCallbackPtr(DoneCallback_py)
+        # Register the function
+        self.RegisterDoneEvent(options,self.DoneCallback_C,self_id)
+    def AutoRegisterSignalEvent(self, signalID, options, name='SignalCallback'):
+        """Register the method named name as the callback function for RegisterSignalEvent
+        
+        
+        With this method you can register a method of the class Task as a callback function. 
+        The parameters signalID, options are the same 
+        as the DAQmxRegisterSignalEvent parameters  
+        
+        No parameter are passed to the method      
+        """
+        self_id = create_callbackdata_id(self)
+        # Define the python function
+        def SignalCallback_py(taskHandle, signalID, self_id):
+            self = get_callbackdata_from_id(self_id)
+            getattr(self,name)()
+            return 0
+        # Transform the python function to a CFunction
+        self.SignalCallback_C = DAQmxSignalEventCallbackPtr(SignalCallback_py)
+        # Register the function
+        self.RegisterSignalEvent(signalID, options, self.SignalCallback_C, self_id)
+
 
 # Remove ClearTask in task_functon_list
 task_function_list = [name for name in task_function_list if name not in ['DAQmxClearTask']]
