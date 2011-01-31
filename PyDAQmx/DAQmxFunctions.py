@@ -72,86 +72,93 @@ include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
 # Regular expression to parse the NIDAQmx.h file
 # Almost all the function define in NIDAQmx.h file are imported
 ################################
+
+# Each regular expression is assiciated with a ctypes type and a number giving the 
+# group in which the name of the variable is defined
+
+
 fonction_parser = re.compile(r'.* (DAQ\S+)\s*\((.*)\);')
 const_char = re.compile(r'(const char)\s*([^\s]*)\[\]')
 string_type = '|'.join(['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64','int64','uInt64','bool32','TaskHandle'])
 
-simple_type = re.compile('('+string_type+')\s*([^\*\[]*)\Z')
-pointer_type = re.compile('('+string_type+')\s*\*([^\*]*)\Z')
-pointer_type2 = re.compile('('+string_type+')\s*([^\s]*)\[\]\Z')
-char_etoile = re.compile(r'(char)\s*\*([^\*]*)\Z') # match "char * name"
-void_etoile = re.compile(r'(void)\s*\*([^\*]*)\Z') # match "void * name"
-char_array = re.compile(r'(char)\s*([^\s]*)\[\]') # match "char name[]"
-dots = re.compile('\.\.\.')
-call_back = re.compile(r'([^\s]*CallbackPtr)\s*([^\s]*)') # Match "DAQmxDoneEventCallbackPtr callbackFunction"
 
-function_list = [] # The list of all function 
+type_list = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64',
+	'int64','uInt64','bool32','TaskHandle']
+type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64',
+        'int64','uInt64']
+
+
+# Each regular expression is assAciated with a ctypes type and a number giving the 
+# group in which the name of the variable is defined
+const_char = [(re.compile(r'(const char)\s*([^\s]*)\[\]'), c_char_p ,2)]
+simple_type = [(re.compile('('+type+')\s*([^\*\[]*)\Z'),eval(type),2)
+	 for type in type_list]
+pointer_type = [(re.compile('('+type+')\s*\*([^\*]*)\Z'),
+		eval('POINTER('+type+')'),2) for type in type_list]
+pointer_type_array = [(re.compile('('+type+')\s*([readArray|writeArray]*)\[\]\Z'),
+	array_type(type),2) for type in type_list_array]
+pointer_type_2 = [(re.compile('('+type+')\s*([^\s]*)\[\]\Z'),
+		eval('POINTER('+type+')'),2) for type in type_list]
+
+char_etoile = [(re.compile(r'(char)\s*\*([^\*]*)\Z'), c_char_p, 2)] # match "char * name"
+void_etoile = [(re.compile(r'(void)\s*\*([^\*]*)\Z'), c_void_p, 2)] # match "void * name"
+char_array = [(re.compile(r'(char)\s*([^\s]*)\[\]'), c_char_p,2)] # match "char name[]"
+call_back_A = [(re.compile(r'(DAQmxEveryNSamplesEventCallbackPtr)\s*([^\s]*)'),DAQmxEveryNSamplesEventCallbackPtr ,2)]
+call_back_B = [(re.compile(r'(DAQmxDoneEventCallbackPtr)\s*([^\s]*)'),DAQmxDoneEventCallbackPtr,2)]
+call_back_C = [(re.compile(r'(DAQmxSignalEventCallbackPtr)\s*([^\s]*)'),DAQmxSignalEventCallbackPtr,2)]
+
+
+# Create a list with all regular expressions
+c_to_ctype_map = []
+for l in [const_char, simple_type, pointer_type, pointer_type_array, pointer_type_array,
+		pointer_type_2,char_etoile, void_etoile,char_array, 
+          call_back_A, call_back_B, call_back_C]:
+    c_to_ctype_map.extend(l)
+
+
+
+# The list of all function 
 # function_dict: the keys are function name, the value is a dictionnary 
 # with 'arg_type' and 'arg_name', the type and name of each argument 
+function_list = [] 
 function_dict = {} 
+
+
+def _define_function(name, arg_list, arg_name):
+    # Record details of function
+    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
+    # Fetch C function and apply argument checks
+    cfunc = getattr(DAQlib, name)
+    setattr(cfunc, 'argtypes', arg_list)
+    # Create error-raising wrapper for C function and add to module's dict
+    func = catch_error(cfunc)
+    func.__name__ = name
+    func.__doc__ = '%s(%s) -> error.' % (name, ','.join(arg_name))
+    globals()[name] = func
+
 
 
 for line in include_file:
     line = line[0:-1]
-    if re.search("int32",line):
-        if fonction_parser.match(line):
-            name = fonction_parser.match(line).group(1)
-            function_list.append(name)
-            arg_string = fonction_parser.match(line).group(2)
-            arg_list=[]
-            arg_name = []
-            for arg in re.split(',',arg_string):
-                if const_char.search(arg):
-                    arg_list.append(c_char_p)
-                    arg_name.append(const_char.search(arg).group(2))
-                elif simple_type.search(arg): 
-                    arg_list.append( eval(simple_type.search(arg).group(1)))
-                    arg_name.append(simple_type.search(arg).group(2))
-                elif pointer_type.search(arg): 
-                    arg_list.append( eval('POINTER('+pointer_type.search(arg).group(1)+')') )
-                    arg_name.append(pointer_type.search(arg).group(2))
-                elif pointer_type2.search(arg):
-                    if pointer_type2.search(arg).group(2) == 'readArray' or pointer_type2.search(arg).group(2) == 'writeArray':
-                        arg_list.append(array_type(pointer_type2.search(arg).group(1)))
-                    else:    
-                        arg_list.append( eval('POINTER('+pointer_type2.search(arg).group(1)+')') )
-                        arg_name.append(pointer_type2.search(arg).group(2))
-                elif char_etoile.search(arg):
-                    arg_list.append(c_char_p)
-                    arg_name.append(char_etoile.search(arg).group(2))
-                elif void_etoile.search(arg):
-                    arg_list.append(c_void_p)
-                    arg_name.append(void_etoile.search(arg).group(2))
-                elif char_array.search(arg):
-                    arg_list.append(c_char_p)
-                    arg_name.append(char_array.search(arg).group(2))
-                elif call_back.search(arg):
-                    arg_list.append( eval(call_back.search(arg).group(1)) )
-                    arg_name.append(call_back.search(arg).group(2))                        
-                elif dots.search(arg):
-                    pass
-                else:
-                    pass
-                function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}                
-                cmd1 = name+' =  catch_error( DAQlib.'+name+' )'
-                cmd2 = 'DAQlib.'+name+'.argtypes = arg_list'
-                exec(cmd1)
-                exec(cmd2)
+    if '__CFUNC' in line and fonction_parser.match(line):
+        name = fonction_parser.match(line).group(1)
+        function_list.append(name)
+        arg_string = fonction_parser.match(line).group(2)
+        arg_list=[]
+        arg_name = []
+        for arg in re.split(', ',arg_string):
+            for (reg_expr, new_type, groug_nb) in c_to_ctype_map:
+                reg_expr_result = reg_expr.search(arg)
+                if reg_expr_result is not None:
+                    arg_list.append(new_type)
+                    arg_name.append(reg_expr_result.group(groug_nb))
+                    break # break the for loop
+        _define_function(name, arg_list, arg_name)
 
 include_file.close()
 
-# Functions using callback in NIDAQmx.h 
-#DAQmxRegisterEveryNSamplesEvent = catch_error( DAQlib.DAQmxRegisterEveryNSamplesEvent )
-#DAQmxRegisterEveryNSamplesEvent.argtypes = [TaskHandle,int32, uInt32, uInt32, type(DAQmxRegisterEveryNSamplesEvent), c_void_p]
-
-#DAQmxRegisterDoneEvent = catch_error( DAQlib.DAQmxRegisterDoneEvent )
-#DAQmxRegisterDoneEvent.argtypes = [TaskHandle, uInt32, type(DAQmxDoneEventCallbackPtr) , c_void_p]
-
-#DAQmxRegisterSignalEvent = catch_error( DAQlib.DAQmxRegisterSignalEvent)
-#DAQmxRegisterSignalEvent.argtypes = [TaskHandle,int32, uInt32, type(DAQmxRegisterSignalEvent), c_void_p]
-
- 
 
 
 
-
+# Clean private functions from namespace
+del _define_function

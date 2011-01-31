@@ -1,3 +1,5 @@
+from DAQmxTypes import TaskHandle
+import DAQmxFunctions
 from DAQmxFunctions import *
 from DAQmxCallBack import *
 
@@ -96,8 +98,21 @@ class Task():
 # Remove ClearTask in task_functon_list
 task_function_list = [name for name in task_function_list if name not in ['DAQmxClearTask']]
 
+def _create_method(func):
+    def _call_method(self,*args):
+        return func(self.taskHandle, *args)
+    return _call_method
+
+
 for function_name in task_function_list:
     name = function_name[5:] # remove the DAQmx in front of the name
-    exec('Task.%s = lambda self, *args : %s(self.taskHandle,*args)'%(name, function_name))
+    func = getattr(DAQmxFunctions, function_name)
+    arg_names = function_dict[function_name]['arg_name']
+    taskfunc = _create_method(func)
+    taskfunc.__name__ = name
+    taskfunc.__doc__ = 'T.%s(%s) -> error.' % \
+            (name, ', '.join(arg_names[1:]))
+    setattr(Task, name, taskfunc)
 
-
+# Clean private functions from namespace
+del _create_method
