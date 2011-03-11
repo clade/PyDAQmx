@@ -91,14 +91,14 @@ type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','f
 # Each regular expression is assAciated with a ctypes type and a number giving the 
 # group in which the name of the variable is defined
 const_char = [(re.compile(r'(const char)\s*([^\s]*)\[\]'), c_char_p ,2)]
-simple_type = [(re.compile('('+type+')\s*([^\*\[]*)\Z'),eval(type),2)
-	 for type in type_list]
-pointer_type = [(re.compile('('+type+')\s*\*([^\*]*)\Z'),
-		eval('POINTER('+type+')'),2) for type in type_list]
-pointer_type_array = [(re.compile('('+type+')\s*([readArray|writeArray]*)\[\]\Z'),
-	array_type(type),2) for type in type_list_array]
-pointer_type_2 = [(re.compile('('+type+')\s*([^\s]*)\[\]\Z'),
-		eval('POINTER('+type+')'),2) for type in type_list]
+simple_type = [(re.compile('('+_type+')\s*([^\*\[]*)\Z'),eval(_type),2)
+	 for _type in type_list]
+pointer_type = [(re.compile('('+_type+')\s*\*([^\*]*)\Z'),
+		eval('POINTER('+_type+')'),2) for _type in type_list]
+pointer_type_array = [(re.compile('('+_type+')\s*([readArray|writeArray]*)\[\]\Z'),
+	array_type(_type),2) for _type in type_list_array]
+pointer_type_2 = [(re.compile('('+_type+')\s*([^\s]*)\[\]\Z'),
+		eval('POINTER('+_type+')'),2) for _type in type_list]
 
 char_etoile = [(re.compile(r'(char)\s*\*([^\*]*)\Z'), c_char_p, 2)] # match "char * name"
 void_etoile = [(re.compile(r'(void)\s*\*([^\*]*)\Z'), c_void_p, 2)] # match "void * name"
