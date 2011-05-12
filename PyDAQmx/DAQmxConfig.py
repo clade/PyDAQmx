@@ -1,9 +1,13 @@
 import sys
+import platform
 
-if sys.platform.startswith('win'):
+if sys.platform.systemstartswith('win'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP
     dot_h_file = r'C:\Program Files\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
+
+    if platform.release()==7:
+        dot_h_file = r'C:\Program Files (x86)\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
 
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
