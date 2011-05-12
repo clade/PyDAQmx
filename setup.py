@@ -69,6 +69,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.1 Add doc string to the DAQmxFunctions
 * 1.2 Support of callback function
 * 1.1 Add linux support
 
@@ -156,6 +157,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.1 Add doc string to the DAQmxFunctions
 * 1.2 Support of callback function
 * 1.1 Add linux support
 
