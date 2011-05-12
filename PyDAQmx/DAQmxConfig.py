@@ -1,7 +1,7 @@
 import sys
 import platform
 
-if sys.platform.systemstartswith('win'):
+if sys.platform.startswith('win'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP
     dot_h_file = r'C:\Program Files\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
