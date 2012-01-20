@@ -24,12 +24,12 @@ def catch_error(f):
         if error<0:
             errBuff = create_string_buffer(2048)
             DAQmxGetExtendedErrorInfo(errBuff,2048)
-            raise DAQError(error,errBuff.value, f.__name__)
+            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
         elif error>0:
             errBuff = create_string_buffer(2048)
             DAQmxGetErrorString (error, errBuff, 2048);
-            print "WARNING  :",error, "  ", errBuff.value
-            raise DAQError(error,errBuff.value)
+            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
+            raise DAQError(error,errBuff.value.decode("utf-8"))
 
         return error
     return mafunction
@@ -53,14 +53,14 @@ except ImportError:
 else:
     # Type conversion for numpy
     def numpy_conversion(string):
-	""" Convert a type given by a string to a numpy type
+        """ Convert a type given by a string to a numpy type
 
         """
         #This function uses the fact that the name are the same name, 
         #except that numpy uses lower case
-	return eval('numpy.'+string.lower())
+        return eval('numpy.'+string.lower())
     def array_type(string):
-	""" Returns the array type required by ctypes when numpy is used """
+        """ Returns the array type required by ctypes when numpy is used """
         return numpy.ctypeslib.ndpointer(dtype = numpy_conversion(string))
 
 ################################
@@ -83,7 +83,7 @@ string_type = '|'.join(['int8','uInt8','int16','uInt16','int32','uInt32','float3
 
 
 type_list = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64',
-	'int64','uInt64','bool32','TaskHandle']
+    'int64','uInt64','bool32','TaskHandle']
 type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64',
         'int64','uInt64']
 
@@ -92,13 +92,13 @@ type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','f
 # group in which the name of the variable is defined
 const_char = [(re.compile(r'(const char)\s*([^\s]*)\[\]'), c_char_p ,2)]
 simple_type = [(re.compile('('+_type+')\s*([^\*\[]*)\Z'),eval(_type),2)
-	 for _type in type_list]
+     for _type in type_list]
 pointer_type = [(re.compile('('+_type+')\s*\*([^\*]*)\Z'),
-		eval('POINTER('+_type+')'),2) for _type in type_list]
+        eval('POINTER('+_type+')'),2) for _type in type_list]
 pointer_type_array = [(re.compile('('+_type+')\s*([readArray|writeArray]*)\[\]\Z'),
-	array_type(_type),2) for _type in type_list_array]
+    array_type(_type),2) for _type in type_list_array]
 pointer_type_2 = [(re.compile('('+_type+')\s*([^\s]*)\[\]\Z'),
-		eval('POINTER('+_type+')'),2) for _type in type_list]
+        eval('POINTER('+_type+')'),2) for _type in type_list]
 
 char_etoile = [(re.compile(r'(char)\s*\*([^\*]*)\Z'), c_char_p, 2)] # match "char * name"
 void_etoile = [(re.compile(r'(void)\s*\*([^\*]*)\Z'), c_void_p, 2)] # match "void * name"
@@ -111,7 +111,7 @@ call_back_C = [(re.compile(r'(DAQmxSignalEventCallbackPtr)\s*([^\s]*)'),DAQmxSig
 # Create a list with all regular expressions
 c_to_ctype_map = []
 for l in [const_char, simple_type, pointer_type, pointer_type_array, pointer_type_array,
-		pointer_type_2,char_etoile, void_etoile,char_array, 
+        pointer_type_2,char_etoile, void_etoile,char_array, 
           call_back_A, call_back_B, call_back_C]:
     c_to_ctype_map.extend(l)
 

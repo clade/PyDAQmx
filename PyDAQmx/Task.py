@@ -16,7 +16,7 @@ task_function_list = [name for name in function_dict.keys() if \
 class Task():
     def __init__(self):
         taskHandle = TaskHandle(0)
-        DAQmxCreateTask("",byref(taskHandle))
+        DAQmxCreateTask(b"",byref(taskHandle))
         self.taskHandle = taskHandle
         self.__cleared = False #Flag to clear the task only once
     def __del__(self):
