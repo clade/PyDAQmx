@@ -95,7 +95,7 @@ simple_type = [(re.compile('('+_type+')\s*([^\*\[]*)\Z'),eval(_type),2)
      for _type in type_list]
 pointer_type = [(re.compile('('+_type+')\s*\*([^\*]*)\Z'),
         eval('POINTER('+_type+')'),2) for _type in type_list]
-pointer_type_array = [(re.compile('('+_type+')\s*([readArray|writeArray]*)\[\]\Z'),
+pointer_type_array = [(re.compile('('+_type+')\s*((?:readArray|writeArray).*)\[\]\Z'),
     array_type(_type),2) for _type in type_list_array]
 pointer_type_2 = [(re.compile('('+_type+')\s*([^\s]*)\[\]\Z'),
         eval('POINTER('+_type+')'),2) for _type in type_list]
