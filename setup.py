@@ -4,11 +4,13 @@ import sys
 #from distutils.core import setup
 from setuptools import setup
 
+version = '1.2.2'
+
 # There is a problem with writing unicode to a file on version of python <2.6
 # So I remove the accent of the author name in this case
 # TODO: find an automatic way of removing accent if version<2.6
 if sys.version_info[:2]>=(2,6): # Unicode accent does not work on earlier version
-    setup(name="PyDAQmx", version='1.2.1',
+    setup(name="PyDAQmx", version=version,
       author=u'Pierre Cladé', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer=u'Pierre Cladé',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
@@ -69,6 +71,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.2 The package is working with python 3 using 2to3
 * 1.2.1 Add doc string to the DAQmxFunctions
 * 1.2 Support of callback function
 * 1.1 Add linux support
@@ -96,7 +99,7 @@ Main changes:
 
 )
 else: # version of python <2.6. Remove the unicode  
-      setup(name="PyDAQmx", version='1.2.1',
+      setup(name="PyDAQmx", version=version,
       author='Pierre Clade', author_email="pierre.clade@spectro.jussieu.fr",
       maintainer='Pierre Clade',
       maintainer_email="pierre.clade@spectro.jussieu.fr",
@@ -157,6 +160,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.2 The package is working with python 3 using 2to3
 * 1.2.1 Add doc string to the DAQmxFunctions
 * 1.2 Support of callback function
 * 1.1 Add linux support
