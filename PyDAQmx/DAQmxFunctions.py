@@ -146,7 +146,7 @@ for line in include_file:
         arg_string = fonction_parser.match(line).group(2)
         arg_list=[]
         arg_name = []
-        for arg in re.split(', ',arg_string):
+        for arg in re.split(', |,',arg_string): # Almost everywhere there is a space after the comma
             for (reg_expr, new_type, groug_nb) in c_to_ctype_map:
                 reg_expr_result = reg_expr.search(arg)
                 if reg_expr_result is not None:
