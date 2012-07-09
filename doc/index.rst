@@ -60,7 +60,7 @@ Please send bug reports or feedback to `Pierre Cladé`_.
 How to cite this package
 ========================
 
-If you use this package for a publication (in a journal, on the web, etc.), please cite it by including as much information as possible from the following: *PyDAQmx : a Python package to interface National Instrument DAQmx driver*, Pierre CLADÉ,  
+If you use this package for a publication (in a journal, on the web, etc.), please cite it by including as much information as possible from the following: *PyDAQmx : a Python interface to the National Instrument DAQmx driver*, Pierre CLADÉ,  
 `http://packages.python.org/PyDAQmx <http://packages.python.org/PyDAQmx>`_.
 
 
