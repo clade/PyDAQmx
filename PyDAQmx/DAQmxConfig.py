@@ -6,7 +6,7 @@ if sys.platform.startswith('win'):
     # Default location on Windows XP
     dot_h_file = r'C:\Program Files\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
 
-    if platform.release()=='7':
+    if platform.release()=='7' and platform.architecture()[0]=='64bit':
         dot_h_file = r'C:\Program Files (x86)\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
 
     # Name (and eventually path) of the library
