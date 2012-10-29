@@ -96,8 +96,8 @@ Main changes:
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
-     packages=["PyDAQmx"]
-
+     packages=["PyDAQmx"], 
+     use_2to3=True
 )
 else: # version of python <2.6. Remove the unicode  
       setup(name="PyDAQmx", version=version,
