@@ -15,10 +15,8 @@ task_function_list = [name for name in function_dict.keys() if \
 
 class Task():
     def __init__(self):
-        taskHandle = TaskHandle(0)
-        DAQmxCreateTask(b"",byref(taskHandle))
-        self.taskHandle = taskHandle
-        self.__cleared = False #Flag to clear the task only once
+        self.taskHandle = TaskHandle(0)
+        DAQmxCreateTask(b"",byref(self.taskHandle))
     def __del__(self):
         """ Clear automatically the task to be able to reallocate resources """ 
         # Clear the task before deleting the object
@@ -28,13 +26,15 @@ class Task():
         # a = Task(), ..., a.ClearTask(), b = Task(), del(a)
         # b has the same taskHandle as a, and deleting a will clear the task of b   
         try: 
-            if not self.__cleared:
-                self.ClearTask()
+            self.ClearTask()
         except DAQError:
             pass
     def ClearTask(self):
-        DAQmxClearTask(self.taskHandle)
-        self.__cleared = True
+        if self.taskHandle.value != 0:
+            try:
+                DAQmxClearTask(self.taskHandle)
+            finally:
+                self.taskHandle.value = 0
     def __repr__(self):
         return "Task number %d"%self.taskHandle.value
     def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
