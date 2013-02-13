@@ -1,4 +1,4 @@
-.. index:: callbasjk
+.. index:: callback
 .. _callback:
 
 =======================================
