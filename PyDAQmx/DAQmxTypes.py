@@ -1,4 +1,5 @@
 from ctypes import *
+from DAQmxConstants import DAQmx_copyright_year
 
 # New types definitions
 # Correspondance between the name used in the NiDAQmx.h file and ctypes
@@ -13,7 +14,11 @@ float64 = c_double
 int64 =c_longlong 
 uInt64 = c_ulonglong 
 bool32 = uInt32 
-TaskHandle = uInt32
+if DAQmx_copyright_year<2010:
+    TaskHandle = uInt32
+else:
+    TaskHandle = c_void_p
+CalHandle = uInt32
 
 # CFUNCTYPE defined in NIDAQmx.h
 DAQmxEveryNSamplesEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, uInt32, c_void_p)
