@@ -24,3 +24,11 @@ elif sys.platform.startswith('linux'):
 
 else:
     raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
+
+
+# If the DAQmxConfigTest has been imported, then uses the value from this file
+# This can be used to try different version or compile the module on a plateform where 
+# DAQmx is not installed
+if "DAQmxConfigTest" in sys.modules.keys():
+    from DAQmxConfigTest import *
+

@@ -33,11 +33,18 @@ def catch_error(f):
 
         return error
     return mafunction
-if sys.platform.startswith('win'):        
-    DAQlib = windll.LoadLibrary(lib_name)
-elif sys.platform.startswith('linux'):
-    DAQlib = cdll.LoadLibrary(lib_name)
-# else other platforms will already have barfed importing DAQmxConfig
+
+if lib_name is not None:
+    if sys.platform.startswith('win'):        
+        DAQlib = windll.LoadLibrary(lib_name)
+    elif sys.platform.startswith('linux'):
+        DAQlib = cdll.LoadLibrary(lib_name)
+    # else other platforms will already have barfed importing DAQmxConfig
+else: # NIDAQmx is not installed on the machine. Use a dummy library
+    class _nothing():
+        def __getattr__(self, name):
+            return lambda *args:0
+    DAQlib = _nothing()
 
 ######################################
 # Array
