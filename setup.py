@@ -4,7 +4,7 @@ import sys
 #from distutils.core import setup
 from setuptools import setup
 
-version = '1.2.3'
+version = '1.2.4'
 
 # There is a problem with writing unicode to a file on version of python <2.6
 # So I remove the accent of the author name in this case
@@ -62,6 +62,13 @@ You can also directly move the PyDAQmx directory to a location
 that Python can import from (directory in which scripts 
 using PyDAQmx are run, etc.)
 
+To install the package with Python 3 ::
+
+  2to3 -w setup.py
+  python setup.py build
+  python setup.py install
+ 
+
 Contact
 =======
 
@@ -71,6 +78,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
 * 1.2.3 DAQmxAddNetworkDevice is now working
 * 1.2.2 The package is working with python 3 using 2to3
 * 1.2.1 Add doc string to the DAQmxFunctions
@@ -161,6 +169,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
 * 1.2.3 DAQmxAddNetworkDevice is now working
 * 1.2.2 The package is working with python 3 using 2to3
 * 1.2.1 Add doc string to the DAQmxFunctions
