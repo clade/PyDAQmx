@@ -34,6 +34,16 @@ def catch_error(f):
         return error
     return mafunction
 
+
+def _add_keywords(arg_name):
+    """ This function is used to create a decorator that add arg_name keywords to a function"""
+    s = """def add_keywords_decorator(f):
+    def function({0}):return f({0})
+    return function"""
+    exec(s.format(', '.join(arg_name)))
+    return add_keywords_decorator
+
+
 if lib_name is not None:
     if sys.platform.startswith('win'):        
         DAQlib = windll.LoadLibrary(lib_name)
@@ -138,9 +148,9 @@ def _define_function(name, arg_list, arg_name):
     cfunc = getattr(DAQlib, name)
     setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
-    func = catch_error(cfunc)
+    func = _add_keywords(arg_name)(catch_error(cfunc))
     func.__name__ = name
-    func.__doc__ = '%s(%s) -> error.' % (name, ','.join(arg_name))
+    func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
 
 
