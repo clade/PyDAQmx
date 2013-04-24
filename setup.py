@@ -4,7 +4,7 @@ import sys
 #from distutils.core import setup
 from setuptools import setup
 
-version = '1.2.4'
+version = '1.2.5'
 
 # There is a problem with writing unicode to a file on version of python <2.6
 # So I remove the accent of the author name in this case
@@ -78,6 +78,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.5 Add keywords to all the functions
 * 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
 * 1.2.3 DAQmxAddNetworkDevice is now working
 * 1.2.2 The package is working with python 3 using 2to3
@@ -169,6 +170,7 @@ Version history
 ===============
 Main changes:
 
+* 1.2.5 Add keywords to all the functions
 * 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
 * 1.2.3 DAQmxAddNetworkDevice is now working
 * 1.2.2 The package is working with python 3 using 2to3
