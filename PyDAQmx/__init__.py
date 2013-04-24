@@ -6,7 +6,7 @@ from DAQmxFunctions import *
 from Task import Task
 
 
-__version_info__ = (1, 2, 4)
+__version_info__ = (1, 2, 5)
 __version__ = '.'.join(str(num) for num in __version_info__)
 
 __author__ =u'Pierre Cladé'
