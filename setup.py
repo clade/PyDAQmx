@@ -4,7 +4,7 @@ import sys
 #from distutils.core import setup
 from setuptools import setup
 
-version = '1.2.5'
+version = '1.2.5.1'
 
 # There is a problem with writing unicode to a file on version of python <2.6
 # So I remove the accent of the author name in this case
