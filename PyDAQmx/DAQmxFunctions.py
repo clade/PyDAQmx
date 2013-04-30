@@ -41,7 +41,7 @@ def _add_keywords(arg_name):
     def function({0}):return f({0})
     return function"""
     exec(s.format(', '.join(arg_name)))
-    return add_keywords_decorator
+    return locals()['add_keywords_decorator']
 
 
 if lib_name is not None:
