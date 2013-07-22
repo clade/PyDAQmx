@@ -44,7 +44,7 @@ For example the following C source::
 will translate in python as::
 
 	taskHandle = TaskHandle(0)
-	DAQmxCreateTask("",byref(tastHandle))
+	DAQmxCreateTask("",byref(taskHandle))
 
 Looking to example provided by NI or the C API help file, there is 
 almost a one to one relation between C codes and Python:
