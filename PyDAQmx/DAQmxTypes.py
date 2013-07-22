@@ -1,4 +1,5 @@
 from ctypes import *
+import ctypes
 from DAQmxConstants import DAQmx_copyright_year
 
 # New types definitions
