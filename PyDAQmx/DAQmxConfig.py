@@ -4,15 +4,16 @@ import os
 
 
 dot_h_file = None
+
 if sys.platform.startswith('win'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP and Windows 7
-    if haskey(os.environ, 'PROGRAMFILES(X86)'):
+    if os.environ.has_key('PROGRAMFILES(X86)'):
         dot_h_file = os.environ['PROGRAMFILES(X86)']+r'\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h' 
-        if not os.direxists(dot_h_file): dot_h_file = None
-    if dot_h_file is not None:
+        if not os.path.exists(dot_h_file): dot_h_file = None
+    if dot_h_file is None:
         dot_h_file = os.environ['PROGRAMFILES']+r'\National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'
-        if not os.direxists(dot_h_file): dot_h_file = None
+        if not os.path.exists(dot_h_file): dot_h_file = None
             
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
