@@ -178,6 +178,7 @@ The above example now reads::
   from PyDAQmx import Task
   from PyDAQmx.DAQmxConstants import *
   from PyDAQmx.DAQmxTypes import *
+  import numpy
 
   analog_input = Task()
   read = int32()
