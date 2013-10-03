@@ -78,7 +78,8 @@ else:
         return eval('numpy.'+string.lower())
     def array_type(string):
         """ Returns the array type required by ctypes when numpy is used """
-        return numpy.ctypeslib.ndpointer(dtype = numpy_conversion(string))
+        return numpy.ctypeslib.ndpointer(dtype = numpy_conversion(string),
+                                         flags=('C_CONTIGUOUS','WRITEABLE'))
 
 ################################
 #Read the .h file and convert the function for python
