@@ -1,33 +1,33 @@
 .. index:: callback
 .. _callback:
 
-=======================================
-How to use callback function in PyDAQmx
-=======================================
+========================================
+How to use callback functions in PyDAQmx
+========================================
 
-Callback function are implemented in PyDAQmx. With ctypes, you can
-convert a Python function to a CFunction that can be as an argument to
+Callback functions are supported in PyDAQmx. With ctypes, you can
+convert a Python function to a CFunction that can be used as an argument to
 a function loaded with ctypes (The CFunction types are defined in
 :mod:`PyDAQmx.DAQmxTypes`).
 
-The :mod:`PyDAQmx.DAQmxCallBack` module provide an mechanism to send
-data to the callback function (see the second example). If you want to use
+The :mod:`PyDAQmx.DAQmxCallBack` module provides a mechanism to send
+data to the callback function (see the second example). If you want to use a
 callback, the most effective way is to use a Task object (see the last example). 
 
-Examples are available on the GitHub `repository
+Examples are available in the GitHub `repository
 <https://github.com/clade/PyDAQmx>`_, in the :file:`PyDAQmx\example`
 directory.
 
 Simple example
 --------------
 
-Using a callback function is a three steps problem:
+Using a callback function is a three step problem:
 
-* Define the Python function, with the correct arguments
+* Define the Python function with the correct arguments
 * Transform the function to a CFunction
-* Regiter the call back within NIDAQmx
+* Register the callback within NIDAQmx
 
-Here is the code::
+This can be performed as follows::
      
     # Define the python function
     def DoneCallback_py(taskHandle, status, callbackData):
@@ -45,9 +45,9 @@ Send data to a callback function
 --------------------------------
 
 :mod:`PyDAQmx` uses the :mod:`weakref` module to send data to a
-callback function. You need to first register your data to get an id
-that you send to the function (function
-:mod:`create_callbackdata_id`). Then you can get the object back with
+callback function. You first need to register your data to get an id
+that you send to the function using the function
+:mod:`create_callbackdata_id`. You can get the object back with
 the function :mod:`get_callbackdata_from_id`.
 
 Here is an example::
@@ -82,7 +82,10 @@ Here is an example::
 Using a Task object
 -------------------
 
-The :mod:`PyDAQmx` module provides an object oriented interface the the driver (see the `How to use PyDAQmx <usage>`_ section). With this technique, a method is registered as a call back function. This give acces to all the attibutes of the object inside the callback function. 
+The :mod:`PyDAQmx` module provides an object-oriented interface to the driver
+(see the `How to use PyDAQmx <usage>`_ section). With this technique, a method
+is registered as a callback function. This gives access to all the attributes
+of the object inside the callback function.
 
 Here is an example::
 
@@ -90,10 +93,10 @@ Here is an example::
     from numpy import zeros
 
     """This example is a PyDAQmx version of the ContAcq_IntClk.c example
-    It illustrates the use of callback function
+    It illustrates the use of callback functions
 
     This example demonstrates how to acquire a continuous amount of
-    data using the DAQ device's internal clock. It incrementally store the data
+    data using the DAQ device's internal clock. It incrementally stores the data
     in a Python list.
     """
 
