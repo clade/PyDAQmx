@@ -4,9 +4,9 @@ from PyDAQmx.DAQmxFunctions import *
 from PyDAQmx.DAQmxConstants import *
 
 class ContinuousPulseTrainGeneration():
-    """ Class to create a continious pulse train on a counter
+    """ Class to create a continuous pulse train on a counter
     
-    Utilisation: pulse = ContinuousTrainGeneration(period [s],
+    Usage:  pulse = ContinuousTrainGeneration(period [s],
                 duty_cycle (default = 0.5), counter (default = "dev1/ctr0"),
                 reset = True/False)
             pulse.start()
