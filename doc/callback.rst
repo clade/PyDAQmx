@@ -5,14 +5,14 @@
 How to use callback functions in PyDAQmx
 ========================================
 
-Callback functions are supported in PyDAQmx. With ctypes, you can
-convert a Python function to a CFunction that can be used as an argument to
-a function loaded with ctypes (The CFunction types are defined in
+Callback functions are supported in :mod:`PyDAQmx`. With :mod:`ctypes`, you can
+convert a Python function to a ``CFunction`` that can be used as an argument to
+a function loaded with :mod:`ctypes` (The ``CFunction`` types are defined in
 :mod:`PyDAQmx.DAQmxTypes`).
 
-The :mod:`PyDAQmx.DAQmxCallBack` module provides a mechanism to send
-data to the callback function (see the second example). If you want to use a
-callback, the most effective way is to use a Task object (see the last example). 
+The :mod:`PyDAQmx.DAQmxCallBack` module provides a mechanism to send data to
+the callback function (see the second example). If you want to use a callback,
+the most effective way is to use a :class:`Task` object (see the last example).
 
 Examples are available in the GitHub `repository
 <https://github.com/clade/PyDAQmx>`_, in the :file:`PyDAQmx\example`
@@ -24,7 +24,7 @@ Simple example
 Using a callback function is a three step problem:
 
 * Define the Python function with the correct arguments
-* Transform the function to a CFunction
+* Transform the function to a ``CFunction``
 * Register the callback within NIDAQmx
 
 This can be performed as follows::
@@ -44,11 +44,10 @@ This can be performed as follows::
 Send data to a callback function
 --------------------------------
 
-:mod:`PyDAQmx` uses the :mod:`weakref` module to send data to a
-callback function. You first need to register your data to get an id
-that you send to the function using the function
-:mod:`create_callbackdata_id`. You can get the object back with
-the function :mod:`get_callbackdata_from_id`.
+:mod:`PyDAQmx` uses the :mod:`weakref` module to send data to a callback
+function. You first need to register your data to get an id that you send to
+the callback using the function :func:`create_callbackdata_id()`. You can get
+the object back with the function :func:`get_callbackdata_from_id()`.
 
 Here is an example::
 

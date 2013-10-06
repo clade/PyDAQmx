@@ -17,7 +17,7 @@ all the predefined constants. This provides an almost one-to-one match between
 C and Python code.
 
 A more convenient object-oriented interface is provided, where the mechanisms
-of taskHandle in C is replaced with a :ref:`Task-object`.
+of :data:`taskHandle` in C is replaced with a :ref:`Task-object`.
 
 The module supports callback functions, see :doc:`callback`
 

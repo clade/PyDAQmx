@@ -5,19 +5,20 @@
 How to use PyDAQmx
 ==================
 
-The PyDAQmx module uses ctypes to interface with the NI-DAQmx dll. We advise
-users of PyDAQmx to have a look at the documentation of ctypes.
+The :mod:`PyDAQmx` module uses :mod:`ctypes` to interface with the NI-DAQmx
+dll. We advise users of :mod:`PyDAQmx` to have a look at the documentation of
+:mod:`ctypes`.
 
 Three modules are defined: 
 
-* :mod:`PyDAQmx.DAQmxTypes`, this module maps the types defined by
-  National Instruments to the corresponding ctypes types.
-* :mod:`PyDAXmx.DAQmxConstants`, this module imports all the
-  predefined constants (like DAQmx_Val_Cfg_Default, DAQmx_Val_Rising,
-  etc.) that are defined in the NIDAQmx.h file. 
-* :mod:`PyDAQmx.DAQmxFunctions`, this module imports all the functions
-  defined in the NIDAQmx.h file (like DAQmxCreateTask,
-  DAQmxCfgSampClkTiming, etc.)
+* :mod:`PyDAQmx.DAQmxTypes`, this module maps the types defined by National
+  Instruments to the corresponding :mod:`ctypes` types.
+* :mod:`PyDAXmx.DAQmxConstants`, this module imports all the predefined
+  constants (like :data:`DAQmx_Val_Cfg_Default`, :data:`DAQmx_Val_Rising`,
+  etc.) that are defined in the :file:`NIDAQmx.h` file.
+* :mod:`PyDAQmx.DAQmxFunctions`, this module imports all the functions defined
+  in the :file:`NIDAQmx.h` file (like :func:`DAQmxCreateTask()`,
+  :func:`DAQmxCfgSampClkTiming()`, etc.)
 
 Furthermore, an object-oriented interface is introduced in the
 :mod:`PyDAQmx.Task` module. See the section :ref:`Task-object`.
@@ -26,8 +27,8 @@ Furthermore, an object-oriented interface is introduced in the
 Argument types
 --------------
 
-All the types defined by NI in the NIDAQmx.h file are translated to ctypes. You
-need to import them::
+All the types defined by NI in the :file:`NIDAQmx.h` file are translated to
+:mod:`ctypes`. You need to import them::
 
     from PyDAQmx.DAQmxTypes import *
 
@@ -49,16 +50,16 @@ will translate into Python as::
 When looking at the C API help file or the examples provided by NI, there is an
 almost one-to-one relationship between the C and Python code:
 
-    - Constants can be imported from PyDAQmx.DAQmxConstants
+    - Constants can be imported from :mod:`PyDAQmx.DAQmxConstants`
     - Variables that are not pointers can be used directly, as they will be
-      automatically converted by ctypes
-    - For pointers, first declare them and then use byref
-    - NULL in C becomes None in Python
+      automatically converted by :mod:`ctypes`
+    - For pointers, first declare them and then use :func:`byref()`
+    - ``NULL`` in C becomes ``None`` in Python
 
-If numpy is installed, PyDAQmx uses numpy arrays as dataArrays instead of the
-ctypes array, as this is more efficient.
+If :mod:`numpy` is installed, :mod:`PyDAQmx` uses :mod:`numpy` arrays as
+``dataArrays`` instead of the :mod:`ctypes` array, as this is more efficient.
 
-For example, to read a 1000 long array of float64:
+For example, to read a 1000 long array of ``float64``:
 
 C code:
 
@@ -69,7 +70,7 @@ C code:
     DAQmxReadAnalogF64(taskHandle,1000,10.0,
         DAQmx_Val_GroupByChannel,data,1000,&read,NULL);
 
-PyDAQmx without numpy::
+:mod:`PyDAQmx` without :mod:`numpy`::
 
     read =  int32()
     data_type = float64*1000 # define a c_double_Array_1000 type
@@ -77,7 +78,7 @@ PyDAQmx without numpy::
     DAQmxReadAnalogF64(taskHandle,1,10.0,
         DAQmx_Val_GroupByChannel,data,1,byref(read),None)
 
-PyDAQmx with numpy (recommended)::
+:mod:`PyDAQmx` with :mod:`numpy` (recommended)::
 
     read = int32()
     data = numpy.zeros((1000,), dtype=numpy.float64)
@@ -88,8 +89,9 @@ PyDAQmx with numpy (recommended)::
 Example
 =======
 
-To consider a complete example, let's look at the Acq-IntClk.c example from the
-AI category (Analog In/Measure Voltage/Acq-Int Clk/Acq-IntClk.c):
+To consider a complete example, let's look at the :file:`Acq-IntClk.c` example
+from the AI category
+(:file:`Analog In/Measure Voltage/Acq-Int Clk/Acq-IntClk.c`):
 
 .. code-block:: c
 
@@ -143,7 +145,8 @@ AI category (Analog In/Measure Voltage/Acq-Int Clk/Acq-IntClk.c):
     }
 
 
-PyDAQmx automatically handles errors, so some of the C code can be removed::
+:mod:`PyDAQmx` automatically handles errors, so some of the C code can be
+removed::
 
     from PyDAQmx import *
     import numpy
@@ -172,11 +175,12 @@ PyDAQmx automatically handles errors, so some of the C code can be removed::
 Task object
 ===========
 
-The PyDAQmx package introduces an object-oriented interface to the DAQmx
-package. Basically, you replace the taskHandle mechanism with a Task object.
-Each function of the NIDAQ that works with a taskHandle is a method of the Task
-object. The method names are the same as the DAQmx function names without the
-DAQmx at the beginning, and the taskHandle argument of the function is omitted.
+The :mod:`PyDAQmx` package introduces an object-oriented interface to the DAQmx
+package. Basically, you replace the :data:`taskHandle` mechanism with a
+:class:`Task` object. Each function of NIDAQmx that works with a
+:data:`taskHandle` is a method of the :class:`Task` object. The method names
+are the same as the NIDAQmx function names without the ``DAQmx`` at the
+beginning, and the :data:`taskHandle` argument of the function is omitted.
 
 The above example now reads:: 
 
