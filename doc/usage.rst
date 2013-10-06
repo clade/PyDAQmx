@@ -34,7 +34,9 @@ need to import them::
 The module automatically converts variables to the right type. You only need to
 declare the type of the variable if it is a pointer.
 
-For example the following C source:: 
+For example the following C source:
+
+.. code-block:: c
 
 	TaskHandle taskHandle=0;
 	DAQmxCreateTask("",&taskHandle)
@@ -58,8 +60,10 @@ ctypes array, as this is more efficient.
 
 For example, to read a 1000 long array of float64:
 
-C code::
- 
+C code:
+
+.. code-block:: c
+
 	int32       read;
 	float64     data[1000];
 	DAQmxReadAnalogF64(taskHandle,1000,10.0,
@@ -85,7 +89,9 @@ Example
 =======
 
 To consider a complete example, let's look at the Acq-IntClk.c example from the
-AI category (AnalogIn/MeasureVoltage/Acq_IntClk.c)::
+AI category (AnalogIn/MeasureVoltage/Acq_IntClk.c):
+
+.. code-block:: c
 
     #include <stdio.h>
     #include <NIDAQmx.h>
