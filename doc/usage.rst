@@ -29,7 +29,7 @@ Argument types
 All the types defined by NI in the NIDAQmx.h file are translated to ctypes. You
 need to import them::
 
-	from PyDAQmx.DAQmxTypes import *
+    from PyDAQmx.DAQmxTypes import *
 
 The module automatically converts variables to the right type. You only need to
 declare the type of the variable if it is a pointer.
@@ -38,22 +38,22 @@ For example the following C source:
 
 .. code-block:: c
 
-	TaskHandle taskHandle=0;
-	DAQmxCreateTask("",&taskHandle)
+    TaskHandle taskHandle=0;
+    DAQmxCreateTask("",&taskHandle)
 
 will translate into Python as::
 
-	taskHandle = TaskHandle(0)
-	DAQmxCreateTask("",byref(taskHandle))
+    taskHandle = TaskHandle(0)
+    DAQmxCreateTask("",byref(taskHandle))
 
 When looking at the C API help file or the examples provided by NI, there is an
 almost one-to-one relationship between the C and Python code:
 
-	- Constants can be imported from PyDAQmx.DAQmxConstants
-	- Variables that are not pointers can be used directly, as they will be
-	  automatically converted by ctypes
-	- For pointers, first declare them and then use byref
-	- NULL in C becomes None in Python
+    - Constants can be imported from PyDAQmx.DAQmxConstants
+    - Variables that are not pointers can be used directly, as they will be
+      automatically converted by ctypes
+    - For pointers, first declare them and then use byref
+    - NULL in C becomes None in Python
 
 If numpy is installed, PyDAQmx uses numpy arrays as dataArrays instead of the
 ctypes array, as this is more efficient.
@@ -64,25 +64,25 @@ C code:
 
 .. code-block:: c
 
-	int32       read;
-	float64     data[1000];
-	DAQmxReadAnalogF64(taskHandle,1000,10.0,
-		DAQmx_Val_GroupByChannel,data,1000,&read,NULL);
+    int32       read;
+    float64     data[1000];
+    DAQmxReadAnalogF64(taskHandle,1000,10.0,
+        DAQmx_Val_GroupByChannel,data,1000,&read,NULL);
 
 PyDAQmx without numpy::
 
-	read =  int32()
-	data_type = float64*1000 # define a c_double_Array_1000 type
-	data = datatype()
-        DAQmxReadAnalogF64(taskHandle,1,10.0,
-	    DAQmx_Val_GroupByChannel,data,1,byref(read),None)
+    read =  int32()
+    data_type = float64*1000 # define a c_double_Array_1000 type
+    data = datatype()
+    DAQmxReadAnalogF64(taskHandle,1,10.0,
+        DAQmx_Val_GroupByChannel,data,1,byref(read),None)
 
 PyDAQmx with numpy (recommended)::
 
-        read = int32()
-	data = numpy.zeros((1000,), dtype=numpy.float64)
-        DAQmxReadAnalogF64(taskHandle,1,10.0,
-	    DAQmx_Val_GroupByChannel,data,1,byref(read),None)
+    read = int32()
+    data = numpy.zeros((1000,), dtype=numpy.float64)
+    DAQmxReadAnalogF64(taskHandle,1,10.0,
+        DAQmx_Val_GroupByChannel,data,1,byref(read),None)
 
 
 Example
@@ -100,46 +100,46 @@ AI category (AnalogIn/MeasureVoltage/Acq_IntClk.c):
 
     int main(void)
     {
-	int32       error=0;
-	TaskHandle  taskHandle=0;
-	int32       read;
-	float64     data[1000];
-	char        errBuff[2048]={'\0'};
+        int32       error=0;
+        TaskHandle  taskHandle=0;
+        int32       read;
+        float64     data[1000];
+        char        errBuff[2048]={'\0'};
 
-	/*********************************************/
-	// DAQmx Configure Code
-	/*********************************************/
-	DAQmxErrChk (DAQmxCreateTask("",&taskHandle));
-	DAQmxErrChk (DAQmxCreateAIVoltageChan(taskHandle,"Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,NULL));
-	DAQmxErrChk (DAQmxCfgSampClkTiming(taskHandle,"",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000));
+        /*********************************************/
+        // DAQmx Configure Code
+        /*********************************************/
+        DAQmxErrChk (DAQmxCreateTask("",&taskHandle));
+        DAQmxErrChk (DAQmxCreateAIVoltageChan(taskHandle,"Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,NULL));
+        DAQmxErrChk (DAQmxCfgSampClkTiming(taskHandle,"",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000));
 
-	/*********************************************/
-	// DAQmx Start Code
-	/*********************************************/
-	DAQmxErrChk (DAQmxStartTask(taskHandle));
+        /*********************************************/
+        // DAQmx Start Code
+        /*********************************************/
+        DAQmxErrChk (DAQmxStartTask(taskHandle));
 
-	/*********************************************/
-	// DAQmx Read Code
-	/*********************************************/
-	DAQmxErrChk (DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByChannel,data,1000,&read,NULL));
+        /*********************************************/
+        // DAQmx Read Code
+        /*********************************************/
+        DAQmxErrChk (DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByChannel,data,1000,&read,NULL));
 
-	printf("Acquired %d points\n",read);
+        printf("Acquired %d points\n",read);
 
     Error:
-	if( DAQmxFailed(error) )
-		DAQmxGetExtendedErrorInfo(errBuff,2048);
-	if( taskHandle!=0 )  {
-		/*********************************************/
-		// DAQmx Stop Code
-		/*********************************************/
-		DAQmxStopTask(taskHandle);
-		DAQmxClearTask(taskHandle);
-	}
-	if( DAQmxFailed(error) )
-		printf("DAQmx Error: %s\n",errBuff);
-	printf("End of program, press Enter key to quit\n");
-	getchar();
-	return 0;
+        if( DAQmxFailed(error) )
+            DAQmxGetExtendedErrorInfo(errBuff,2048);
+        if( taskHandle!=0 )  {
+            /*********************************************/
+            // DAQmx Stop Code
+            /*********************************************/
+            DAQmxStopTask(taskHandle);
+            DAQmxClearTask(taskHandle);
+        }
+        if( DAQmxFailed(error) )
+            printf("DAQmx Error: %s\n",errBuff);
+        printf("End of program, press Enter key to quit\n");
+        getchar();
+        return 0;
     }
 
 
