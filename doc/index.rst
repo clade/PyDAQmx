@@ -32,7 +32,7 @@ To install :mod:`PyDAQmx`, download the `package`_ and run the command
 
 .. code-block:: sh
 
-   python setup.py install
+    python setup.py install
 
 You can also directly *move* the :file:`PyDAQmx` directory to a location
 that Python can import from (directory in which scripts 
@@ -70,13 +70,13 @@ CLADÉ, `http://packages.python.org/PyDAQmx <http://packages.python.org/PyDAQmx>
 
 
 .. toctree::
-   :hidden:
-   :maxdepth: 1
-   
-   Overview <self>
-   Installation <installation>
-   How to use PyDAQmx <usage>
-   Example of callback <callback>
+    :hidden:
+    :maxdepth: 1
+
+    Overview <self>
+    Installation <installation>
+    How to use PyDAQmx <usage>
+    Example of callback <callback>
 
 
 .. _National Instruments: http://www.ni.com
