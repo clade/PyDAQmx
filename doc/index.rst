@@ -6,7 +6,10 @@ This package allows users to use data acquisition hardware from `National
 Instruments`_ with Python. It provides an interface between the NIDAQmx driver
 and Python. The package works on Windows and Linux.
 
-The package is not an open source driver for NI acquisition hardware. You first need to install the driver provided by NI.
+.. note::
+
+    This package is not an open source driver for NI acquisition hardware. You
+    first need to install the driver provided by NI.
 
 Compared to similar packages, the PyDAQmx module is a full interface to the
 NIDAQmx ANSI C driver. It imports all the functions from the driver and imports
