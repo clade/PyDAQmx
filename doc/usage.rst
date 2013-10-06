@@ -89,7 +89,7 @@ Example
 =======
 
 To consider a complete example, let's look at the Acq-IntClk.c example from the
-AI category (AnalogIn/MeasureVoltage/Acq_IntClk.c):
+AI category (Analog In/Measure Voltage/Acq-Int Clk/Acq-IntClk.c):
 
 .. code-block:: c
 
