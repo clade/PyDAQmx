@@ -16,22 +16,24 @@ module.
 The package also works under linux (but be aware that only a few linux
 distributions are supported by National Instruments).
 
-To install PyDAQmx, download the `package`_ and run the command 
+To install PyDAQmx, download the `package`_ and run the command:
 
 .. code-block:: sh
 
-   python setup.py install
+    python setup.py install
 
 You can also directly **move** the :file:`PyDAQmx` directory to a location
 that Python can import from (directory in which scripts 
 using :mod:`PyDAQmx` are run, etc.)
 
 It has been reported that the package works on Python 3 using 2to3.  To install
-the package with Python 3 ::
+the package with Python 3:
 
-  2to3 -w setup.py
-  python setup.py build
-  python setup.py install
+.. code-block:: sh
+
+    2to3 -w setup.py
+    python setup.py build
+    python setup.py install
 
 
 .. _package: http://pypi.python.org/pypi/PyDAQmx 
