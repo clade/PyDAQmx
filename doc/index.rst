@@ -28,11 +28,18 @@ You first need to install the NI DAQmx driver provided with your
 data-acquisition hardware. Please verify that you have installed together with
 the driver the C API (which should be the case by default).
 
-To install :mod:`PyDAQmx`, download the `package`_ and run the command 
+To install :mod:`PyDAQmx`, either download the `package`_ manually and run the
+command:
 
 .. code-block:: sh
 
     python setup.py install
+
+or using `pip <http://www.pip-installer.org/>`_:
+
+.. code-block:: sh
+
+    pip install PyDAQmx
 
 You can also directly *move* the :file:`PyDAQmx` directory to a location that
 Python can import from (the directory in which scripts using :mod:`PyDAQmx` are
