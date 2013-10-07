@@ -147,8 +147,7 @@ from the AI category
     }
 
 
-:mod:`PyDAQmx` automatically handles errors, so some of the C code can be
-removed::
+This translates into Python as::
 
     from PyDAQmx import *
     import numpy
@@ -158,18 +157,26 @@ removed::
     read = int32()
     data = numpy.zeros((1000,), dtype=numpy.float64)
 
-    # DAQmx Configure Code
-    DAQmxCreateTask("",byref(taskHandle))
-    DAQmxCreateAIVoltageChan(taskHandle,"Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
-    DAQmxCfgSampClkTiming(taskHandle,"",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
+    try:
+        # DAQmx Configure Code
+        DAQmxCreateTask("",byref(taskHandle))
+        DAQmxCreateAIVoltageChan(taskHandle,"Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
+        DAQmxCfgSampClkTiming(taskHandle,"",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
 
-    #DAQmx Start Code
-    DAQmxStartTask(taskHandle)
+        # DAQmx Start Code
+        DAQmxStartTask(taskHandle)
 
-    #DAQmx Read Code
-    DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
+        # DAQmx Read Code
+        DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
 
-    print "Acquired %d points\n"%read.value
+        print "Acquired %d points"%read.value
+    except DAQError as err:
+        print "DAQmx Error: %s"%err
+    finally:
+        if taskHandle:
+            # DAQmx Stop Code
+            DAQmxStopTask(taskHandle)
+            DAQmxClearTask(taskHandle)
 
 
 .. _Task-object:
@@ -205,4 +212,8 @@ The above example now reads::
 
     print "Acquired %d points"%read.value
 
+.. note::
+
+    :func:`DAQmxClearTask` is automatically called when a :class:`Task`
+    instance is garbage collected, obviating the need to clean up manually.
 
