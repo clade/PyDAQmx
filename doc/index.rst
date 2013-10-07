@@ -16,8 +16,8 @@ NIDAQmx ANSI C driver. It imports all the functions from the driver and imports
 all the predefined constants. This provides an almost one-to-one match between
 C and Python code.
 
-A more convenient object-oriented interface is provided, where the mechanisms
-of :data:`taskHandle` in C is replaced with a :ref:`Task-object`.
+A more convenient object-oriented interface is also provided, where the
+mechanisms of :data:`taskHandle` in C is replaced with a :ref:`Task-object`.
 
 The module supports callback functions, see :doc:`callback`
 
@@ -34,26 +34,30 @@ To install :mod:`PyDAQmx`, download the `package`_ and run the command
 
     python setup.py install
 
-You can also directly *move* the :file:`PyDAQmx` directory to a location
-that Python can import from (directory in which scripts 
-using :mod:`PyDAQmx` are run, etc.)
+You can also directly *move* the :file:`PyDAQmx` directory to a location that
+Python can import from (the directory in which scripts using :mod:`PyDAQmx` are
+run, :data:`sys.path`, etc.)
+
+For more information see :doc:`installation`.
 
 Source code
 ===========
 
-The `source code <https://github.com/clade/PyDAQmx>`_ is available on GitHub.
+The source code is available on `GitHub <https://github.com/clade/PyDAQmx>`_.
 
 Available documentation
 =======================
 
-The :doc:`usage` gives you some examples on how to use :mod:`PyDAQmx`.
-
-The part :doc:`installation` describes the installation and configuration of
+:doc:`installation` describes the installation and configuration of
 :mod:`PyDAQmx`.
 
-The part :doc:`callback` gives code examples on how to use callback functions.
+:doc:`usage` gives you some examples on how to use :mod:`PyDAQmx`.
 
-Examples are available in the GitHub `repository <https://github.com/clade/PyDAQmx>`_.
+:doc:`callback` gives code examples on how to use callback functions.
+
+More examples are available in the GitHub
+`repository <https://github.com/clade/PyDAQmx>`_ in the :file:`PyDAQmx/example`
+directory.
 
 Contact
 =======

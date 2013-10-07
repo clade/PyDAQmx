@@ -6,34 +6,35 @@ How to use PyDAQmx
 ==================
 
 The :mod:`PyDAQmx` module uses :mod:`ctypes` to interface with the NI-DAQmx
-dll. We advise users of :mod:`PyDAQmx` to have a look at the documentation of
-:mod:`ctypes`.
+dll. We thus advise users of :mod:`PyDAQmx` to read and understand the
+documentation of :mod:`ctypes`.
 
-Three modules are defined: 
+Three core modules are defined, and one higher-level object-oriented module:
 
-* :mod:`PyDAQmx.DAQmxTypes`, this module maps the types defined by National
-  Instruments to the corresponding :mod:`ctypes` types.
-* :mod:`PyDAXmx.DAQmxConstants`, this module imports all the predefined
-  constants (like :data:`DAQmx_Val_Cfg_Default`, :data:`DAQmx_Val_Rising`,
-  etc.) that are defined in the :file:`NIDAQmx.h` file.
-* :mod:`PyDAQmx.DAQmxFunctions`, this module imports all the functions defined
-  in the :file:`NIDAQmx.h` file (like :func:`DAQmxCreateTask()`,
-  :func:`DAQmxCfgSampClkTiming()`, etc.)
-
-Furthermore, an object-oriented interface is introduced in the
-:mod:`PyDAQmx.Task` module. See the section :ref:`Task-object`.
+* :mod:`PyDAQmx.DAQmxTypes` maps the types defined by National Instruments to
+  the corresponding :mod:`ctypes` types (:data:`TaskHandle`,
+  :data:`DAQmxEveryNSamplesEventCallbackPtr`, etc.).
+* :mod:`PyDAXmx.DAQmxConstants` imports all the constants defined in
+  :file:`NIDAQmx.h` (:data:`DAQmx_Val_Cfg_Default`, :data:`DAQmx_Val_Rising`,
+  etc.).
+* :mod:`PyDAQmx.DAQmxFunctions` imports all the functions defined in
+  :file:`NIDAQmx.h` (:func:`DAQmxCreateTask()`,
+  :func:`DAQmxCfgSampClkTiming()`, etc.).
+* :mod:`PyDAQmx.Task` provides an object-oriented interface to NIDAQmx
+  :data:`taskHandle` objects. See the section :ref:`Task-object`.
 
 
 Argument types
 --------------
 
 All the types defined by NI in the :file:`NIDAQmx.h` file are translated to
-:mod:`ctypes`. You need to import them::
+:mod:`ctypes`, and can be found in the :mod:`PyDAQmx.DAQmxTypes` module::
 
     from PyDAQmx.DAQmxTypes import *
 
-The module automatically converts variables to the right type. You only need to
-declare the type of the variable if it is a pointer.
+The module automatically converts variables to the right type. If a library
+function requires a pointer, use the :func:`byref()` function to pass
+parameters by reference.
 
 For example the following C source:
 
@@ -53,11 +54,12 @@ almost one-to-one relationship between the C and Python code:
     - Constants can be imported from :mod:`PyDAQmx.DAQmxConstants`
     - Variables that are not pointers can be used directly, as they will be
       automatically converted by :mod:`ctypes`
-    - For pointers, first declare them and then use :func:`byref()`
+    - For pointers, first declare them and then use :func:`byref()` to pass by
+      reference
     - ``NULL`` in C becomes ``None`` in Python
 
 If :mod:`numpy` is installed, :mod:`PyDAQmx` uses :mod:`numpy` arrays as
-``dataArrays`` instead of the :mod:`ctypes` array, as this is more efficient.
+``dataArrays`` instead of a :mod:`ctypes` array, as this is more efficient.
 
 For example, to read a 1000 long array of ``float64``:
 
@@ -175,33 +177,32 @@ removed::
 Task object
 ===========
 
-The :mod:`PyDAQmx` package introduces an object-oriented interface to the DAQmx
-package. Basically, you replace the :data:`taskHandle` mechanism with a
+The :mod:`PyDAQmx` package introduces an object-oriented interface to the
+NIDAQmx package. Basically, you replace the :data:`taskHandle` mechanism with a
 :class:`Task` object. Each function of NIDAQmx that works with a
 :data:`taskHandle` is a method of the :class:`Task` object. The method names
 are the same as the NIDAQmx function names without the ``DAQmx`` at the
 beginning, and the :data:`taskHandle` argument of the function is omitted.
 
-The above example now reads:: 
+The above example now reads::
 
-    from PyDAQmx import Task
-    from PyDAQmx.DAQmxConstants import *
-    from PyDAQmx.DAQmxTypes import *
+    from PyDAQmx import *
+    import numpy
 
     analog_input = Task()
     read = int32()
     data = numpy.zeros((1000,), dtype=numpy.float64)
 
-    #DAQmx Configure Code
+    # DAQmx Configure Code
     analog_input.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_Cfg_Default,-10.0,10.0,DAQmx_Val_Volts,None)
     analog_input.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,1000)
 
-    #DAQmx Start Code
+    # DAQmx Start Code
     analog_input.StartTask()
 
-    #DAQmx Read Code
+    # DAQmx Read Code
     analog_input.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByChannel,data,1000,byref(read),None)
 
-    print "Acquired %d points\n"%read.value
+    print "Acquired %d points"%read.value
 
 
