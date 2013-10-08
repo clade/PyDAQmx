@@ -27,26 +27,23 @@ else:
 # Parse line like : #define PI 3.141592
 # The first group is the name of the constant
 # The second group the value
-define = re.compile(r'\#define (\S+)\s*(".*"|\S*)')
-notempty = re.compile(r'\S')
+define = re.compile(r'\#define\s+(\S+)\s+(".*"|\S+)')
 
 # List containing all the name of the constant
 constant_list = []
 
 for line in include_file:
-    if re.match('\#define',line):
-        a = define.match(line)
-        if a:
-           name = define.match(line).group(1)
-           value = define.match(line).group(2)
-           if notempty.match(value):
-               try:
-                   exec(name +'='+value)
-               except NameError:
-                   pass
-               except SyntaxError:
-                   pass
-               else:
-                   constant_list.append(name)
-    
+    m = define.match(line)
+    if m:
+       name = m.group(1)
+       value = m.group(2)
+       try:
+           exec(name+'='+value)
+       except NameError:
+           pass
+       except SyntaxError:
+           pass
+       else:
+           constant_list.append(name)
+
 include_file.close()
