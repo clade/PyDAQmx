@@ -95,7 +95,7 @@ include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
 # group in which the name of the variable is defined
 
 
-fonction_parser = re.compile(r'.* (DAQ\S+)\s*\((.*)\);')
+function_parser = re.compile(r'__CFUNC.* (DAQ\S+)\s*\((.*)\);')
 const_char = re.compile(r'(const char)\s*([^\s]*)\[\]')
 string_type = '|'.join(['int8','uInt8','int16','uInt16','int32','uInt32','float32','float64','int64','uInt64','bool32','TaskHandle'])
 
@@ -155,21 +155,21 @@ def _define_function(name, arg_list, arg_name):
     globals()[name] = func
 
 
-
+argsplit = re.compile(', |,')
 for line in include_file:
-    line = line[0:-1]
-    if '__CFUNC' in line and fonction_parser.match(line):
-        name = fonction_parser.match(line).group(1)
+    fn_match = function_parser.search(line[:-1])
+    if fn_match:
+        name = fn_match.group(1)
         function_list.append(name)
-        arg_string = fonction_parser.match(line).group(2)
+        arg_string = fn_match.group(2)
         arg_list=[]
         arg_name = []
-        for arg in re.split(', |,',arg_string): # Almost everywhere there is a space after the comma
-            for (reg_expr, new_type, groug_nb) in c_to_ctype_map:
+        for arg in argsplit.split(arg_string): # Almost everywhere there is a space after the comma
+            for (reg_expr, new_type, group_nb) in c_to_ctype_map:
                 reg_expr_result = reg_expr.search(arg)
                 if reg_expr_result is not None:
                     arg_list.append(new_type)
-                    arg_name.append(reg_expr_result.group(groug_nb))
+                    arg_name.append(reg_expr_result.group(group_nb))
                     break # break the for loop
         _define_function(name, arg_list, arg_name)
 
