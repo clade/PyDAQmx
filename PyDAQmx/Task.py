@@ -33,13 +33,16 @@ class Task():
         except DAQError:
             pass
     def ClearTask(self):
-        if self.taskHandle.value != 0:
+        if self.taskHandle:
             try:
                 DAQmxClearTask(self.taskHandle)
             finally:
                 self.taskHandle.value = 0
     def __repr__(self):
-        return "Task number %d"%self.taskHandle.value
+        if self.taskHandle:
+            return "Task number %d"%self.taskHandle.value
+        else:
+            return "Invalid or cleared Task"
     def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
         """Register the method named name as the callback function for EveryNSamplesEvent
         
