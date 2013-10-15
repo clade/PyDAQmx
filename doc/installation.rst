@@ -2,35 +2,48 @@
 Installation
 ============
 
-You need first to install the NI DAQmx driver which is provided with your 
-data-acquisition hardware. Please verify that you have install
-the driver the C API (which should be the case by default). Check also that 
-the C API reference help file is installed. 
+First you need to install the NI DAQmx driver provided with your
+data-acquisition hardware. Please verify that you have installed together with
+the driver the C API (which should be the case by default). The C API reference
+help file is also recommended.
 
-After the installation of the driver, you need to find the location
-of the file :file:`NiDAQmx.h`. On Windows XP, its location is
-:file:`C:/Program Files/National Instruments/NI-DAQ/DAQmx ANSI C/NIDAQmx.h`. 
-If this not the case on your system, modify the file :file:`DAQmxConfig.py` in the 
-module. 
+After installing the driver, you need to find the location of the file
+:file:`NIDAQmx.h`. On Windows XP its location is
+:file:`%ProgramFiles%/National Instruments/NI-DAQ/DAQmx ANSI C/NIDAQmx.h`
+(where :envvar:`%ProgramFiles%` is typically :file:`C:/Program Files/`), and on
+linux it is assumed to be located at
+:file:`/usr/local/natinst/nidaqmx/include/NIDAQmx.h`. If this not the case on
+your system, modify the :file:`DAQmxConfig.py` file in the :mod:`PyDAQmx`
+module.
 
-The package is also working under linux (but be aware that only few linux distributions
-are supported by National Instruments)
+The package also works under linux (but be aware that only a few linux
+distributions are supported by National Instruments).
 
-To install PyDAQmx, download the `package`_ and run the command 
+To install :mod:`PyDAQmx`, either download the `package`_ manually and run the
+command:
 
 .. code-block:: sh
 
-   python setup.py install
+    python setup.py install
 
-You can also directly **move** the :file:`PyDAQmx` directory to a location
-that Python can import from (directory in which scripts 
-using :mod:`PyDAQmx` are run, etc.)
+or using `pip <http://www.pip-installer.org/>`_:
 
-It has been reported that the package is working on python 3 using 2to3.  To install the package with Python 3 ::
+.. code-block:: sh
 
-  2to3 -w setup.py
-  python setup.py build
-  python setup.py install
+    pip install PyDAQmx
+
+You can also directly *move* the :file:`PyDAQmx` directory to a location that
+Python can import from (the directory in which scripts using :mod:`PyDAQmx` are
+run, :data:`sys.path`, etc.)
+
+It has been reported that the package works on Python 3 using :command:`2to3`.
+To install the package with Python 3:
+
+.. code-block:: sh
+
+    2to3 -w setup.py
+    python setup.py build
+    python setup.py install
 
 
 .. _package: http://pypi.python.org/pypi/PyDAQmx 
