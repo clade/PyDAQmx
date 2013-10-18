@@ -26,6 +26,7 @@ class CallbackTask(Task):
         self.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByScanNumber,self.data,1000,byref(read),None)
         self.a.extend(self.data.tolist())
         print self.data[0]
+        return 0 # The function should return an integer
     def DoneCallback(self, status):
         print "Status",status.value
         return 0 # The function should return an integer
