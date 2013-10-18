@@ -6,15 +6,15 @@ from PyDAQmx.DAQmxFunctions import *
 from PyDAQmx.DAQmxConstants import *
 
 class MultiChannelAnalogInput():
-    """Class to create an multi-channel analog input
+    """Class to create a multi-channel analog input
     
-    Utilisation: AI = MultiChannelInput(physicalChannel)
-        physicalChannel: a string or a list of string
-    optional parameter: limit: tuple or list of tuple, the AI limit values
-                        reset: booleen
-    Methodes:
+    Usage: AI = MultiChannelInput(physicalChannel)
+        physicalChannel: a string or a list of strings
+    optional parameter: limit: tuple or list of tuples, the AI limit values
+                        reset: Boolean
+    Methods:
         read(name), return the value of the input name
-        readAll(), return a dictionnary name:value
+        readAll(), return a dictionary name:value
     """
     def __init__(self,physicalChannel, limit = None, reset = False):
         if type(physicalChannel) == type(""):

@@ -35,6 +35,7 @@ pre {
     padding: 0.5em;
     border: 1px solid #ccc;
     background-color: #f8f8f8;
+    overflow: auto;
 }
 
 td.linenos pre {
