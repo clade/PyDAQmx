@@ -116,5 +116,5 @@ else: # version of python <2.6. Remove the unicode
     auth_name = "Pierre Clade"
     setup(author=auth_name,
       maintainer=auth_name,
-      long_description = long_description.encode('ascii').format(auth_name=auth_name),  
+      long_description = long_description.encode('ascii').replace('{auth_name}', auth_name),  
       **setup_parameters)
