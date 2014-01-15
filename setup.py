@@ -77,6 +77,7 @@ Main changes:
 '''
 
 setup_parameters = dict(version=version,
+      name = "PyDAQmx",
       author_email="pierre.clade@spectro.jussieu.fr",
       maintainer_email="pierre.clade@spectro.jussieu.fr",
       url='http://packages.python.org/PyDAQmx/',
