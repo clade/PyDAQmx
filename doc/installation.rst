@@ -41,7 +41,7 @@ To install the package with Python 3:
 
 .. code-block:: sh
 
-    2to3 -w setup.py
+    python 2to3 -w .
     python setup.py build
     python setup.py install
 
