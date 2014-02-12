@@ -37,8 +37,8 @@ elif sys.platform.startswith('linux'):
     nidaq_libs = {'DAQmx': {'dot_h_file': '/usr/local/natinst/nidaqmx/include/NIDAQmx.h',
                   'lib_name': '/usr/local/natinst/nidaqmx/lib/libnidaqmx.so',
                   'extra_lib_names': None},
-                  'DAQmxBase': {'dot_h_file': '/usr/local/natinst/nidaqmxbase/include/NIDAQmx.h',
-                  'lib_name': '/usr/local/natinst/nidaqmxbase/lib/libnidaqmxbase.so',
+                  'DAQmxBase': {'dot_h_file': '/usr/local/natinst/nidaqmxbase/include/NIDAQmxBase.h',
+                  'lib_name': '/usr/local/lib/libnidaqmxbase.so',
                   'extra_lib_names': ('/usr/local/lib/liblvrtdark.so',)}}
 
     if os.path.exists(nidaq_libs['DAQmx']['dot_h_file']):
