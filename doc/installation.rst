@@ -2,7 +2,7 @@
 Installation
 ============
 
-First you need to install the NI DAQmx driver provided with your
+First you need to install the NI DAQmx or DAQmxBase driver provided with your
 data-acquisition hardware. Please verify that you have installed together with
 the driver the C API (which should be the case by default). The C API reference
 help file is also recommended.
@@ -12,9 +12,10 @@ After installing the driver, you need to find the location of the file
 :file:`%ProgramFiles%/National Instruments/NI-DAQ/DAQmx ANSI C/NIDAQmx.h`
 (where :envvar:`%ProgramFiles%` is typically :file:`C:/Program Files/`), and on
 linux it is assumed to be located at
-:file:`/usr/local/natinst/nidaqmx/include/NIDAQmx.h`. If this not the case on
-your system, modify the :file:`DAQmxConfig.py` file in the :mod:`PyDAQmx`
-module.
+:file:`/usr/local/natinst/nidaqmx/include/NIDAQmx.h` or
+:file:`/usr/local/natinst/nidaqmxbase/include/NIDAQmx.h`. If this not the
+case on your system, modify the :file:`DAQmxConfig.py` file in the
+:mod:`PyDAQmx` module.
 
 The package also works under linux (but be aware that only a few linux
 distributions are supported by National Instruments).

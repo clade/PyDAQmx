@@ -6,8 +6,9 @@ How to use PyDAQmx
 ==================
 
 The :mod:`PyDAQmx` module uses :mod:`ctypes` to interface with the NI-DAQmx
-dll. We thus advise users of :mod:`PyDAQmx` to read and understand the
-documentation of :mod:`ctypes`.
+dll on Windows or the NI-DAQmx or NI-DAQmxBase so on Linux. We thus advise
+users of :mod:`PyDAQmx` to read and understand the documentation of
+:mod:`ctypes`.
 
 Three core modules are defined, and one higher-level object-oriented module:
 
@@ -22,6 +23,16 @@ Three core modules are defined, and one higher-level object-oriented module:
   :func:`DAQmxCfgSampClkTiming()`, etc.).
 * :mod:`PyDAQmx.Task` provides an object-oriented interface to NIDAQmx
   :data:`taskHandle` objects. See the section :ref:`Task-object`.
+
+
+NI-DAQmxBase
+------------
+
+The NI-DAQmxBase drivers are a stripped down version of the NI-DAQmx drivers
+having less functions and the functions renamed from starting with
+'DAQmx' to 'DAQmxBase' (note, this package removes the 'Base' part so the
+calling conventions will be the same). If both NI-DAQmx and NI-DAQmxBase
+are available, NI-DAQmx will be used.
 
 
 Argument types
