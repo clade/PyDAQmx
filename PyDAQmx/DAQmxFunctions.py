@@ -1,7 +1,7 @@
 import re
 import sys
 from ctypes import *
-from DAQmxConfig import dot_h_file, lib_name
+from DAQmxConfig import lib_type, dot_h_file, lib_name, extra_lib_names
 from DAQmxTypes import *
 
 class DAQError(Exception):
@@ -48,6 +48,9 @@ if lib_name is not None:
     if sys.platform.startswith('win'):        
         DAQlib = windll.LoadLibrary(lib_name)
     elif sys.platform.startswith('linux'):
+        # Load any extra libraries, if there are any first.
+        if extra_lib_names is not None:
+            extra_libs = [CDLL(lb, mode=ctypes.RTLD_GLOBAL) for lb in extra_lib_names]
         DAQlib = cdll.LoadLibrary(lib_name)
     # else other platforms will already have barfed importing DAQmxConfig
 else: # NIDAQmx is not installed on the machine. Use a dummy library
@@ -143,11 +146,15 @@ function_dict = {}
 
 
 def _define_function(name, arg_list, arg_name):
-    # Record details of function
-    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
     # Fetch C function and apply argument checks
     cfunc = getattr(DAQlib, name)
     setattr(cfunc, 'argtypes', arg_list)
+    # If we are using the DAQmxBase library, the 'Base' part needs to be
+    # removed from the name to keep everything compatible.
+    if lib_type == 'DAQmxBase':
+        name = name[:5] + name[9:]
+    # Record details of function
+    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
     # Create error-raising wrapper for C function and add to module's dict
     func = _add_keywords(arg_name)(catch_error(cfunc))
     func.__name__ = name
@@ -171,7 +178,13 @@ for line in include_file:
                     arg_list.append(new_type)
                     arg_name.append(reg_expr_result.group(group_nb))
                     break # break the for loop
-        _define_function(name, arg_list, arg_name)
+        # Make python functions to map to all the functions found in the
+        # header file, skipping those that do not appear in the library
+        # (DAQmxBase is missing a lot of functions).
+        try:
+            _define_function(name, arg_list, arg_name)
+        except:
+            pass
 
 include_file.close()
 

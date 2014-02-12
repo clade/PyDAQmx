@@ -21,14 +21,36 @@ if sys.platform.startswith('win'):
     # Default on Windows is nicaiu
     lib_name = "nicaiu"
 
+    # This is DAQmx based.
+    lib_type = 'DAQmx'
+
+    # No extra libs need to be loaded explicitly.
+    extra_lib_names = None
+
 elif sys.platform.startswith('linux'):
     # On linux you can use the command find_library('nidaqmx')
 
-    # Full path of the NIDAQmx.h file
-    dot_h_file = '/usr/local/natinst/nidaqmx/include/NIDAQmx.h'
+    # We could be using either DAQmx or DAQmxBase. Each has a different
+    # header and library file. In addition, DAQmxBase requires an extra
+    # library to be loaded explicitly first in order to work.
 
-    # Name (and eventually path) of the library
-    lib_name = 'libnidaqmx.so'
+    nidaq_libs = {'DAQmx': {'dot_h_file': '/usr/local/natinst/nidaqmx/include/NIDAQmx.h',
+                  'lib_name': '/usr/local/natinst/nidaqmx/lib/libnidaqmx.so',
+                  'extra_lib_names': None},
+                  'DAQmxBase': {'dot_h_file': '/usr/local/natinst/nidaqmxbase/include/NIDAQmx.h',
+                  'lib_name': '/usr/local/natinst/nidaqmxbase/lib/libnidaqmxbase.so',
+                  'extra_lib_names': ('/usr/local/lib/liblvrtdark.so',)}}
+
+    if os.path.exists(nidaq_libs['DAQmx']['dot_h_file']):
+        lib_type = 'DAQmx'
+    elif os.path.exists(nidaq_libs['DAQmxBase']['dot_h_file']):
+        lib_type = 'DAQmxBase'
+    else:
+        raise NotImplementedError, "Location of niDAQmx or niDAQmxBase library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
+
+    dot_h_file = nidaq_libs[lib_type]['dot_h_file']
+    lib_name = nidaq_libs[lib_type]['lib_name']
+    extra_lib_names = nidaq_libs[lib_type]['extra_lib_names']
 
 if dot_h_file is None:
     raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
