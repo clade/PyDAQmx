@@ -3,8 +3,8 @@ Welcome to PyDAQmx's documentation!
 ===================================
 
 This package allows users to use data acquisition hardware from `National
-Instruments`_ with Python. It provides an interface between the NIDAQmx driver
-and Python. The package works on Windows and Linux.
+Instruments`_ with Python. It provides an interface between the
+NIDAQmx/NIDAQmxBase driver and Python. The package works on Windows and Linux.
 
 .. note::
 
@@ -12,9 +12,10 @@ and Python. The package works on Windows and Linux.
     first need to install the driver provided by NI.
 
 Compared to similar packages, the PyDAQmx module is a full interface to the
-NIDAQmx ANSI C driver. It imports all the functions from the driver and imports
-all the predefined constants. This provides an almost one-to-one match between
-C and Python code.
+NIDAQmx/NIDAQmxBase ANSI C driver. It imports all the functions from the
+driver and imports all the predefined constants. This provides an almost
+one-to-one match between C and Python code except that 'Base' is removed
+from function names if the NIDAQmxBase driver is being used.
 
 A more convenient object-oriented interface is also provided, where the
 mechanisms of :data:`taskHandle` in C is replaced with a :ref:`Task-object`.
@@ -24,7 +25,7 @@ The module supports callback functions, see :doc:`callback`
 Installation
 ============
 
-You first need to install the NI DAQmx driver provided with your
+You first need to install the NI DAQmx or DAQmxBase driver provided with your
 data-acquisition hardware. Please verify that you have installed together with
 the driver the C API (which should be the case by default).
 
