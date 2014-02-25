@@ -47,14 +47,17 @@ def _add_keywords(arg_name):
 if lib_name is not None:
     if sys.platform.startswith('win'):        
         DAQlib = windll.LoadLibrary(lib_name)
+        DAQlib_variadic = cdll.LoadLibrary(lib_name)
     elif sys.platform.startswith('linux'):
         DAQlib = cdll.LoadLibrary(lib_name)
+        DAQlib_variadic = DAQlib
     # else other platforms will already have barfed importing DAQmxConfig
 else: # NIDAQmx is not installed on the machine. Use a dummy library
     class _nothing():
         def __getattr__(self, name):
             return lambda *args:0
     DAQlib = _nothing()
+    DAQlib_variadic = DAQlib
 
 ######################################
 # Array
@@ -125,12 +128,13 @@ call_back_A = [(re.compile(r'(DAQmxEveryNSamplesEventCallbackPtr)\s*([^\s]*)'),D
 call_back_B = [(re.compile(r'(DAQmxDoneEventCallbackPtr)\s*([^\s]*)'),DAQmxDoneEventCallbackPtr,2)]
 call_back_C = [(re.compile(r'(DAQmxSignalEventCallbackPtr)\s*([^\s]*)'),DAQmxSignalEventCallbackPtr,2)]
 
+variadic = [(re.compile(r'\.\.\.'), "variadic", None)]
 
 # Create a list with all regular expressions
 c_to_ctype_map = []
 for l in [const_char, simple_type, pointer_type, pointer_type_array, pointer_type_array,
         pointer_type_2,char_etoile, void_etoile,char_array, 
-          call_back_A, call_back_B, call_back_C]:
+          call_back_A, call_back_B, call_back_C, variadic]:
     c_to_ctype_map.extend(l)
 
 
@@ -143,11 +147,26 @@ function_dict = {}
 
 
 def _define_function(name, arg_list, arg_name):
+    if "variadic" in arg_list:
+        _define_variadic_function(name, arg_list, arg_name)
+        return
     # Record details of function
     function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
     # Fetch C function and apply argument checks
     cfunc = getattr(DAQlib, name)
     setattr(cfunc, 'argtypes', arg_list)
+    # Create error-raising wrapper for C function and add to module's dict
+    func = _add_keywords(arg_name)(catch_error(cfunc))
+    func.__name__ = name
+    func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
+    globals()[name] = func
+
+def _define_variadic_function(name, arg_list, arg_name):
+    # Record details of function
+    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
+    # Fetch C function and apply argument checks
+    cfunc = getattr(DAQlib_variadic, name)
+    # setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
     func = _add_keywords(arg_name)(catch_error(cfunc))
     func.__name__ = name
@@ -168,9 +187,13 @@ for line in include_file:
             for (reg_expr, new_type, group_nb) in c_to_ctype_map:
                 reg_expr_result = reg_expr.search(arg)
                 if reg_expr_result is not None:
+                    if new_type=="variadic":
+                        arg_list.append(new_type)
+                        arg_name.append("*args")
+                        break
                     arg_list.append(new_type)
                     arg_name.append(reg_expr_result.group(group_nb))
-                    break # break the for loop
+                    break # break the for loop    
         _define_function(name, arg_list, arg_name)
 
 include_file.close()
