@@ -1,10 +1,13 @@
 import weakref
+import DAQmxConfig
 
 """ This package import helper functions to pass data to call back functions
 
 See examples
 """
 
+if DAQmxConfig.NIDAQmxBase:
+    raise NotImplementedError, 'Call back function are not available with the NIDAQmxBase driver'
 
 # NIDAQmx allow to pass a pointer to a data structure in callbask function
 # If this function is implemented in Python, we would like this data to be a Python object.
