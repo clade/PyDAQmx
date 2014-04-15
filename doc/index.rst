@@ -47,6 +47,16 @@ run, :data:`sys.path`, etc.)
 
 For more information see :doc:`installation`.
 
+Python 3
+========
+
+The package is written for Python 2. Is is compatible with Python 3 using 2to3. To install the package with Python 3 ::
+
+  2to3 -w setup.py
+  python setup.py build
+  python setup.py install
+ 
+
 Source code
 ===========
 

@@ -18,6 +18,10 @@ you want to use a callback, the most effective way is however to use a
 Examples are available in the GitHub `repository
 <https://github.com/clade/PyDAQmx>`_ in the :file:`PyDAQmx/example` directory.
 
+.. note::
+    
+    Callback are not available with the NIDAQmxBase driver (Linux). You should use the the full NIDAQmx driver.
+
 Simple example
 --------------
 
