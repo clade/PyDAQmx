@@ -181,7 +181,7 @@ def _define_variadic_function(name, arg_list, arg_name):
     cfunc = getattr(DAQlib_variadic, name)
     # setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
-    func = _add_keywords(arg_name)(catch_error(cfunc, name))
+    func = _add_keywords(arg_name)(catch_error(cfunc))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
