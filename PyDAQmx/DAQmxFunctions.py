@@ -18,7 +18,7 @@ class DAQError(Exception):
     def __str__(self):
         return self.mess + '\n in function '+self.fname
 
-def catch_error(f):
+def catch_error_default(f):
     def mafunction(*arg):
         error = f(*arg)
         if error<0:
@@ -28,11 +28,24 @@ def catch_error(f):
         elif error>0:
             errBuff = create_string_buffer(2048)
             DAQmxGetErrorString (error, errBuff, 2048);
-            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
+#            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
             raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
-
         return error
     return mafunction
+
+def catch_error_DAQmxGetSys(f):
+    """ Catch error if the first argument is not None"""
+    default_f = catch_error_default(f)
+    def mafunction(*arg):
+        if arg[0] is not None:
+            return default_f(*args)
+        return f(*args)
+    return mafunction
+
+def catch_error(f, name):
+    if name.startswith("DAQmxGetSys"):
+        return catch_error_DAQmxGetSys(f)
+    return catch_error_default(f)
 
 
 def _add_keywords(arg_name):
@@ -156,7 +169,7 @@ def _define_function(name, arg_list, arg_name):
     cfunc = getattr(DAQlib, name)
     setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
-    func = _add_keywords(arg_name)(catch_error(cfunc))
+    func = _add_keywords(arg_name)(catch_error(cfunc, name))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
