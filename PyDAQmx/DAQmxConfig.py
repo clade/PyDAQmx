@@ -1,9 +1,13 @@
 import sys
 import platform
 import os
+import ctypes
+from ctypes.util import find_library
 
 
 dot_h_file = None
+
+NIDAQmxBase = False
 
 if sys.platform.startswith('win'):
     # Full path of the NIDAQmx.h file
@@ -20,23 +24,52 @@ if sys.platform.startswith('win'):
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
     lib_name = "nicaiu"
+    def get_lib():
+        lib_name = "nicaiu"
+        DAQlib = ctypes.windll.LoadLibrary(lib_name)
+        DAQlib_variadic = ctypes.cdll.LoadLibrary(lib_name)        
+        return DAQlib, DAQlib_variadic
+
 
 elif sys.platform.startswith('linux'):
     # On linux you can use the command find_library('nidaqmx')
 
-    # Full path of the NIDAQmx.h file
-    dot_h_file = '/usr/local/natinst/nidaqmx/include/NIDAQmx.h'
+    lib_name = find_library('nidaqmx')
+    if lib_name is not None:
+        dot_h_file = '/usr/local/natinst/nidaqmx/include/NIDAQmx.h'
+        def get_lib():
+            lib_name = find_library('nidaqmx')
+            DAQlib = ctypes.cdll.LoadLibrary(lib_name)
+            DAQlib_variadic = DAQlib
+            return DAQlib, DAQlib_variadic
 
-    # Name (and eventually path) of the library
-    lib_name = 'libnidaqmx.so'
 
-if dot_h_file is None:
-    raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
 
+    lib_name = find_library('nidaqmxbase')
+    if lib_name is not None:
+        dot_h_file = '/usr/local/natinst/nidaqmxbase/include/NIDAQmxBase.h'
+        NIDAQmxBase = True
+        def get_lib():
+            lib_name = find_library('nidaqmxbase')
+            ctypes.CDLL('/usr/local/lib/liblvrtdark.so', mode=ctypes.RTLD_GLOBAL)
+            DAQlib = ctypes.cdll.LoadLibrary(lib_name)
+            DAQlib_variadic = DAQlib
+            return DAQlib, DAQlib_variadic
 
 # If the DAQmxConfigTest has been imported, then uses the value from this file
 # This can be used to try different version or compile the module on a plateform where 
 # DAQmx is not installed
 if "DAQmxConfigTest" in sys.modules.keys():
     from DAQmxConfigTest import *
+    if lib_name is None:
+        def get_lib():
+            class _nothing():
+                def __getattr__(self, name):
+                    return lambda *args:0
+            DAQlib = _nothing()
+            DAQlib_variadic = DAQlib
+            return DAQlib, DAQlib_variadic
+
+if dot_h_file is None:
+    raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
 

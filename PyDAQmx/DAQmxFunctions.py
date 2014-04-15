@@ -1,7 +1,8 @@
 import re
 import sys
 from ctypes import *
-from DAQmxConfig import dot_h_file, lib_name
+
+import DAQmxConfig
 from DAQmxTypes import *
 
 class DAQError(Exception):
@@ -57,20 +58,21 @@ def _add_keywords(arg_name):
     return locals()['add_keywords_decorator']
 
 
-if lib_name is not None:
-    if sys.platform.startswith('win'):        
-        DAQlib = windll.LoadLibrary(lib_name)
-        DAQlib_variadic = cdll.LoadLibrary(lib_name)
-    elif sys.platform.startswith('linux'):
-        DAQlib = cdll.LoadLibrary(lib_name)
-        DAQlib_variadic = DAQlib
-    # else other platforms will already have barfed importing DAQmxConfig
-else: # NIDAQmx is not installed on the machine. Use a dummy library
-    class _nothing():
-        def __getattr__(self, name):
-            return lambda *args:0
-    DAQlib = _nothing()
-    DAQlib_variadic = DAQlib
+#if lib_name is not None:
+#    if sys.platform.startswith('win'):        
+#        DAQlib = windll.LoadLibrary(lib_name)
+#        DAQlib_variadic = cdll.LoadLibrary(lib_name)
+#    elif sys.platform.startswith('linux'):
+#        DAQlib = cdll.LoadLibrary(lib_name)
+#        DAQlib_variadic = DAQlib
+#else: # NIDAQmx is not installed on the machine. Use a dummy library
+#    class _nothing():
+#        def __getattr__(self, name):
+#            return lambda *args:0
+#    DAQlib = _nothing()
+#    DAQlib_variadic = DAQlib
+DAQlib, DAQlib_variadic = DAQmxConfig.get_lib()
+
 
 ######################################
 # Array
@@ -100,7 +102,7 @@ else:
 ################################
 #Read the .h file and convert the function for python
 ################################
-include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
+include_file = open(DAQmxConfig.dot_h_file,'r') #Open NIDAQmx.h file
 
 ################################
 # Regular expression to parse the NIDAQmx.h file
@@ -163,34 +165,34 @@ def _define_function(name, arg_list, arg_name):
     if "variadic" in arg_list:
         _define_variadic_function(name, arg_list, arg_name)
         return
-    # Record details of function
-    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
     # Fetch C function and apply argument checks
     cfunc = getattr(DAQlib, name)
+    if DAQmxConfig.NIDAQmxBase and 'Base' in name :
+        name = name[:5]+name[9:]  
     setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
     func = _add_keywords(arg_name)(catch_error(cfunc, name))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
-
-def _define_variadic_function(name, arg_list, arg_name):
     # Record details of function
     function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
-    # Fetch C function and apply argument checks
+
+def _define_variadic_function(name, arg_list, arg_name):
     cfunc = getattr(DAQlib_variadic, name)
-    # setattr(cfunc, 'argtypes', arg_list)
-    # Create error-raising wrapper for C function and add to module's dict
+    if DAQmxConfig.NIDAQmxBase and 'Base' in name :
+        name = name[:5]+name[9:]    
     func = _add_keywords(arg_name)(catch_error(cfunc, name))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
+    function_dict[name] = {'arg_type':arg_list, 'arg_name':arg_name}
 
 
 argsplit = re.compile(', |,')
 for line in include_file:
     fn_match = function_parser.search(line[:-1])
-    if fn_match:
+    if fn_match and not line.startswith('//'):
         name = fn_match.group(1)
         function_list.append(name)
         arg_string = fn_match.group(2)
