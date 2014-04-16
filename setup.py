@@ -1,12 +1,46 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import sys
 
-#from distutils.core import setup
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
 
 version = '1.2.5.2'
 
-long_description = u'''\
+class Test(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = ['PyDAQmx']
+        self.test_suite = True
+
+    def run_tests(self):
+
+        try:  
+            import PyDAQmx
+        except NotImplementedError:
+            import DAQmxConfigTest
+
+        import PyDAQmx
+
+        print("Functions and constants are imported from : " + PyDAQmx.DAQmxConfig.dot_h_file)
+
+        if PyDAQmx.DAQmxConfig.lib_name is None:
+            print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
+        else:
+            print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
+
+        task = PyDAQmx.Task()
+        task.CreateAIVoltageChan("Dev1/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+
+if sys.version_info >= (3,):
+    packages = ["PyDAQmx"]
+else:
+    packages = [b"PyDAQmx"]
+
+
+
+long_description = """\
 Overview
 ========
 
@@ -74,7 +108,7 @@ Main changes:
 .. _National Instrument: http://www.ni.com
 .. _{auth_name}: mailto:pierre.clade@spectro.jussieu.fr
 .. _main website: http://packages.python.org/PyDAQmx/
-'''
+"""
 
 setup_parameters = dict(version=version,
       name = "PyDAQmx",
@@ -101,21 +135,13 @@ author.''',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
-     packages=["PyDAQmx"], 
-     use_2to3=True)
+     packages=packages, 
+     use_2to3=True, 
+        cmdclass = {'test': Test})
 
-# There is a problem with writing unicode to a file on version of python <2.6
-# So I remove the accent of the author name in this case
-# TODO: find an automatic way of removing accent if version<2.6
-if sys.version_info[:2]>=(2,6): # Unicode accent does not work on earlier version
-    auth_name = u"Pierre Cladé"
-    setup(author=auth_name,
-      maintainer=auth_name,
-      long_description = long_description.format(auth_name=auth_name), 
-      **setup_parameters)
-else: # version of python <2.6. Remove the unicode  
-    auth_name = "Pierre Clade"
-    setup(author=auth_name,
-      maintainer=auth_name,
-      long_description = long_description.encode('ascii').replace('{auth_name}', auth_name),  
-      **setup_parameters)
+auth_name = "Pierre Cladé"
+setup(author=auth_name,
+  maintainer=auth_name,
+  long_description = long_description.format(auth_name=auth_name), 
+  **setup_parameters)
+
