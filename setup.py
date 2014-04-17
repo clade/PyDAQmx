@@ -15,6 +15,7 @@ class Test(TestCommand):
         self.test_suite = True
 
     def run_tests(self):
+        import unittest
 
         try:  
             import PyDAQmx
@@ -30,8 +31,9 @@ class Test(TestCommand):
         else:
             print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
 
-        task = PyDAQmx.Task()
-        task.CreateAIVoltageChan("Dev1/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+#        task = PyDAQmx.Task()
+#        task.CreateAIVoltageChan("Dev1/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+        unittest.main('PyDAQmxTest', None, [unittest.__file__])
 
 if sys.version_info >= (3,):
     packages = ["PyDAQmx"]
