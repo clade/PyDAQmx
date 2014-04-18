@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+# This file should be compatible with both Python 2 and Python 3
+from __future__ import unicode_literals, print_function
 
 import sys
 
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-version = '1.2.5.2'
+version = '1.3'
 
 class Test(TestCommand):
     def finalize_options(self):
@@ -80,12 +81,6 @@ To install PyDAQmx, download the package and run the command::
 You can also directly move the PyDAQmx directory to a location
 that Python can import from (directory in which scripts 
 using PyDAQmx are run, etc.)
-
-To install the package with Python 3 ::
-
-  2to3 -w setup.py
-  python setup.py build
-  python setup.py install
  
 
 Contact
@@ -97,6 +92,7 @@ Version history
 ===============
 Main changes:
 
+* 1.3 PyDAQmx support the both the NIDAQmx and NIDAQmxBase drivers
 * 1.2.5.2 Bug in version 1.2.5 corrected (Task were not working)
 * 1.2.5.1 Add keywords to all the functions (version 1.2.5 is not working with python 3)
 * 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
@@ -109,14 +105,14 @@ Main changes:
 
 .. _National Instrument: http://www.ni.com
 .. _{auth_name}: mailto:pierre.clade@spectro.jussieu.fr
-.. _main website: http://packages.python.org/PyDAQmx/
+.. _main website: http://pythonhosted.org/PyDAQmx/
 """
 
 setup_parameters = dict(version=version,
       name = "PyDAQmx",
       author_email="pierre.clade@spectro.jussieu.fr",
       maintainer_email="pierre.clade@spectro.jussieu.fr",
-      url='http://packages.python.org/PyDAQmx/',
+      url='http://pythonhosted.org/PyDAQmx/',
       license='''\
 This software can be used under one of the following two licenses: \
 (1) The BSD license. \

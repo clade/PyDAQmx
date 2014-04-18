@@ -50,12 +50,12 @@ For more information see :doc:`installation`.
 Python 3
 ========
 
-The package is written for Python 2. Is is compatible with Python 3 using 2to3. To install the package with Python 3 ::
+The package is written for Python 2. Is is compatible with Python 3 using 2to3. To build and install the package with Python 3 ::
 
-  2to3 -w setup.py
   python setup.py build
   python setup.py install
- 
+
+
 
 Source code
 ===========
@@ -87,7 +87,7 @@ How to cite this package
 If you use this package for a publication (in a journal, on the web, etc.),
 please cite it by including as much information as possible from the following:
 *PyDAQmx : a Python interface to the National Instruments DAQmx driver*, Pierre
-CLADÉ, `http://packages.python.org/PyDAQmx <http://packages.python.org/PyDAQmx>`_.
+CLADÉ, `http://pythonhosted.org/PyDAQmx/ <http://pythonhosted.org/PyDAQmx/>`_.
 
 
 .. toctree::
