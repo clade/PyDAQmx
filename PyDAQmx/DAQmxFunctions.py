@@ -34,18 +34,29 @@ def catch_error_default(f):
         return error
     return mafunction
 
-def catch_error_DAQmxGetSys(f):
-    """ Catch error if the first argument is not None"""
+#def catch_error_DAQmxGetSys(f):
+#    """ Catch error if the first argument is not None"""
+#    default_f = catch_error_default(f)
+#    def mafunction(*args):
+#        if args[0] is not None:
+#            return default_f(*args)
+#        return f(*args)
+#    return mafunction
+
+def catch_error_buffer(f, data_pos):
+    """ Catch error only if the data arg is not None"""
     default_f = catch_error_default(f)
-    def mafunction(*arg):
-        if arg[0] is not None:
+    def mafunction(*args):
+        if args[data_pos] is not None:
             return default_f(*args)
         return f(*args)
     return mafunction
 
-def catch_error(f, name):
-    if name.startswith("DAQmxGetSys"):
-        return catch_error_DAQmxGetSys(f)
+def catch_error(f, name, arg_list, arg_name):
+#    if name.startswith("DAQmxGetSys"):
+#        return catch_error_DAQmxGetSys(f)
+    if 'data' in arg_name and 'bufferSize' in arg_name:
+        return catch_error_buffer(f, arg_name.index('data'))
     return catch_error_default(f)
 
 
@@ -171,7 +182,7 @@ def _define_function(name, arg_list, arg_name):
         name = name[:5]+name[9:]  
     setattr(cfunc, 'argtypes', arg_list)
     # Create error-raising wrapper for C function and add to module's dict
-    func = _add_keywords(arg_name)(catch_error(cfunc, name))
+    func = _add_keywords(arg_name)(catch_error(cfunc, name, arg_list, arg_name))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
@@ -182,7 +193,7 @@ def _define_variadic_function(name, arg_list, arg_name):
     cfunc = getattr(DAQlib_variadic, name)
     if DAQmxConfig.NIDAQmxBase and 'Base' in name :
         name = name[:5]+name[9:]    
-    func = _add_keywords(arg_name)(catch_error(cfunc, name))
+    func = _add_keywords(arg_name)(catch_error(cfunc, name, arg_list, arg_name))
     func.__name__ = name
     func.__doc__ = '%s(%s) -> error.' % (name, ', '.join(arg_name))
     globals()[name] = func
