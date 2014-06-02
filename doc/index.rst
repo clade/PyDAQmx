@@ -55,7 +55,7 @@ The package is written for Python 2. Is is compatible with Python 3 using 2to3. 
   python setup.py build
   python setup.py install
 
-
+If you want to run PyDAQmx without installing it, run the ``python setup.py build`` command and switch to the :file:`build/lib` directory.
 
 Source code
 ===========
