@@ -9,7 +9,7 @@ dot_h_file = None
 
 NIDAQmxBase = False
 
-if sys.platform.startswith('win'):
+if sys.platform.startswith('win') or sys.platform.startswith('cli'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP and Windows 7
     if os.environ.has_key('PROGRAMFILES(X86)'):
