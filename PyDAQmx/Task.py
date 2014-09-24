@@ -1,6 +1,7 @@
 from DAQmxTypes import TaskHandle
 import DAQmxFunctions
 from DAQmxFunctions import *
+import ctypes
 
 
 # Create a list of the name of the function that uses TastHandle as the first argument
@@ -23,6 +24,7 @@ except NotImplementedError:
 
 if _callback:
     class CallbackParent():
+        _EveryNSamplesEvent_already_register = False
         def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
             """Register the method named name as the callback function for EveryNSamplesEvent
             
@@ -31,8 +33,12 @@ if _callback:
             The parameters everyNsamplesEventType, nSamples and options are the same 
             as the DAQmxRegisterEveryNSamplesEvent parameters
             
-            No parameters are passed to the method        
+            No parameters are passed to the method  
+
+            If an event was already registered, the UnregisterEveryNSamplesEvent is automatically called      
             """
+            if self._EveryNSamplesEvent_already_register:
+                self.UnregisterEveryNSamplesEvent()
             self_id = create_callbackdata_id(self)
             # Define the python function
             def EveryNCallback_py(taskHandle, everyNsamplesEventType, nSamples, self_id):
@@ -43,6 +49,11 @@ if _callback:
             self.EveryNCallback_C = DAQmxEveryNSamplesEventCallbackPtr(EveryNCallback_py)
             # Register the function
             self.RegisterEveryNSamplesEvent(everyNsamplesEventType,nSamples,options,self.EveryNCallback_C,self_id)
+            self._EveryNSamplesEvent_already_register = True
+        def UnregisterEveryNSamplesEvent(self):
+            self.RegisterEveryNSamplesEvent(1,0,0,ctypes.cast(None, DAQmxEveryNSamplesEventCallbackPtr),0)
+            self._EveryNSamplesEvent_already_register = False
+
         def AutoRegisterDoneEvent(self, options, name='DoneCallback'):
             """Register the method named name as the callback function for DoneEvent
             
@@ -60,6 +71,7 @@ if _callback:
             self.DoneCallback_C = DAQmxDoneEventCallbackPtr(DoneCallback_py)
             # Register the function
             self.RegisterDoneEvent(options,self.DoneCallback_C,self_id)
+
         def AutoRegisterSignalEvent(self, signalID, options, name='SignalCallback'):
             """Register the method named name as the callback function for RegisterSignalEvent
             
@@ -80,7 +92,9 @@ if _callback:
             self.SignalCallback_C = DAQmxSignalEventCallbackPtr(SignalCallback_py)
             # Register the function
             self.RegisterSignalEvent(signalID, options, self.SignalCallback_C, self_id)
+
 else:
+
     class CallbackParent():
         def __getattr__(self, name):
             if name in ['AutoRegisterEveryNSamplesEvent', 'AutoRegisterDoneEvent', 'AutoRegisterSignalEvent']:

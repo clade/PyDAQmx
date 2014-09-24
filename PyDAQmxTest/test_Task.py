@@ -55,5 +55,20 @@ class TestExampleCallbackTaskSynchronous(unittest.TestCase):
 suiteC = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackTaskSynchronous)
 
 
-suite = unittest.TestSuite([suiteA, suiteB, suiteC])
+class TestExampleCallbackWithUnregister(unittest.TestCase):
+    def test_truc(self):
+        from time import sleep
+        b = PyDAQmx.example.CallbackWithUnregister("TestDevice")
+        for i,nSamples in enumerate([1000, 2000, 5000]):
+            func_name = 'EveryNCallback{0}'.format([1,2][i%2])
+            b.start(nSamples, func_name)
+#            print "started!"
+            sleep(.2)
+            b.stop()
+#            print "stop"
+
+
+suiteD = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackWithUnregister)
+
+suite = unittest.TestSuite([suiteA, suiteB, suiteC, suiteD])
 
