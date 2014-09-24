@@ -12,13 +12,15 @@ This example demonstrates how to acquire a continuous amount of data using the
 DAQ device's internal clock.
 """
 
-class CallbackTask(Task):
-    def __init__(self):
+class CallbackTaskSynchronous(Task):
+    def __init__(self, dev_name=None, data_len=1000):
         Task.__init__(self)
+        if dev_name is None:
+            dev_name = "Dev1"
         self._data = zeros(1000)
         self.read = int32()
-        self.CreateAIVoltageChan("Dev1/ai0","",DAQmx_Val_RSE,-10.0,10.0,DAQmx_Val_Volts,None)
-        self.CfgSampClkTiming("",10000.0,DAQmx_Val_Rising,DAQmx_Val_ContSamps,1000)
+        self.CreateAIVoltageChan(dev_name+"/ai0","",DAQmx_Val_RSE,-10.0,10.0,DAQmx_Val_Volts,None)
+        self.CfgSampClkTiming("",100000.0,DAQmx_Val_Rising,DAQmx_Val_ContSamps,1000)
         self.AutoRegisterEveryNSamplesEvent(DAQmx_Val_Acquired_Into_Buffer,1000,0)
         self.AutoRegisterDoneEvent(0)
         self._data_lock = threading.Lock()
@@ -40,14 +42,14 @@ class CallbackTask(Task):
             return self._data.copy()
 
 
+if __name__=="__main__":
+    task=CallbackTaskSynchronous()
+    task.StartTask()
 
-task=CallbackTask()
-task.StartTask()
+    print "Acquiring 10 * 1000 samples in continuous mode."
+    for _ in range(10):
+        task.get_data(timeout=10.0)
+        print "Acquired %d points" % task.read.value
 
-print "Acquiring 10 * 1000 samples in continuous mode."
-for _ in range(10):
-    task.get_data(timeout=10.0)
-    print "Acquired %d points" % task.read.value
-
-task.StopTask()
-task.ClearTask()
+    task.StopTask()
+    task.ClearTask()

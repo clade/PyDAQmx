@@ -1,0 +1,10 @@
+The PyDAQmxTest forder contains the test suite of PyDAQmx
+
+In order to run the full suite, you need to install a virtual device using Measurement and Automation Explorer (NI-MAX) software. A general device, such as the PCI-6259, will be OK. This device should be renamed "TestDevice".  
+
+The easiest way to run the test os with the setup.py file ::
+
+    python setup.py test
+
+
+

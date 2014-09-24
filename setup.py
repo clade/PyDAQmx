@@ -29,12 +29,10 @@ class Test(TestCommand):
 
         if PyDAQmx.DAQmxConfig.lib_name is None:
             print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
+            unittest.main('PyDAQmxTest', "suite_base", [unittest.__file__])
         else:
             print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-
-#        task = PyDAQmx.Task()
-#        task.CreateAIVoltageChan("Dev1/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
-        unittest.main('PyDAQmxTest', None, [unittest.__file__])
+            unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])    
 
 if sys.version_info >= (3,):
     packages = ["PyDAQmx"]
