@@ -6,4 +6,6 @@ To install this package:
 
 This package has been tested with different version of NIDAQmx (stating from 8.01) and on windows XP and windows 7. It works with Python 2 (from 2.7) and Python 3. 
 
-
+This software can be used under one of the following two licenses: 
+(1) The BSD license. 
+(2) Any other license, as long as it is obtained from the original author.
