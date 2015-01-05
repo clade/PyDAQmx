@@ -4,6 +4,6 @@ To install this package:
 * First install the NIDAQmx driver. 
 * Then run 'python setup.py install'
 
-This package has been tested with the version 8.01 of NIDAQmx on windows XP.
+This package has been tested with different version of NIDAQmx (stating from 8.01) and on windows XP and windows 7. It works with Python 2 (from 2.7) and Python 3. 
 
 
