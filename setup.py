@@ -39,9 +39,9 @@ class Test(TestCommand):
             unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])    
 
 if sys.version_info >= (3,):
-    packages = ["PyDAQmx"]
+    packages = ["PyDAQmx", 'PyDAQmx.example']
 else:
-    packages = [b"PyDAQmx"]
+    packages = [b"PyDAQmx", b'PyDAQmx.example']
 
 
 

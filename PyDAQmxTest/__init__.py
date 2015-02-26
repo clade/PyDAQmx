@@ -1,8 +1,8 @@
 import unittest
 
 import PyDAQmx
-import test_Task
-import test_variadic
+from . import test_Task
+from . import test_variadic
 
 class TestPyDAQmxBase(unittest.TestCase):
     def test_unittest(self):

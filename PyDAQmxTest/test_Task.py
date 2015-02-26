@@ -1,3 +1,4 @@
+import sys
 import unittest
 import PyDAQmx
 import PyDAQmx.example
@@ -9,7 +10,11 @@ def _test_for_test_device():
     n = 1024
     buff = ctypes.create_string_buffer(n)
     PyDAQmx.DAQmxGetSysDevNames(buff, n)
-    if not test_device_name in map(str.strip, buff.value.split(',')):
+    if sys.version_info >= (3,):
+        value = buff.value.decode()
+    else:
+        value = buff.value
+    if not test_device_name in map(str.strip, value.split(',')):
         raise Exception('Please install a virtual device called {0} in your system'.format(test_device_name))
 
 
@@ -20,7 +25,11 @@ class DeviceExists(unittest.TestCase):
         n = 1024
         buff = ctypes.create_string_buffer(n)
         PyDAQmx.DAQmxGetSysDevNames(buff, n)
-        self.assertIn(test_device_name, map(str.strip, buff.value.split(',')))
+        if sys.version_info >= (3,):
+            value = buff.value.decode()
+        else:
+            value = buff.value
+        self.assertIn(test_device_name, map(str.strip, value.split(',')))
 
 suiteA = unittest.TestLoader().loadTestsFromTestCase(DeviceExists)
 
