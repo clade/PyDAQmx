@@ -1,3 +1,5 @@
+import sys
+
 from ctypes import *
 import ctypes
 from DAQmxConstants import DAQmx_copyright_year
@@ -25,3 +27,15 @@ CalHandle = uInt32
 DAQmxEveryNSamplesEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, uInt32, c_void_p)
 DAQmxDoneEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, c_void_p)
 DAQmxSignalEventCallbackPtr = CFUNCTYPE(int32, TaskHandle, int32, c_void_p)
+
+class CtypesString(object):
+    """ Argtypes to automatically convert str to bytes in Python3 """
+    def from_param(self, param):
+        if sys.version_info >= (3,):
+            if isinstance(param, str):
+                param = param.encode('ascii')
+        return c_char_p(param)
+
+
+
+
