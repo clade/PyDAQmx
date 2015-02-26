@@ -7,7 +7,7 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-version = '1.3'
+version = '1.3.1'
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
@@ -94,7 +94,8 @@ Version history
 ===============
 Main changes:
 
-* 1.3 PyDAQmx support the both the NIDAQmx and NIDAQmxBase drivers
+* 1.3.1 With python 3, strings (unicode) can be use as arguments
+* 1.3 PyDAQmx supports both the NIDAQmx and NIDAQmxBase drivers
 * 1.2.5.2 Bug in version 1.2.5 corrected (Task were not working)
 * 1.2.5.1 Add keywords to all the functions (version 1.2.5 is not working with python 3)
 * 1.2.4 NIDAQmx functions of the 2011 et 2012 NIDAQmx are imported properly
