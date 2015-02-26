@@ -9,6 +9,10 @@ from setuptools.command.test import test as TestCommand
 
 version = '1.3'
 
+import os
+directory = os.path.split(os.path.realpath(__file__))[0]
+os.chdir(directory)
+
 class Test(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)

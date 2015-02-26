@@ -29,12 +29,14 @@ You can also directly *move* the :file:`PyDAQmx` directory to a location that
 Python can import from (the directory in which scripts using :mod:`PyDAQmx` are
 run, :data:`sys.path`, etc.)
 
-It has been reported that the package works on Python 3 using :command:`2to3`.
+Python 3
+--------
+
+The package works on Python 3 using :command:`2to3`.
 To install the package with Python 3:
 
 .. code-block:: sh
 
-    python 2to3 -w .
     python setup.py build
     python setup.py install
 

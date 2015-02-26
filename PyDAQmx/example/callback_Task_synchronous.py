@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyDAQmx import *
 from PyDAQmx.DAQmxCallBack import *
 from numpy import zeros

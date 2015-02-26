@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import PyDAQmx as daqmx
 from PyDAQmx.DAQmxCallBack import *
 import numpy as np
