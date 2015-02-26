@@ -7,7 +7,7 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-version = '1.3.1'
+version = '1.3.1' 
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
