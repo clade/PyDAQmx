@@ -56,6 +56,18 @@ elif sys.platform.startswith('linux'):
             DAQlib_variadic = DAQlib
             return DAQlib, DAQlib_variadic
 
+elif sys.platform.startswith('darwin'):
+    lib_name = find_library('nidaqmxbase')
+    if lib_name is not None:
+        dot_h_file = '/Applications/National Instruments/NI-DAQmx Base/includes/NIDAQmxBase.h'
+        NIDAQmxBase = True
+        def get_lib():
+            lib_name = find_library('nidaqmxbase')
+            DAQlib = ctypes.cdll.LoadLibrary(lib_name)
+            DAQlib_variadic = DAQlib
+            return DAQlib, DAQlib_variadic
+
+
 # If the DAQmxConfigTest has been imported, then uses the value from this file
 # This can be used to try different version or compile the module on a plateform where 
 # DAQmx is not installed
