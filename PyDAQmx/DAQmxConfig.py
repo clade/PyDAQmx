@@ -3,6 +3,7 @@ import platform
 import os
 import ctypes
 from ctypes.util import find_library
+import platform
 
 
 dot_h_file = None
@@ -24,11 +25,18 @@ if sys.platform.startswith('win') or sys.platform.startswith('cli'):
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
     lib_name = "nicaiu"
-    def get_lib():
-        lib_name = "nicaiu"
-        DAQlib = ctypes.windll.LoadLibrary(lib_name)
-        DAQlib_variadic = ctypes.cdll.LoadLibrary(lib_name)        
-        return DAQlib, DAQlib_variadic
+    if 'iron' in platform.python_implementation().lower():
+        def get_lib():
+            lib_name = "nicaiu"
+            DAQlib = ctypes.windll.nicaiu
+            DAQlib_variadic = ctypes.cdll.nicaiu
+            return DAQlib, DAQlib_variadic
+    else:
+        def get_lib():
+            lib_name = "nicaiu"
+            DAQlib = ctypes.windll.LoadLibrary(lib_name)
+            DAQlib_variadic = ctypes.cdll.LoadLibrary(lib_name)        
+            return DAQlib, DAQlib_variadic
 
 
 elif sys.platform.startswith('linux'):
