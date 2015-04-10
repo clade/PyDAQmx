@@ -147,6 +147,7 @@ pointer_type_array = [(re.compile('('+_type+')\s*((?:readArray|writeArray).*)\[\
 pointer_type_2 = [(re.compile('('+_type+')\s*([^\s]*)\[\]\Z'),
         eval('POINTER('+_type+')'),2) for _type in type_list]
 
+const_char_etoile = [(re.compile(r'(const char)\s*\*([^\*]*)\Z'), CtypesString(), 2)] # match "const char * name"
 char_etoile = [(re.compile(r'(char)\s*\*([^\*]*)\Z'), c_char_p, 2)] # match "char * name"
 void_etoile = [(re.compile(r'(void)\s*\*([^\*]*)\Z'), c_void_p, 2)] # match "void * name"
 char_array = [(re.compile(r'(char)\s*([^\s]*)\[\]'), c_char_p,2)] # match "char name[]"
@@ -159,7 +160,7 @@ variadic = [(re.compile(r'\.\.\.'), "variadic", None)]
 # Create a list with all regular expressions
 c_to_ctype_map = []
 for l in [const_char, simple_type, pointer_type, pointer_type_array, pointer_type_array,
-        pointer_type_2,char_etoile, void_etoile,char_array, 
+        pointer_type_2, const_char_etoile, char_etoile, void_etoile,char_array,
           call_back_A, call_back_B, call_back_C, variadic]:
     c_to_ctype_map.extend(l)
 
