@@ -90,14 +90,17 @@ please cite it by including as much information as possible from the following:
 CLADÉ, `http://pythonhosted.org/PyDAQmx/ <http://pythonhosted.org/PyDAQmx/>`_.
 
 
+Index
+=====
+
 .. toctree::
-    :hidden:
     :maxdepth: 1
 
     Overview <self>
     Installation <installation>
     How to use PyDAQmx <usage>
     Example of callback <callback>
+    Examples <example>
 
 
 .. _National Instruments: http://www.ni.com
