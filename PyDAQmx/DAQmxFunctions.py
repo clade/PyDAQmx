@@ -1,6 +1,7 @@
 import re
 import sys
 from ctypes import *
+import warnings
 
 import DAQmxConfig
 from DAQmxTypes import *
@@ -172,13 +173,15 @@ for l in [const_char, simple_type, pointer_type, pointer_type_array, pointer_typ
 function_list = [] 
 function_dict = {} 
 
-
 def _define_function(name, arg_list, arg_name):
     if "variadic" in arg_list:
         _define_variadic_function(name, arg_list, arg_name)
         return
     # Fetch C function and apply argument checks
-    cfunc = getattr(DAQlib, name)
+    cfunc = getattr(DAQlib, name, None)
+    if cfunc is None:
+        warnings.warn('Unable to load {0}'.format(name))
+        return
     if DAQmxConfig.NIDAQmxBase and 'Base' in name :
         name = name[:5]+name[9:]  
     setattr(cfunc, 'argtypes', arg_list)
