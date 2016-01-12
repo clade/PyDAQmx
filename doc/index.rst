@@ -72,6 +72,8 @@ Available documentation
 
 :doc:`callback` gives code examples on how to use callback functions.
 
+:doc:`example` gives a list of examples.
+
 More examples are available in the GitHub
 `repository <https://github.com/clade/PyDAQmx>`_ in the :file:`PyDAQmx/example`
 directory.
