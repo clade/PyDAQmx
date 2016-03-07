@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file should be compatible with both Python 2 and Python 3
-from __future__ import unicode_literals, print_function
+from __future__ import print_function, unicode_literals
 
 import sys
 
@@ -37,6 +37,22 @@ class Test(TestCommand):
         else:
             print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
             unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])    
+
+class TestExample(TestCommand):
+    user_options = [(b'example=', b'm', b"Test example file name")]
+    example = 'DEFAULT'
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import unittest
+
+        import PyDAQmx
+        import PyDAQmxTest
+        execfile(os.path.join(os.path.dirname(PyDAQmxTest.__file__) , self.example))
+
 
 if sys.version_info >= (3,):
     packages = ["PyDAQmx", 'PyDAQmx.example']
@@ -139,7 +155,7 @@ author.''',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
      packages=packages, 
      use_2to3=True, 
-        cmdclass = {'test': Test})
+        cmdclass = {'test': Test, 'test_example':TestExample})
 
 auth_name = "Pierre Cladé"
 setup(author=auth_name,
