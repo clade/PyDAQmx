@@ -1,3 +1,8 @@
+""" Simple example of digital output
+
+    This example outputs the values of data on line 0 to 7
+"""
+
 from PyDAQmx import Task
 import numpy as np
 
