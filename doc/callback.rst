@@ -93,7 +93,7 @@ Using a Task object
 -------------------
 
 The :mod:`PyDAQmx` module provides an object-oriented interface to the driver
-(see the `How to use PyDAQmx <usage>`_ section). With this technique, a
+(see the :doc:`How to use PyDAQmx <usage>`_ section). With this technique, a
 *method* is registered as a callback function. This gives access to all the
 attributes of the object inside the callback function.
 
