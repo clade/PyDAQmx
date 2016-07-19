@@ -106,6 +106,13 @@ class Task(CallbackParent):
     def __init__(self):
         self.taskHandle = TaskHandle(0)
         DAQmxCreateTask(b"",byref(self.taskHandle))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        self.ClearTask()
+
     def __del__(self):
         """ Clear automatically the task to be able to reallocate resources """ 
         # Clear the task before deleting the object
