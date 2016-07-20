@@ -2,6 +2,7 @@
 from PyDAQmx import *
 from PyDAQmx.DAQmxCallBack import *
 from numpy import zeros
+from ctypes import byref
 import threading
 
 """This example is a PyDAQmx version of the ContAcq_IntClk.c example,
