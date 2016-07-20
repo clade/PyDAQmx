@@ -44,6 +44,18 @@ class TestPyDAQmxTask(unittest.TestCase):
 
 suiteB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTask)
 
+class TestPyDAQmxTaskContextManager(unittest.TestCase):
+    def setUp(self):
+        _test_for_test_device()
+#        self.task = PyDAQmx.Task()
+#    def tearDown(self):
+#        self.task.ClearTask()
+    def test_CreateAIVoltageChan(self):
+        with PyDAQmx.Task() as t:
+            t.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+
+suiteBB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTaskContextManager)
+
 class TestExampleCallbackTaskSynchronous(unittest.TestCase):
     data_len = 1000
     def setUp(self):
@@ -79,5 +91,5 @@ class TestExampleCallbackWithUnregister(unittest.TestCase):
 
 suiteD = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackWithUnregister)
 
-suite = unittest.TestSuite([suiteA, suiteB, suiteC, suiteD])
+suite = unittest.TestSuite([suiteA, suiteB, suiteBB, suiteC, suiteD])
 
