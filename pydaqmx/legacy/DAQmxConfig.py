@@ -1,4 +1,4 @@
 try :
     from ..config import *
-except ImportError:
+except ValueError:
     from pydaqmx.config import *

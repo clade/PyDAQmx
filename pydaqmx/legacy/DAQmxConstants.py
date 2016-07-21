@@ -2,7 +2,7 @@
 
 try:
     from ..parser import CConstant
-except ImportError:
+except ValueError:
     from pydaqmx.parser import CConstant
 
 constant_list = []

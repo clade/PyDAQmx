@@ -14,9 +14,9 @@ all_types = ['int8', 'uInt8', 'int16', 'uInt16', 'int32', 'uInt32', 'float32', '
         'TaskHandle', 'CalHandle', 'DAQmxEveryNSamplesEventCallbackPtr', 'DAQmxDoneEventCallbackPtr', 'DAQmxSignalEventCallbackPtr', 'CtypesString']
 
 
-__all__ = DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys() + ['Task'] + all_types
+__all__ = DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.keys()) + ['Task'] + all_types
 
-for name in DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys():
+for name in DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.keys()):
     if name.startswith('DAQmx_'):
         new_name = name[6:]
     elif name.startswith('DAQmx'):

@@ -91,5 +91,5 @@ if "daqmxconfigtest" in sys.modules.keys():
             return DAQlib, DAQlib_variadic
 
 if dot_h_file is None or not os.path.exists(dot_h_file):
-    raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
+    raise NotImplementedError("Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform))
 

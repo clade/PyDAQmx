@@ -1,1 +1,1 @@
-from decorator import DAQError
+from .decorator import DAQError

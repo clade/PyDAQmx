@@ -1,6 +1,8 @@
 import unittest
 
 import pydaqmx
+from pydaqmx import *
+#from pydaqmx.legacy import *
 
 class TestPyDAQmxBase(unittest.TestCase):
     def test_unittest(self):

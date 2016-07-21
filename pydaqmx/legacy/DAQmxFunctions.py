@@ -2,7 +2,7 @@
 
 try:
     from ..native.functions import NativeFunctionMaker
-except ImportError:
+except ValueError:
     from pydaqmx.native.functions import NativeFunctionMaker
 
 function_dict = {}

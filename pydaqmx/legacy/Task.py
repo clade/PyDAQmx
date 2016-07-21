@@ -18,7 +18,7 @@ task_function_list = [name for name in function_dict.keys() if \
 task_function_list = [name for name in task_function_list if name not in ['DAQmxClearTask']]
 
 try :
-    from DAQmxCallBack import *
+    from .DAQmxCallBack import *
     _callback = True
 except NotImplementedError:
     _callback = False
@@ -99,7 +99,7 @@ else:
     class CallbackParent():
         def __getattr__(self, name):
             if name in ['AutoRegisterEveryNSamplesEvent', 'AutoRegisterDoneEvent', 'AutoRegisterSignalEvent']:
-                raise NotImplementedError, 'Callback methods are not available'
+                raise NotImplementedError('Callback methods are not available')
             return super(CallbackParent, self).__getattr__(name)
 
 

@@ -48,10 +48,13 @@ class TestLegacy(TestCommand):
     def run_tests(self):
         import unittest
 
+        import sys
+        print(sys.path)
+
         try:  
             import PyDAQmx
         except NotImplementedError:
-            import DAQmxConfigTest
+            import daqmxconfigtest
 
         import PyDAQmx
 
@@ -83,11 +86,11 @@ class TestExample(TestCommand):
 
 if sys.version_info >= (3,):
 #    packages = ["PyDAQmx", 'PyDAQmx.example']
-    packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util', "PyDAQmx"]
-    package_dir = {'pydaqmx': 'pydaqmx', 'PyDAQmx':'pydaqmx.legacy'}
+    packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util', "PyDAQmx", "PyDAQmx.example"]
+    package_dir = {'pydaqmx': 'pydaqmx', 'PyDAQmx':'pydaqmx/legacy'}
 else:
-    packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b"PyDAQmx"]
-    package_dir = {b'pydaqmx': b'pydaqmx', b'PyDAQmx':b'pydaqmx.legacy'}
+    packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b"PyDAQmx", b"PyDAQmx.example"]
+    package_dir = {b'pydaqmx': b'pydaqmx', b'PyDAQmx':b'pydaqmx/legacy'}
 
 
 long_description = """\
@@ -184,8 +187,8 @@ author.''',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
-     packages=packages, 
-     use_2to3=True, 
+     packages=packages, #package_dir=package_dir,
+#     use_2to3=True, 
         cmdclass = {'test': Test, 'test_example':TestExample, 'test_legacy': TestLegacy})
 
 auth_name = "Pierre Cladé"

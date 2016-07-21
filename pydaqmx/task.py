@@ -88,7 +88,7 @@ else:
     class CallbackParent():
         def __getattr__(self, name):
             if name in ['auto_register_every_n_samples_event', 'auto_register_done_event', 'auto_register_signal_event']:
-                raise NotImplementedError, 'Callback methods are not available'
+                raise NotImplementedError('Callback methods are not available')
             return super(CallbackParent, self).__getattr__(name)
 
 

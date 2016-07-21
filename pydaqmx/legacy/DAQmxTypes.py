@@ -1,4 +1,4 @@
 try :
     from ..native.types import *
-except ImportError:
+except ValueError:
     from pydaqmx.native.types import *
