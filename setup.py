@@ -13,85 +13,14 @@ import os
 directory = os.path.split(os.path.realpath(__file__))[0]
 os.chdir(directory)
 
-class Test(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['pydaqmx']
-        self.test_suite = True
-
-    def run_tests(self):
-        import unittest
-
-        try:  
-            import pydaqmx
-        except NotImplementedError:
-            import daqmxconfigtest
-
-        import pydaqmx
-
-        print("Functions and constants are imported from : " + pydaqmx.config.dot_h_file)
-
-        if pydaqmx.config.lib_name is None:
-            print('DAQmx is not installed. pydaqmx is using a dummy library for tests')
-#            unittest.main('PyDAQmxTest', "suite_base", [unittest.__file__])
-            unittest.main('pydaqmx_test', "suite_base", [unittest.__file__])
-        else:
-            print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-            unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])    
-
-class TestLegacy(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['PyDAQmx']
-        self.test_suite = True
-
-    def run_tests(self):
-        import unittest
-
-        import sys
-        print(sys.path)
-
-        try:  
-            import PyDAQmx
-        except NotImplementedError:
-            import daqmxconfigtest
-
-        import PyDAQmx
-
-        print("Functions and constants are imported from : " + PyDAQmx.DAQmxConfig.dot_h_file)
-
-        if PyDAQmx.DAQmxConfig.lib_name is None:
-            print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
-            unittest.main('PyDAQmxTest', "suite_base", [unittest.__file__])
-        else:
-            print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-            unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])  
-
-
-class TestExample(TestCommand):
-    user_options = [(b'example=', b'm', b"Test example file name")]
-    example = 'DEFAULT'
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        import unittest
-
-        import PyDAQmx
-        import PyDAQmxTest
-        execfile(os.path.join(os.path.dirname(PyDAQmxTest.__file__) , self.example))
-
-
 if sys.version_info >= (3,):
 #    packages = ["PyDAQmx", 'PyDAQmx.example']
     packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util','pydaqmx.test',
-                        'pydaqmx.examples', "PyDAQmx", "PyDAQmx.example"]
+                        'pydaqmx.examples', "PyDAQmx", "PyDAQmx.example", "PyDAQmx.PyDAQmxTest"]
     package_dir = {'pydaqmx': 'pydaqmx', 'PyDAQmx':'pydaqmx/legacy'}
 else:
     packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b'pydaqmx.test', 
-                        b'pydaqmx.examples',b"PyDAQmx", b"PyDAQmx.example"]
+                        b'pydaqmx.examples',b"PyDAQmx", b"PyDAQmx.example", b"PyDAQmx.PyDAQmxTest"]
     package_dir = {b'pydaqmx': b'pydaqmx', b'PyDAQmx':b'pydaqmx/legacy'}
 
 
@@ -191,7 +120,8 @@ author.''',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
      packages=packages, #package_dir=package_dir,
 #     use_2to3=True, 
-        cmdclass = {'test': Test, 'test_example':TestExample, 'test_legacy': TestLegacy})
+#        cmdclass = {'test': Test, 'test_example':TestExample, 'test_legacy': TestLegacy}
+    )
 
 auth_name = "Pierre Cladé"
 setup(author=auth_name,
