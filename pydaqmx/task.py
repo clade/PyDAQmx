@@ -2,6 +2,7 @@
 
 from .native.types import DAQmxEveryNSamplesEventCallbackPtr, DAQmxDoneEventCallbackPtr, DAQmxSignalEventCallbackPtr, TaskHandle
 from ctypes import byref
+import ctypes
 
 from . import functions
 
@@ -12,7 +13,7 @@ except NotImplementedError:
     _callback = False
 
 if _callback:
-    class CallbackParent():
+    class CallbackParent(object):
         _EveryNSamplesEvent_already_register = False
         def auto_register_every_n_samples_event(self, every_n_samples_event_type, n_samples, options, name='every_n_callback'):
 #        def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
@@ -85,7 +86,7 @@ if _callback:
 
 else:
 
-    class CallbackParent():
+    class CallbackParent(object):
         def __getattr__(self, name):
             if name in ['auto_register_every_n_samples_event', 'auto_register_done_event', 'auto_register_signal_event']:
                 raise NotImplementedError('Callback methods are not available')
@@ -102,7 +103,7 @@ class Task(CallbackParent):
         return self
 
     def __exit__(self, *exc_info):
-        self.ClearTask()
+        self.clear_task()
 
     def __del__(self):
         """ Clear automatically the task to be able to reallocate resources """ 
@@ -119,7 +120,7 @@ class Task(CallbackParent):
     def clear_task(self):
         if self._task_handle:
             try:
-                functions.clear_task(self.taskHandle)
+                functions.clear_task(self._task_handle)
             finally:
                 self._task_handle.value = 0
     def __repr__(self):

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
-from ctypes import POINTER
+from ctypes import POINTER, c_char_p, c_void_p
 from .types import *
-
 
 ######################################
 # Array

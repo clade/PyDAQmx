@@ -41,4 +41,5 @@ class CtypesString(object):
 
 
 
-
+__all__ = ['int8', 'uInt8', 'int16', 'uInt16', 'int32', 'uInt32', 'float32', 'float64', 'int64', 'uInt64', 'bool32',
+        'TaskHandle', 'CalHandle', 'DAQmxEveryNSamplesEventCallbackPtr', 'DAQmxDoneEventCallbackPtr', 'DAQmxSignalEventCallbackPtr', 'CtypesString']

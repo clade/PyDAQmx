@@ -86,10 +86,12 @@ class TestExample(TestCommand):
 
 if sys.version_info >= (3,):
 #    packages = ["PyDAQmx", 'PyDAQmx.example']
-    packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util', "PyDAQmx", "PyDAQmx.example"]
+    packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util','pydaqmx.test',
+                        'pydaqmx.examples', "PyDAQmx", "PyDAQmx.example"]
     package_dir = {'pydaqmx': 'pydaqmx', 'PyDAQmx':'pydaqmx/legacy'}
 else:
-    packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b"PyDAQmx", b"PyDAQmx.example"]
+    packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b'pydaqmx.test', 
+                        b'pydaqmx.examples',b"PyDAQmx", b"PyDAQmx.example"]
     package_dir = {b'pydaqmx': b'pydaqmx', b'PyDAQmx':b'pydaqmx/legacy'}
 
 

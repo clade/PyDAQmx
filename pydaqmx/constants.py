@@ -14,8 +14,8 @@ class PEP8ConstantMaker(ConstantMaker):
     @property
     def pep8_name(self):
         name = self.name_without_prefix
-        if '_' in name:
-            return name.upper()
+#        if '_' in name[4:]:
+#            return name.upper()
         return PEP8ConstantName(name).pep8_name
 
     @property

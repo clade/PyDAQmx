@@ -22,17 +22,18 @@ def split_name(full_name):
 
 magic = ['dB', 'IDs', 'GPS', 'AI', 'CI', 'DAQmx']
 
-def magic_split(name):
-    for elm in magic:
-        if elm in name:
-            deb, fin = name.split(elm, 1)
-            yield deb
-            yield elm.lower()
-            for e in magic_split(fin):
-                yield e
-            return
-    else:
-        yield name
+def magic_split(name_ini):
+    for name in name_ini.split('_'):
+        for elm in magic:
+            if elm in name:
+                deb, fin = name.split(elm, 1)
+                yield deb
+                yield elm.lower()
+                for e in magic_split(fin):
+                    yield e
+                return
+        else:
+            yield name
 
 
 class PEP8FunctionName(object):

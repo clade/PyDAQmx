@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .. import config
+from ctypes import create_string_buffer
 
 DAQlib, DAQlib_variadic = config.get_lib()
 

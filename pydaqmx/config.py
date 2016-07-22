@@ -13,7 +13,7 @@ NIDAQmxBase = False
 if sys.platform.startswith('win') or sys.platform.startswith('cli'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP and Windows 7
-    if os.environ.has_key('PROGRAMFILES(X86)'):
+    if 'PROGRAMFILES(X86)' in os.environ:
         dot_h_file = os.path.join(os.environ['PROGRAMFILES(X86)'],
                                   r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h')
         if not os.path.exists(dot_h_file): dot_h_file = None
@@ -80,7 +80,7 @@ elif sys.platform.startswith('darwin'):
 # This can be used to try different version or compile the module on a plateform where 
 # DAQmx is not installed
 if "daqmxconfigtest" in sys.modules.keys():
-    from DAQmxConfigTest import *
+    from daqmxconfigtest import *
     if lib_name is None:
         def get_lib():
             class _nothing():
