@@ -1,6 +1,7 @@
 print "Running test without NIDAQmx installed"
 
-import DAQmxConfigTest
-from PyDAQmx import *
+import daqmxconfigtest
+from pydaqmx import *
 
-print DAQmxGetPersistedTaskAttribute(1,2,3,5,4)
+print(get_persisted_task_attribute(1,2,3,5,4))
+
