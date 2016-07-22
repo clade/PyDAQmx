@@ -2,7 +2,7 @@
 import PyDAQmx as daqmx
 from PyDAQmx.DAQmxCallBack import *
 import numpy as np
-from ctypes import cast
+from ctypes import byref
 
 # Sample code to test changing the callback function for a daqmx acquisition
 # task. 
@@ -37,14 +37,14 @@ class CallbackWithUnregister(object):
         data = np.zeros(self.nSamples)
         self.task.ReadAnalogF64(self.nSamples, 1.0, 
             daqmx.DAQmx_Val_GroupByScanNumber, data, data.size, 
-            daqmx.byref(read), None)
+            byref(read), None)
         
     def EveryNCallback2(self):
         read = daqmx.int32(0)
         data = np.zeros(self.nSamples)
         self.task.ReadAnalogF64(self.nSamples, 1.0, 
             daqmx.DAQmx_Val_GroupByScanNumber, data, data.size, 
-            daqmx.byref(read), None)
+            byref(read), None)
 
 
 if __name__ == '__main__':

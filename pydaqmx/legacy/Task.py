@@ -1,8 +1,9 @@
 import ctypes
 
-from .DAQmxTypes import TaskHandle
+from .DAQmxTypes import TaskHandle, DAQmxEveryNSamplesEventCallbackPtr, DAQmxDoneEventCallbackPtr
 from . import DAQmxFunctions
 from .DAQmxFunctions import *
+from ctypes import byref
 
 
 # Create a list of the name of the function that uses TastHandle as the first argument
