@@ -30,8 +30,7 @@ def catch_error_default(f):
         elif error>0:
             errBuff = create_string_buffer(2048)
             DAQmxGetErrorString (error, errBuff, 2048);
-#            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
-            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
+            warnings.warn(DAQError(error,errBuff.value.decode("utf-8"), f.__name__))
         return error
     return mafunction
 
