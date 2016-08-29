@@ -25,7 +25,7 @@ except NotImplementedError:
     _callback = False
 
 if _callback:
-    class CallbackParent():
+    class CallbackParent(object):
         _EveryNSamplesEvent_already_register = False
         def AutoRegisterEveryNSamplesEvent(self, everyNsamplesEventType,nSamples,options, name='EveryNCallback'):
             """Register the method named name as the callback function for EveryNSamplesEvent
@@ -97,7 +97,7 @@ if _callback:
 
 else:
 
-    class CallbackParent():
+    class CallbackParent(object):
         def __getattr__(self, name):
             if name in ['AutoRegisterEveryNSamplesEvent', 'AutoRegisterDoneEvent', 'AutoRegisterSignalEvent']:
                 raise NotImplementedError('Callback methods are not available')
