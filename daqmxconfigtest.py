@@ -11,3 +11,4 @@ lib_name = None
 directory = os.path.split(os.path.realpath(__file__))[0]
 dot_h_file = os.path.join(directory, "NIDAQmx.h")
 
+chm_file = os.path.join(directory, "daqmxcfunc.chm")
