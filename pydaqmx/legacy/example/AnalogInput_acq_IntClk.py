@@ -1,5 +1,6 @@
 import PyDAQmx
-from PyDAQmx import *
+from PyDAQmx import Task, DAQmxResetDevice, int32
+from ctypes import byref
 import numpy
 
 
@@ -30,24 +31,24 @@ class Trigger(object):
     def __init__(self, terminal):
         self.terminal = terminal
 
-class RinsingTrigger(Trigger)
-    direction = DAQmx_Val_Rising
+class RisingTrigger(Trigger):
+    direction = PyDAQmx.DAQmx_Val_Rising
          
-class FallingTrigger(Trigger)
-    direction = DAQmx_Val_Falling
+class FallingTrigger(Trigger):
+    direction = PyDAQmx.DAQmx_Val_Falling
 
 
 class AIVoltageChan(Task):
-    def __init__(self, ai_param, reset=True, terminalConfig=DAQmx_Val_RSE, trigger=None):
+    def __init__(self, ai_param, reset=True, terminalConfig=PyDAQmx.DAQmx_Val_RSE, trigger=None):
         if reset:
             DAQmxResetDevice(ai_param.device_name)
-        super(AIVoltageChan, self).__init__(self)
-        self.sampleNumber = AIParam.sampleNumber
-        self.sampleRate = AIParam.sampleRate
-        self.limit_inf = AIParam.limit_inf
-        self.limit_sup = AIParam.limit_sup
-        self.physicalChannel = AIParam.physicalChannel
-        self.numberOfChannel = len(AIParam.physicalChannel)
+        super(AIVoltageChan, self).__init__()
+        self.sampleNumber = ai_param.sampleNumber
+        self.sampleRate = ai_param.sampleRate
+        self.limit_inf = ai_param.limit_inf
+        self.limit_sup = ai_param.limit_sup
+        self.physicalChannel = ai_param.physicalChannel
+        self.numberOfChannel = len(ai_param.physicalChannel)
         if isinstance(terminalConfig, str):
             terminalConfig = getattr(PyDAQmx, terminalConfig)
         self.terminalConfig = terminalConfig
@@ -57,11 +58,11 @@ class AIVoltageChan(Task):
         channel_string = ','.join(self.physicalChannel)
         self.CreateAIVoltageChan(channel_string,"",self.terminalConfig,
                                  self.limit_inf,self.limit_sup,
-                                 DAQmx_Val_Volts,None)
+                                 PyDAQmx.DAQmx_Val_Volts,None)
     def start(self):
         n = self.sampleNumber
         sampleRate = self.sampleRate
-        self.CfgSampClkTiming("",sampleRate,DAQmx_Val_Rising,DAQmx_Val_FiniteSamps,n)
+        self.CfgSampClkTiming("",sampleRate,PyDAQmx.DAQmx_Val_Rising,PyDAQmx.DAQmx_Val_FiniteSamps,n)
         if self.trigger is not None:
             self.CfgDigEdgeRefTrig(self.trigger.terminal,self.trigger.direction,10)
         self.StartTask()
@@ -69,7 +70,7 @@ class AIVoltageChan(Task):
         n = self.sampleNumber
         data = numpy.zeros((n,self.numberOfChannel), dtype=numpy.float64)
         read = int32()
-        self.ReadAnalogF64(n,10.0,DAQmx_Val_GroupByScanNumber,data,n*self.numberOfChannel,byref(read),None)
+        self.ReadAnalogF64(n,10.0,PyDAQmx.DAQmx_Val_GroupByScanNumber,data,n*self.numberOfChannel,byref(read),None)
         return data
     def stop(self):
         self.StopTask()
@@ -78,8 +79,8 @@ class AIVoltageChan(Task):
 
 
 if __name__=="__main__":
-    ai = AIVoltageChan(param=AiParam(100000, 10000, ['/dev1/ai0', '/dev1/ai1']), 
-                    terminalConfig="DAQmx_VAl_PseudoDiff", 
+    ai = AIVoltageChan(ai_param=AIParameters(100000, 10000, ['/dev1/ai0', '/dev1/ai1']), 
+                    terminalConfig="DAQmx_Val_PseudoDiff", 
                     trigger=RisingTrigger('/dev1/PFI0'))
     ai.start()
     ai.wait()
