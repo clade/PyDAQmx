@@ -15,8 +15,9 @@ class DAQException(Exception):
         error -- Error number from NI
         message -- explanation of the error
     """
-    def __init__(self, mess, fname):
-        self.mess = mess
+    code = None
+    def __init__(self, message, fname):
+        self.message = message
         self.fname = fname
     @property
     def error(self):
@@ -24,7 +25,7 @@ class DAQException(Exception):
         # for compatibility with older version
         return self.code
     def __str__(self):
-        return self.mess + '\n in function '+self.fname
+        return self.message + '\n in function '+self.fname
 
 
 class DAQError(DAQException):
