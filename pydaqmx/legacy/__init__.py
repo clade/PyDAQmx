@@ -5,16 +5,18 @@ from . import DAQmxConfig
 from .DAQmxTypes import *
 from .DAQmxConstants import *
 from .DAQmxFunctions import *
+from .DAQmxErrors import *
 from .Task import Task
 
 from . import DAQmxConstants
 from . import DAQmxFunctions
+from . import DAQmxErrors
 
 all_types = ['int8', 'uInt8', 'int16', 'uInt16', 'int32', 'uInt32', 'float32', 'float64', 'int64', 'uInt64', 'bool32',
         'TaskHandle', 'CalHandle', 'DAQmxEveryNSamplesEventCallbackPtr', 'DAQmxDoneEventCallbackPtr', 'DAQmxSignalEventCallbackPtr', 'CtypesString']
 
 
-__all__ = DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.keys()) + ['Task'] + all_types
+__all__ = DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.keys()) + ['Task'] + all_types + DAQmxErrors.__all__
 
 for name in DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.keys()):
     if name.startswith('DAQmx_'):

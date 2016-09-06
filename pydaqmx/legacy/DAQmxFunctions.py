@@ -2,10 +2,10 @@
 
 try:
     from ..native.functions import NativeFunctionMaker
-    from ..native.decorator import DAQError
+    from ..native.error import DAQError
 except ValueError:
     from pydaqmx.native.functions import NativeFunctionMaker
-    from pydaqmx.native.decorator import DAQError
+    from pydaqmx.native.error import DAQError
 
 function_dict = {}
 
