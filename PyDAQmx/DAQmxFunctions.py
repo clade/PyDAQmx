@@ -57,14 +57,13 @@ def catch_error_default(f):
         if error<0:
             errBuff = create_string_buffer(2048)
             DAQmxGetExtendedErrorInfo(errBuff,2048)
-            raise error_by_number[error](errBuff.value.decode("utf-8"), f.__name__)
+            exception_class = error_by_number.get(error, DAQError)
+            raise exception_class(errBuff.value.decode("utf-8"), f.__name__)
         elif error>0:
             errBuff = create_string_buffer(2048)
             DAQmxGetErrorString(error, errBuff, 2048);
-#            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
-#            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
-#            print warning_by_number.keys()
-            warnings.warn(warning_by_number[error](errBuff.value.decode("utf-8"), f.__name__))
+            exception_class = warning_by_number.get(error, DAQWarning)
+            warnings.warn(exception_class(errBuff.value.decode("utf-8"), f.__name__))
         return error
     return mafunction
 
