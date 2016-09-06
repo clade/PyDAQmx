@@ -1,4 +1,6 @@
 import unittest
+import warnings
+
 
 import PyDAQmx
 from . import test_Task
@@ -27,6 +29,19 @@ class TestError(unittest.TestCase):
             t.CreateAIVoltageChan('NonExistingDevice',"", 0,0,0,0,None) 
         the_exception = cm.exception
         self.assertEqual(the_exception.error, -200220)
+    def test_Device_Invalid_bis(self):
+        t = PyDAQmx.Task()
+        with self.assertRaises(PyDAQmx.InvalidDeviceIDError):
+            t.CreateAIVoltageChan('NonExistingDevice',"", 0,0,0,0,None) 
+    def test_Device_Warning(self):
+        t = PyDAQmx.Task()
+        t.CreateAOVoltageChan('TestDevice/ao0',"", -5, 5, PyDAQmx.Val_Volts,None)
+        t.CfgSampClkTiming("", 2E6, PyDAQmx.Val_Rising, PyDAQmx.Val_ContSamps, 1000)
+        with warnings.catch_warnings(record = True) as w:
+            t.StartTask()
+            self.assertEqual(len(w), 1, 'There should be one warning')  
+            self.assertIsInstance(w[-1].message, PyDAQmx.SampClkRateViolatesSettlingTimeForGenWarning)
+
 
 suite_error = unittest.TestLoader().loadTestsFromTestCase(TestError)
 

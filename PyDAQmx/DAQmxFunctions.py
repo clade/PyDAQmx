@@ -5,20 +5,51 @@ import warnings
 
 import DAQmxConfig
 from DAQmxTypes import *
+from DAQmxConstants import constant_list
+import DAQmxConstants
 
-class DAQError(Exception):
+class DAQException(Exception):
     """Exception raised from the NIDAQ.
 
     Attributes:
         error -- Error number from NI
         message -- explanation of the error
     """
-    def __init__(self, error, mess, fname):
-        self.error = error
+    def __init__(self, mess, fname):
         self.mess = mess
         self.fname = fname
+    @property
+    def error(self):
+        """ Returns the error code"""
+        # for compatibility with older version
+        return self.code
     def __str__(self):
         return self.mess + '\n in function '+self.fname
+
+
+class DAQError(DAQException):
+    pass
+
+error_by_number = {}
+
+class DAQWarning(DAQException,Warning):
+    pass
+
+warning_by_number = {}
+
+error_list = ["DAQError", "DAQWarning", "DAQException"]
+
+for name in constant_list:
+    if name.startswith('DAQmxError'):
+        errname = name[10:]
+        code = getattr(DAQmxConstants, name)
+        error_by_number[code] = globals()[errname + 'Error'] = type(errname + 'Error', (DAQError,), dict(code=code))
+        error_list.append(errname + 'Error')
+    elif name.startswith('DAQmxWarning'):
+        errname = name[12:]
+        code = getattr(DAQmxConstants, name)
+        warning_by_number[code] = globals()[errname + 'Warning'] = type(errname + 'Warning', (DAQWarning,), dict(code=code))
+        error_list.append(errname + 'Warning')
 
 def catch_error_default(f):
     def mafunction(*arg):
@@ -26,12 +57,14 @@ def catch_error_default(f):
         if error<0:
             errBuff = create_string_buffer(2048)
             DAQmxGetExtendedErrorInfo(errBuff,2048)
-            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
+            raise error_by_number[error](errBuff.value.decode("utf-8"), f.__name__)
         elif error>0:
             errBuff = create_string_buffer(2048)
-            DAQmxGetErrorString (error, errBuff, 2048);
+            DAQmxGetErrorString(error, errBuff, 2048);
 #            print "WARNING  :",error, "  ", errBuff.value.decode("utf-8")
-            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
+#            raise DAQError(error,errBuff.value.decode("utf-8"), f.__name__)
+#            print warning_by_number.keys()
+            warnings.warn(warning_by_number[error](errBuff.value.decode("utf-8"), f.__name__))
         return error
     return mafunction
 

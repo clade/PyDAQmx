@@ -14,7 +14,7 @@ all_types = ['int8', 'uInt8', 'int16', 'uInt16', 'int32', 'uInt32', 'float32', '
         'TaskHandle', 'CalHandle', 'DAQmxEveryNSamplesEventCallbackPtr', 'DAQmxDoneEventCallbackPtr', 'DAQmxSignalEventCallbackPtr', 'CtypesString']
 
 
-__all__ = DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys() + ['Task'] + all_types
+__all__ = DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys() + ['Task'] + all_types + DAQmxFunctions.error_list
 
 for name in DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys():
     if name.startswith('DAQmx_'):
