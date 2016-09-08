@@ -5,7 +5,8 @@ from ..util import FunctionMaker, PEP8FunctionName, PEP8ArgName
 from ..parser import CFunctionPrototype
 from .. import config
 
-from .c_to_ctypes_map import c_to_ctypes_map
+#from .c_to_ctypes_map import c_to_ctypes_map
+from .arg_to_ctypes import Expression
 from .decorator import add_keywords, catch_error
 from .types import TaskHandle
 
@@ -24,9 +25,6 @@ class ParsedProperty(object):
                 out = getattr(obj, '_'+self._name, None)
             return out
 
-
-argsplit = re.compile(', |,') # Almost everywhere there is a space after the comma
-
 class NativeFunctionMaker(FunctionMaker):
     _all = []
 
@@ -39,18 +37,19 @@ class NativeFunctionMaker(FunctionMaker):
     def parse(self):
         arg_names = []
         arg_ctypes = []
-        for arg in argsplit.split(self.arg_string): 
-            for (reg_expr, new_type, group_nb) in c_to_ctypes_map:
-                reg_expr_result = reg_expr.search(arg)
-                if reg_expr_result is not None:
+        for arg in self.arg_string.split(','): 
+            arg = arg.strip()
+            for elm in Expression.get_all():
+                a = elm.parse(arg)
+                if a:
+                    arg_name, new_type = a
                     if new_type=="variadic":
-                        arg_ctypes.append(new_type)
-                        arg_names.append("*args")
                         self.is_variadic = True
-                        break
                     arg_ctypes.append(new_type)
-                    arg_names.append(reg_expr_result.group(group_nb))
-                    break # break the for loop  
+                    arg_names.append(arg_name)
+                    break # break the for loop 
+            else:
+               raise Exception('Unable to convert "{arg}" to ctypes'.format(arg=arg)) 
         self._arg_names = arg_names  
         self._arg_ctypes = arg_ctypes
 
