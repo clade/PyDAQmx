@@ -21,10 +21,13 @@ This is usefull to test on a remote system.
 parser = argparse.ArgumentParser(description='Test the PyDAQmx library')
 
 parser.add_argument('version', choices=['pep8', 'legacy'], default='pep8', nargs="?")
+parser.add_argument("--shell", help="start an ipython shell",
+                    action="store_true")
 
 args = parser.parse_args()
 
 version = args.version
+shell = args.shell
 
 if version=='pep8':
     try:  
@@ -37,6 +40,13 @@ if version=='pep8':
     import pydaqmx.test
 
     print("Functions and constants are imported from : " + pydaqmx.config.dot_h_file)
+
+    if shell:
+        import IPython
+        import sys
+
+        IPython.embed()
+        sys.exit()
 
     if pydaqmx.config.lib_name is None:
         print('DAQmx is not installed. pydaqmx is using a dummy library for tests')
