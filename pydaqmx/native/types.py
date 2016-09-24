@@ -38,6 +38,8 @@ class CtypesString(object):
             if isinstance(param, str):
                 param = param.encode('ascii')
         return c_char_p(param)
+    def __repr__(self):
+        return "CtypesString()"
 
 
 

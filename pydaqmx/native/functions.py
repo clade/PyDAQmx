@@ -99,7 +99,9 @@ class NativeFunctionMaker(FunctionMaker):
     def pep8_native_function(self):
         func = add_keywords(self.pep8_arg_names)(self.native_function)
         func.__name__ = self.pep8_name
-        func.__doc__ = 'Function {self.pep8_name}({argnames})\n C function is {self.name}'.format(self=self, argnames=', '.join(self.pep8_arg_names))
+        arguments = '\n'.join(['    {name}: {typ:s}'.format(name=name, typ=repr(typ)) for name, typ in zip(self.pep8_arg_names, self.arg_ctypes)])
+#        func.__doc__ = '{self.pep8_name}({argnames})\n\nC function is {self.name}'.format(self=self, argnames=', '.join(self.pep8_arg_names))
+        func.__doc__ = 'C function is {self.name}\n\nArguments:\n{arg}'.format(self=self, arg=arguments)
         func._maker = self
         return func
         
