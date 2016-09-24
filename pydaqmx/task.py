@@ -133,7 +133,10 @@ class Task(CallbackParent):
         func = getattr(functions, name)
         maker = func._maker
         if maker.is_task_function:
-            doc = 'Task.{self.pep8_name}(self, {argnames})\n C function is {self.name}'.format(self=maker, argnames=', '.join(maker.pep8_arg_names[1:]))
+#            doc = 'Task.{self.pep8_name}(self, {argnames})\n C function is {self.name}'.format(self=maker, argnames=', '.join(maker.pep8_arg_names[1:]))
+            arguments = '\n'.join(['    {name}: {typ:s}'.format(name=name, typ=repr(typ)) for name, typ in zip(maker.pep8_arg_names[1:], maker.arg_ctypes[1:])])
+            doc = 'C function is {self.name}\n\nArguments:\n{arg}'.format(self=maker, arg=arguments)
+
             cmd = """def {maker.pep8_name}(self, {args}):
             \"\"\"{doc}\"\"\"
             functions.{maker.pep8_name}(self._task_handle, {args})"""
