@@ -6,30 +6,31 @@ try:
 except ImportError:
     numpy = None
 
-class _cnst_ndptr(numpy.ctypeslib._ndptr):
-    """ Used to describe a const array in a C function
+if numpy is not None:
+    class _cnst_ndptr(numpy.ctypeslib._ndptr):
+        """ Used to describe a const array in a C function
 
-    Allow to pass an ndarray, a list or a tuple as function argument
-    """
-    @classmethod
-    def from_param(cls, obj):
-        if not isinstance(obj, numpy.ndarray):
-            if isinstance(obj, (list, tuple)):
-                obj = numpy.array(obj, dtype=cls._dtype_)
-            else:
-                raise TypeError("argument must be an ndarray, a list or a tuple")
-        return super(_cnst_ndptr).from_param(obj)
+        Allow to pass an ndarray, a list or a tuple as function argument
+        """
+        @classmethod
+        def from_param(cls, obj):
+            if not isinstance(obj, numpy.ndarray):
+                if isinstance(obj, (list, tuple)):
+                    obj = numpy.array(obj, dtype=cls._dtype_)
+                else:
+                    raise TypeError("argument must be an ndarray, a list or a tuple")
+            return super(_cnst_ndptr, cls).from_param(obj)
 
-def ctype_np_array(dtype):
-    if isinstance(dtype, str):
-        dtype = getattr(numpy, dtype.lower())
-    return numpy.ctypeslib.ndpointer(dtype=dtype, flags=('C_CONTIGUOUS','WRITEABLE'))
+    def ctype_np_array(dtype):
+        if isinstance(dtype, str):
+            dtype = getattr(numpy, dtype.lower())
+        return numpy.ctypeslib.ndpointer(dtype=dtype, flags=('C_CONTIGUOUS','WRITEABLE'))
 
-def const_ctype_np_array(dtype):
-    if isinstance(dtype, str):
-        dtype = getattr(numpy, dtype.lower())
-    base = numpy.ctypeslib.ndpointer(dtype=dtype, flags=('C_CONTIGUOUS'))
-    return type(base.__name__+'_CONSTANT', (_cnst_ndptr, base), {})
+    def const_ctype_np_array(dtype):
+        if isinstance(dtype, str):
+            dtype = getattr(numpy, dtype.lower())
+        base = numpy.ctypeslib.ndpointer(dtype=dtype, flags=('C_CONTIGUOUS'))
+        return type(base.__name__+'_CONSTANT', (_cnst_ndptr, base), {})
 
 def array_pointer(string):
     return eval('POINTER('+string+')')

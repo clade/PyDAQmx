@@ -4,6 +4,7 @@ import warnings
 import PyDAQmx
 from . import test_Task
 from . import test_variadic
+from . import test_misc
 
 class TestPyDAQmxBase(unittest.TestCase):
     def test_unittest(self):
@@ -44,6 +45,6 @@ class TestError(unittest.TestCase):
 
 suite_error = unittest.TestLoader().loadTestsFromTestCase(TestError)
 
-alltests = unittest.TestSuite([suite_base, suite_error, test_Task.suite, test_variadic.suite])
+alltests = unittest.TestSuite([suite_base, suite_error, test_Task.suite, test_variadic.suite, test_misc.suite])
 
 
