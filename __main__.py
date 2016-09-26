@@ -65,6 +65,13 @@ else:
 
     print("Functions and constants are imported from : " + PyDAQmx.DAQmxConfig.dot_h_file)
 
+    if shell:
+        import IPython
+        import sys
+
+        IPython.embed()
+        sys.exit()
+
     if PyDAQmx.DAQmxConfig.lib_name is None:
         print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
         unittest.main('PyDAQmx.PyDAQmxTest', "suite_base", [unittest.__file__])
