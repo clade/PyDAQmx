@@ -180,7 +180,7 @@ This translates into Python as::
 
 .. note::
 
-   This exemple is for Python 2. In order to use it with Python 3, you should replace strings with binary strings (for example ``b'Dev1/ai0'``)
+   This example is for Python 2. In order to use it with Python 3, you should replace strings with binary strings (for example ``b'Dev1/ai0'``)
 
 
 .. _Task-object:
