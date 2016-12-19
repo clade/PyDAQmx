@@ -34,7 +34,7 @@ class DeviceExists(unittest.TestCase):
             value = buff.value
         self.assertIn(test_device_name, map(str.strip, value.split(',')))
 
-suiteA = unittest.TestLoader().loadTestsFromTestCase(DeviceExists)
+#suiteA = unittest.TestLoader().loadTestsFromTestCase(DeviceExists)
 
 class TestPyDAQmxTask(unittest.TestCase):
     def setUp(self):
@@ -45,7 +45,7 @@ class TestPyDAQmxTask(unittest.TestCase):
     def test_CreateAIVoltageChan(self):
         self.task.create_ai_voltage_chan(test_device_name+"/ai0","",pydaqmx.VAL_CFG_DEFAULT,-10.0,10.0,pydaqmx.VAL_VOLTS,None)
 
-suiteB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTask)
+#suiteB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTask)
 
 class TestPyDAQmxTaskContextManager(unittest.TestCase):
     def setUp(self):
@@ -57,7 +57,7 @@ class TestPyDAQmxTaskContextManager(unittest.TestCase):
         with pydaqmx.Task() as t:
             t.create_ai_voltage_chan(test_device_name+"/ai0","",pydaqmx.VAL_CFG_DEFAULT,-10.0,10.0,pydaqmx.VAL_VOLTS,None)
 
-suiteBB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTaskContextManager)
+#suiteBB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTaskContextManager)
 
 class TestExampleCallbackTaskSynchronous(unittest.TestCase):
     data_len = 1000
@@ -76,7 +76,6 @@ class TestExampleCallbackTaskSynchronous(unittest.TestCase):
         self.task.stop_task()
         self.task.clear_task()
 
-suiteC = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackTaskSynchronous)
 
 
 class TestExampleCallbackWithUnregister(unittest.TestCase):
@@ -89,8 +88,4 @@ class TestExampleCallbackWithUnregister(unittest.TestCase):
             sleep(.2)
             b.stop()
 
-
-suiteD = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackWithUnregister)
-
-suite = unittest.TestSuite([suiteA, suiteB, suiteBB, suiteC, suiteD])
 

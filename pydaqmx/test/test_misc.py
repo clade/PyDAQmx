@@ -13,7 +13,6 @@ class TestBuffer(unittest.TestCase):
         data = ctypes.create_string_buffer(n)
         pydaqmx.get_sys_dev_names(data, n)
 
-suiteA = unittest.TestLoader().loadTestsFromTestCase(TestBuffer)
 
 class TestArray(unittest.TestCase):
     def setUp(self):    
@@ -48,8 +47,5 @@ class TestArray(unittest.TestCase):
         task.start_task()
         task.stop_task()
 
-suiteB = unittest.TestLoader().loadTestsFromTestCase(TestArray)
-
-suite = unittest.TestSuite([suiteA, suiteB])
 
 

@@ -1,3 +1,6 @@
+import os
+from types import ModuleType
+
 import unittest
 import warnings
 
@@ -6,23 +9,9 @@ from .. import constants
 from .. import errors
 from .. import Task, DAQError
 
-#from pydaqmx.legacy import *
-from . import test_task, test_variadic, test_misc
+# You should explicitely import all modules containing tests
+from . import test_task, test_variadic, test_misc, test_without_daqmx
 from ..examples import test_callback_task_synchronous
-
-class TestPyDAQmxBase(unittest.TestCase):
-    def test_unittest(self):
-        self.assertEqual(1,1)
-    def test_function_list(self):
-        self.assertIn("create_task", functions.__all__)
-    def test_constant(self):
-        self.assertEqual(constants.VAL_CFG_DEFAULT,-1) 
-    def test_error_list(self):
-        self.assertIn("ReadNotCompleteBeforeSampClkError", errors.__all__)
-    def test_warning_list(self):
-        self.assertIn("AISampRateTooLowWarning", errors.__all__)
-
-suite_base = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxBase)
 
 
 class TestError(unittest.TestCase):
@@ -45,6 +34,11 @@ class TestError(unittest.TestCase):
             self.assertEqual(len(w), 1, 'There should be one warning')  
             self.assertIsInstance(w[-1].message, errors.SampClkRateViolatesSettlingTimeForGenWarning)
 
-suite_error = unittest.TestLoader().loadTestsFromTestCase(TestError)
-
-alltests = unittest.TestSuite([suite_base, suite_error, test_task.suite, test_variadic.suite, test_misc.suite, test_callback_task_synchronous.suite])
+# This function is called by unittest.main
+# Do no delete !!!!
+def load_tests(loader, standard_tests, pattern):
+    for name, elm in globals().items():
+        if name.startswith('test') and isinstance(elm, ModuleType):        
+            suite = loader.loadTestsFromModule(elm)
+            standard_tests.addTests(suite)
+    return standard_tests

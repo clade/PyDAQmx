@@ -51,10 +51,10 @@ if version=='pep8':
     if pydaqmx.config.lib_name is None:
         print('DAQmx is not installed. pydaqmx is using a dummy library for tests')
     #            unittest.main('PyDAQmxTest', "suite_base", [unittest.__file__])
-        unittest.main('pydaqmx.test', "suite_base", [unittest.__file__])
+        unittest.main('pydaqmx.test.test_without_daqmx', argv=[unittest.__file__])
     else:
         print("The library is : " + pydaqmx.config.lib_name)
-        unittest.main('pydaqmx.test', "alltests", [unittest.__file__])    
+        unittest.main('pydaqmx.test', argv=[unittest.__file__])    
 else:
     try:  
         import PyDAQmx
@@ -74,7 +74,7 @@ else:
 
     if PyDAQmx.DAQmxConfig.lib_name is None:
         print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
-        unittest.main('PyDAQmx.PyDAQmxTest', "suite_base", [unittest.__file__])
+        unittest.main('PyDAQmx.PyDAQmxTest.test_without_daqmx', argv=[unittest.__file__])
     else:
         print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-        unittest.main('PyDAQmx.PyDAQmxTest', "alltests", [unittest.__file__])  
+        unittest.main('PyDAQmx.PyDAQmxTest', argv=[unittest.__file__])  

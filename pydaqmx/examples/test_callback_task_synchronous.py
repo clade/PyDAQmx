@@ -20,4 +20,3 @@ class Test(unittest.TestCase):
         task.stop_task()
         task.clear_task()
 
-suite = unittest.TestSuite([unittest.TestLoader().loadTestsFromTestCase(Test)])
