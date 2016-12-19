@@ -7,7 +7,7 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-version = '1.3.2'
+version = '1.4'
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
@@ -110,6 +110,7 @@ Version history
 ===============
 Main changes:
 
+* 1.4 Many small improvements
 * 1.3.2 bug fix
 * 1.3.1 With python 3, strings (unicode) can be use as arguments
 * 1.3 PyDAQmx supports both the NIDAQmx and NIDAQmxBase drivers
@@ -122,6 +123,20 @@ Main changes:
 * 1.2 Support of callback function
 * 1.1 Add linux support
 
+Version 1.4
+===========
+
+Improvements are the following : 
+
+* Each error has a specificc subclass
+* Constants can be loaded without the prefix : PyDAQmx.Val_Cfg_Default
+* Throw warnings as warnings
+* Improve unittest. 
+
+Version 2
+=========
+
+A new version of PyDAQmx will is in the dev2 branch on github. PyDAQmx will follow the pep8 naming convention (and will be called pydaqmx). A legacy mode will still be available. 
 
 .. _National Instrument: http://www.ni.com
 .. _{auth_name}: mailto:pierre.clade@spectro.jussieu.fr
