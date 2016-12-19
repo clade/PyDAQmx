@@ -11,11 +11,6 @@ from . import test_misc
 from PyDAQmx.example import test as test_examples
 from . import test_example
 
-
-
-#suite_base = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxBase)
-
-
 class TestError(unittest.TestCase):
     def test_Device_Invalid(self):
         t = PyDAQmx.Task()
@@ -35,12 +30,6 @@ class TestError(unittest.TestCase):
             t.StartTask()
             self.assertEqual(len(w), 1, 'There should be one warning')  
             self.assertIsInstance(w[-1].message, PyDAQmx.SampClkRateViolatesSettlingTimeForGenWarning)
-
-
-#suite_error = unittest.TestLoader().loadTestsFromTestCase(TestError)
-
-#alltests = unittest.TestSuite([suite_base, suite_error, test_Task.suite, test_variadic.suite, test_misc.suite, test_examples.suite])
-
 
 # This function is called by unittest.main
 # Do no delete !!!!

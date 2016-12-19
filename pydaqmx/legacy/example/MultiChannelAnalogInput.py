@@ -12,8 +12,6 @@ from PyDAQmx.DAQmxConstants import *
 from PyDAQmx import TaskHandle, int32
 from ctypes import byref
 
-
-
 class MultiChannelAnalogInput():
     """Class to create a multi-channel analog input
     

@@ -13,8 +13,3 @@ class TestBuffer(unittest.TestCase):
         data = ctypes.create_string_buffer(n)
         PyDAQmx.GetSysDevNames(data, n)
 
-suiteA = unittest.TestLoader().loadTestsFromTestCase(TestBuffer)
-
-suite = unittest.TestSuite([suiteA])
-
-
