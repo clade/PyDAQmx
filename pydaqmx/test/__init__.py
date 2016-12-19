@@ -8,6 +8,7 @@ from .. import Task, DAQError
 
 #from pydaqmx.legacy import *
 from . import test_task, test_variadic, test_misc
+from ..examples import test_callback_task_synchronous
 
 class TestPyDAQmxBase(unittest.TestCase):
     def test_unittest(self):
@@ -46,4 +47,4 @@ class TestError(unittest.TestCase):
 
 suite_error = unittest.TestLoader().loadTestsFromTestCase(TestError)
 
-alltests = unittest.TestSuite([suite_base, suite_error, test_task.suite, test_variadic.suite, test_misc.suite])
+alltests = unittest.TestSuite([suite_base, suite_error, test_task.suite, test_variadic.suite, test_misc.suite, test_callback_task_synchronous.suite])

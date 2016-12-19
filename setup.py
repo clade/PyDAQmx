@@ -16,11 +16,11 @@ os.chdir(directory)
 if sys.version_info >= (3,):
 #    packages = ["PyDAQmx", 'PyDAQmx.example']
     packages = ["pydaqmx", 'pydaqmx.legacy', 'pydaqmx.native', 'pydaqmx.parser', 'pydaqmx.util','pydaqmx.test',
-                        'pydaqmx.examples', "PyDAQmx", "PyDAQmx.example", "PyDAQmx.PyDAQmxTest"]
+                        'pydaqmx.examples', "PyDAQmx", "PyDAQmx.example", "PyDAQmx.PyDAQmxTest", "PyDAQmx.example.test"]
     package_dir = {'pydaqmx': 'pydaqmx', 'PyDAQmx':'pydaqmx/legacy'}
 else:
     packages = [b"pydaqmx", b'pydaqmx.legacy', b'pydaqmx.native', b'pydaqmx.parser', b'pydaqmx.util', b'pydaqmx.test', 
-                        b'pydaqmx.examples',b"PyDAQmx", b"PyDAQmx.example", b"PyDAQmx.PyDAQmxTest"]
+                        b'pydaqmx.examples',b"PyDAQmx", b"PyDAQmx.example", b"PyDAQmx.PyDAQmxTest", b"PyDAQmx.example.test"]
     package_dir = {b'pydaqmx': b'pydaqmx', b'PyDAQmx':b'pydaqmx/legacy'}
 
 
