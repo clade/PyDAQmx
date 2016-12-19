@@ -9,6 +9,7 @@ from . import test_Task
 from . import test_variadic
 from . import test_misc
 from PyDAQmx.example import test as test_examples
+from . import test_example
 
 
 

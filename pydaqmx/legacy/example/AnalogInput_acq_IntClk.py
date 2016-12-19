@@ -1,3 +1,4 @@
+from six import string_types
 import PyDAQmx
 from PyDAQmx import Task, DAQmxResetDevice, int32
 from ctypes import byref
@@ -49,7 +50,7 @@ class AIVoltageChan(Task):
         self.limit_sup = ai_param.limit_sup
         self.physicalChannel = ai_param.physicalChannel
         self.numberOfChannel = len(ai_param.physicalChannel)
-        if isinstance(terminalConfig, basestring):
+        if isinstance(terminalConfig, string_types):
             terminalConfig = getattr(PyDAQmx, terminalConfig)
         self.terminalConfig = terminalConfig
         self.trigger = trigger
