@@ -1,9 +1,16 @@
 # coding= latin-1
+""" Acquisition of multiple channel
+
+This is a example of using classes. This example is obsolete as it does not use the Task object
+
+"""
 
 import numpy
 
 from PyDAQmx.DAQmxFunctions import *
 from PyDAQmx.DAQmxConstants import *
+from PyDAQmx import TaskHandle, int32
+from ctypes import byref
 
 class MultiChannelAnalogInput():
     """Class to create a multi-channel analog input

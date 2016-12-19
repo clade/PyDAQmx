@@ -22,5 +22,3 @@ class TestVariadic(unittest.TestCase):
         PyDAQmx.DAQmxGetSystemInfoAttribute(PyDAQmx.DAQmx_Sys_DevNames, data2, n)
         self.assertEqual(data1.value, data2.value)
 
-
-suite = unittest.TestLoader().loadTestsFromTestCase(TestVariadic)

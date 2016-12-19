@@ -17,10 +17,14 @@ def _test_for_test_device():
     if not test_device_name in map(str.strip, value.split(',')):
         raise Exception('Please install a virtual device called {0} in your system'.format(test_device_name))
 
-
-class DeviceExists(unittest.TestCase):
+class _TestWithDevice(unittest.TestCase):
+    test_device_name = test_device_name
     def setUp(self):    
         _test_for_test_device()
+        PyDAQmx.DAQmxResetDevice(self.test_device_name)
+
+
+class DeviceExists(_TestWithDevice):
     def test_for_test_device(self):
         n = 1024
         buff = ctypes.create_string_buffer(n)
@@ -31,20 +35,17 @@ class DeviceExists(unittest.TestCase):
             value = buff.value
         self.assertIn(test_device_name, map(str.strip, value.split(',')))
 
-suiteA = unittest.TestLoader().loadTestsFromTestCase(DeviceExists)
-
-class TestPyDAQmxTask(unittest.TestCase):
+class TestPyDAQmxTask(_TestWithDevice):
     def setUp(self):
-        _test_for_test_device()
+#        _test_for_test_device()
+        super(TestPyDAQmxTask, self).setUp()
         self.task = PyDAQmx.Task()
     def tearDown(self):
         self.task.ClearTask()
     def test_CreateAIVoltageChan(self):
         self.task.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
 
-suiteB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTask)
-
-class TestPyDAQmxTaskContextManager(unittest.TestCase):
+class TestPyDAQmxTaskContextManager(_TestWithDevice):
     def setUp(self):
         _test_for_test_device()
 #        self.task = PyDAQmx.Task()
@@ -54,9 +55,7 @@ class TestPyDAQmxTaskContextManager(unittest.TestCase):
         with PyDAQmx.Task() as t:
             t.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
 
-suiteBB = unittest.TestLoader().loadTestsFromTestCase(TestPyDAQmxTaskContextManager)
-
-class TestExampleCallbackTaskSynchronous(unittest.TestCase):
+class TestExampleCallbackTaskSynchronous(_TestWithDevice):
     data_len = 1000
     def setUp(self):
         _test_for_test_device()
@@ -73,10 +72,8 @@ class TestExampleCallbackTaskSynchronous(unittest.TestCase):
         self.task.StopTask()
         self.task.ClearTask()
 
-suiteC = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackTaskSynchronous)
 
-
-class TestExampleCallbackWithUnregister(unittest.TestCase):
+class TestExampleCallbackWithUnregister(_TestWithDevice):
     def test_truc(self):
         from time import sleep
         b = PyDAQmx.example.CallbackWithUnregister("TestDevice")
@@ -87,9 +84,4 @@ class TestExampleCallbackWithUnregister(unittest.TestCase):
             sleep(.2)
             b.stop()
 #            print "stop"
-
-
-suiteD = unittest.TestLoader().loadTestsFromTestCase(TestExampleCallbackWithUnregister)
-
-suite = unittest.TestSuite([suiteA, suiteB, suiteBB, suiteC, suiteD])
 

@@ -33,10 +33,10 @@ class Test(TestCommand):
 
         if PyDAQmx.DAQmxConfig.lib_name is None:
             print('DAQmx is not installed. PyDAQmx is using a dummy library for tests')
-            unittest.main('PyDAQmxTest', "suite_base", [unittest.__file__])
+            unittest.main('PyDAQmxTest.test_without_daqmx', argv=[unittest.__file__])
         else:
             print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-            unittest.main('PyDAQmxTest', "alltests", [unittest.__file__])    
+            unittest.main('PyDAQmxTest', argv=[unittest.__file__])    
 
 class TestExample(TestCommand):
     user_options = [(b'example=', b'm', b"Test example file name")]
@@ -55,9 +55,9 @@ class TestExample(TestCommand):
 
 
 if sys.version_info >= (3,):
-    packages = ["PyDAQmx", 'PyDAQmx.example']
+    packages = ["PyDAQmx", 'PyDAQmx.example', 'PyDAQmx.example.test']
 else:
-    packages = [b"PyDAQmx", b'PyDAQmx.example']
+    packages = [b"PyDAQmx", b'PyDAQmx.example', b'PyDAQmx.example.test']
 
 
 
