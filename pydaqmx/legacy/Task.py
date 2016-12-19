@@ -125,7 +125,7 @@ class Task(CallbackParent):
         # b has the same taskHandle as a, and deleting a will clear the task of b   
         try: 
             self.ClearTask()
-        except DAQError:
+        except Exception:
             pass
     def ClearTask(self):
         if self.taskHandle:
