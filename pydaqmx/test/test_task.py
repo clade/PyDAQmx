@@ -57,7 +57,7 @@ class TestPyDAQmxTaskContextManager(unittest.TestCase):
         with pydaqmx.Task() as t:
             t.create_ai_voltage_chan(test_device_name+"/ai0","",pydaqmx.VAL_CFG_DEFAULT,-10.0,10.0,pydaqmx.VAL_VOLTS,None)
 
-class TestPyDAQmxNamedTask(_TestWithDevice):
+class TestPyDAQmxNamedTask(unittest.TestCase):
     def setUp(self):
         _test_for_test_device()
     def test_named_task(self):

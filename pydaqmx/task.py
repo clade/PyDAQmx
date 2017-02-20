@@ -97,7 +97,6 @@ else:
 class Task(CallbackParent):
     def __init__(self, name=""):
         self._task_handle = TaskHandle(0)
-        name = name.decode('ASCII')
         functions.create_task(name, byref(self._task_handle))
 
     def __enter__(self):
