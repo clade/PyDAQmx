@@ -53,7 +53,16 @@ class TestPyDAQmxTaskContextManager(_TestWithDevice):
 #        self.task.ClearTask()
     def test_CreateAIVoltageChan(self):
         with PyDAQmx.Task() as t:
-            t.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+            t.CreateAIVoltageChan(test_device_name+"/ai0","",              
+                PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+
+class TestPyDAQmxNamedTask(_TestWithDevice):
+    def setUp(self):
+        _test_for_test_device()
+    def test_named_task(self):
+        with PyDAQmx.Task("azerty uiop") as t:
+            pass
+
 
 class TestExampleCallbackTaskSynchronous(_TestWithDevice):
     data_len = 1000

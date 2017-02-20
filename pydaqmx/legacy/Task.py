@@ -105,9 +105,10 @@ else:
 
 
 class Task(CallbackParent):
-    def __init__(self):
+    def __init__(self, name=""):
         self.taskHandle = TaskHandle(0)
-        DAQmxCreateTask(b"",byref(self.taskHandle))
+        name = name.decode('ASCII')
+        DAQmxCreateTask(name, byref(self.taskHandle))
 
     def __enter__(self):
         return self
