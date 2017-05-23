@@ -154,7 +154,7 @@ include_file = open(DAQmxConfig.dot_h_file,'r') #Open NIDAQmx.h file
 # Almost all the function define in NIDAQmx.h file are imported
 ################################
 
-# Each regular expression is assiciated with a ctypes type and a number giving the 
+# Each regular expression is associated with a ctypes type and a number giving the
 # group in which the name of the variable is defined
 
 
@@ -169,7 +169,7 @@ type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','f
         'int64','uInt64']
 
 
-# Each regular expression is assAciated with a ctypes type and a number giving the 
+# Each regular expression is associated with a ctypes type and a number giving the
 # group in which the name of the variable is defined
 const_char = [(re.compile(r'(const char)\s*([^\s]*)\[\]'), CtypesString() ,2)]
 simple_type = [(re.compile('('+_type+')\s*([^\*\[]*)\Z'),eval(_type),2)
