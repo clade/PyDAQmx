@@ -59,7 +59,7 @@ elif sys.platform.startswith('linux'):
         NIDAQmxBase = True
         def get_lib():
             lib_name = find_library('nidaqmxbase')
-            ctypes.CDLL('/usr/local/lib/liblvrtdark.so', mode=ctypes.RTLD_GLOBAL)
+            ctypes.CDLL(find_library('lvrtdark'), mode=ctypes.RTLD_GLOBAL)
             DAQlib = ctypes.cdll.LoadLibrary(lib_name)
             DAQlib_variadic = DAQlib
             return DAQlib, DAQlib_variadic
