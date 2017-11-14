@@ -36,7 +36,10 @@ class Test(TestCommand):
             unittest.main('PyDAQmxTest.test_without_daqmx', argv=[unittest.__file__])
         else:
             print("The library is : " + PyDAQmx.DAQmxConfig.lib_name)
-            unittest.main('PyDAQmxTest', argv=[unittest.__file__])    
+            if PyDAQmx.DAQmxConfig.NIDAQmxBase:
+                unittest.main('PyDAQmxTest.test_daqmx_base', argv=[unittest.__file__])
+            else:
+                unittest.main('PyDAQmxTest', argv=[unittest.__file__])    
 
 class TestExample(TestCommand):
     user_options = [(b'example=', b'm', b"Test example file name")]
