@@ -23,7 +23,7 @@ for name in DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.key
         new_name = name[5:]
     globals()[new_name] = globals()[name]
 
-
+##### WARNING, version should also be modified in the setup.py
 __version_info__ = (1, 4, 2)
 __version__ = '.'.join(str(num) for num in __version_info__)
 

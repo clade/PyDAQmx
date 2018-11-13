@@ -7,6 +7,7 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
+##### WARNING version string should be modified also in the __init__.py
 version = '1.4.2'
 
 import os
