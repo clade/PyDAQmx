@@ -39,7 +39,7 @@ class Test(TestCommand):
             if PyDAQmx.DAQmxConfig.NIDAQmxBase:
                 unittest.main('PyDAQmxTest.test_daqmx_base', argv=[unittest.__file__])
             else:
-                unittest.main('PyDAQmxTest', argv=[unittest.__file__])    
+                unittest.main('PyDAQmxTest.test_full', argv=[unittest.__file__])    
 
 class TestExample(TestCommand):
     user_options = [(b'example=', b'm', b"Test example file name")]
