@@ -24,7 +24,7 @@ for name in DAQmxConstants.constant_list + DAQmxFunctions.function_dict.keys():
     globals()[new_name] = globals()[name]
 
 
-__version_info__ = (1, 4)
+__version_info__ = (1, 4, 2)
 __version__ = '.'.join(str(num) for num in __version_info__)
 
 __author__ =u'Pierre Cladé'
