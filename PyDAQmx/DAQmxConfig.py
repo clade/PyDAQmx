@@ -13,14 +13,21 @@ NIDAQmxBase = False
 if sys.platform.startswith('win') or sys.platform.startswith('cli'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP and Windows 7
-    if os.environ.has_key('PROGRAMFILES(X86)'):
-        dot_h_file = os.path.join(os.environ['PROGRAMFILES(X86)'],
-                                  r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h')
-        if not os.path.exists(dot_h_file): dot_h_file = None
-    if dot_h_file is None:
-        dot_h_file = os.path.join(os.environ['PROGRAMFILES'],
-                                  r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h')
-        if not os.path.exists(dot_h_file): dot_h_file = None
+    dot_h_dir_x86, dot_h_dir_x64 = [], []
+    if 'PROGRAMFILES(X86)' in os.environ:
+        dot_h_dir_x86 = [os.path.join(os.environ['PROGRAMFILES(X86)'],
+                                      r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'),
+                         os.path.join(os.environ['PROGRAMFILES(X86)'],
+                                      r'National Instruments\Shared\ExternalCompilerSupport\C\include\NIDAQmx.h')]
+    if 'PROGRAMFILES' in os.environ:
+        dot_h_dir_x64 = [os.path.join(os.environ['PROGRAMFILES'],
+                                      r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'),
+                         os.path.join(os.environ['PROGRAMFILES'],
+                                      r'National Instruments\Shared\ExternalCompilerSupport\C\include\NIDAQmx.h')]
+
+    for file in dot_h_dir_x64 + dot_h_dir_x86:
+        if not os.path.exists(file): dot_h_file = None
+        else: dot_h_file = file
 
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
