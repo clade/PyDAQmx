@@ -26,8 +26,8 @@ if sys.platform.startswith('win') or sys.platform.startswith('cli'):
                                       r'National Instruments\Shared\ExternalCompilerSupport\C\include\NIDAQmx.h')]
 
     for file in dot_h_dir_x64 + dot_h_dir_x86:
-        if not os.path.exists(file): dot_h_file = None
-        else: dot_h_file = file
+        if os.path.exists(file): dot_h_file = file
+        else: dot_h_file = None
 
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
