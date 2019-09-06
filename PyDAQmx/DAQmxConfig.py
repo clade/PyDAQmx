@@ -44,7 +44,12 @@ elif sys.platform.startswith('linux'):
 
     lib_name = find_library('nidaqmx')
     if lib_name is not None:
-        dot_h_file = '/usr/local/natinst/nidaqmx/include/NIDAQmx.h'
+
+        if 'centos-7' in platform.platform():
+            dot_h_file = '/usr/include/NIDAQmx.h'
+        else:
+            dot_h_file = '/usr/local/natinst/nidaqmx/include/NIDAQmx.h'
+
         def get_lib():
             lib_name = find_library('nidaqmx')
             DAQlib = ctypes.cdll.LoadLibrary(lib_name)
@@ -55,6 +60,7 @@ elif sys.platform.startswith('linux'):
 
     lib_name = find_library('nidaqmxbase')
     if lib_name is not None:
+
         dot_h_file = '/usr/local/natinst/nidaqmxbase/include/NIDAQmxBase.h'
         NIDAQmxBase = True
         def get_lib():
