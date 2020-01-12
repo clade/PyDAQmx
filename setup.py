@@ -8,7 +8,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 ##### WARNING version string should be modified also in the __init__.py
-version = '1.4.2'
+version = '1.4.3'
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
@@ -114,6 +114,7 @@ Version history
 ===============
 Main changes:
 
+* 1.4.3 Support for Centos 7
 * 1.4.2 Proper version string
 * 1.4.1 NIDAQmx Base supported on 64bits linux
 * 1.4 Many small improvements
