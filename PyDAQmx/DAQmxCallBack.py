@@ -9,7 +9,7 @@ See examples
 #if DAQmxConfig.NIDAQmxBase:
 #    raise NotImplementedError, 'Call back function are not available with the NIDAQmxBase driver'
 
-# NIDAQmx allow to pass a pointer to a data structure in callbask function
+# NIDAQmx allow to pass a pointer to a data structure in callback function
 # If this function is implemented in Python, we would like this data to be a Python object.
 # This object will not (and will not) be used in C but we want to pass a reference to it.
 # A workaround is to use the weakref module
