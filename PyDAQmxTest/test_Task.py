@@ -46,6 +46,11 @@ class TestPyDAQmxTask(_TestWithDevice):
         self.task.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
 
 
+    def test_buffer(self):
+        n = self.task.GetTaskName(None,0)
+        self.assertGreater(n, 0)
+        
+
 class TestPyDAQmxTaskContextManager(_TestWithDevice):
     def setUp(self):
         _test_for_test_device()

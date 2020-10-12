@@ -144,7 +144,7 @@ class Task(CallbackParent):
         doc = 'T.%s(%s) -> error.' %(name, ', '.join(arg_names[1:]))
         cmd = """def {0}(self, {1}):
         "{3}"
-        {2}(self.taskHandle, {1})"""
+        return {2}(self.taskHandle, {1})"""
         exec(cmd.format(name, ', '.join(arg_names[1:]), function_name, doc))    
     del function_name, name, func, arg_names, doc
 
