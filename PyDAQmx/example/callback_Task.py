@@ -25,17 +25,17 @@ class CallbackTask(Task):
         read = int32()
         self.ReadAnalogF64(1000,10.0,DAQmx_Val_GroupByScanNumber,self.data,1000,byref(read),None)
         self.a.extend(self.data.tolist())
-        print self.data[0]
+        print(self.data[0])
         return 0 # The function should return an integer
     def DoneCallback(self, status):
-        print "Status",status.value
+        print("Status",status.value)
         return 0 # The function should return an integer
 
 
 task=CallbackTask()
 task.StartTask()
 
-raw_input('Acquiring samples continuously. Press Enter to interrupt\n')
+input('Acquiring samples continuously. Press Enter to interrupt\n')
 
 task.StopTask()
 task.ClearTask()

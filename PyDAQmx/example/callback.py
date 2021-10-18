@@ -30,14 +30,14 @@ def EveryNCallback_py(taskHandle, everyNsamplesEventType, nSamples, callbackData
     data = zeros(1000)
     DAQmxReadAnalogF64(taskHandle,1000,10.0,DAQmx_Val_GroupByScanNumber,data,1000,byref(read),None)
     callbackdata.extend(data.tolist())
-    print "Acquired total %d samples"%len(data)
+    print("Acquired total %d samples"%len(data))
     return 0 # The function should return an integer
 
 # Convert the python function to a CFunction      
 EveryNCallback = DAQmxEveryNSamplesEventCallbackPtr(EveryNCallback_py)
 
 def DoneCallback_py(taskHandle, status, callbackData):
-    print "Status",status.value
+    print("Status",status.value)
     return 0 # The function should return an integer
 
 # Convert the python function to a CFunction      
@@ -58,7 +58,7 @@ DAQmxRegisterDoneEvent(taskHandle,0,DoneCallback,None)
 
 DAQmxStartTask(taskHandle)
 
-raw_input('Acquiring samples continuously. Press Enter to interrupt\n')
+input('Acquiring samples continuously. Press Enter to interrupt\n')
 
 DAQmxStopTask(taskHandle)
 DAQmxClearTask(taskHandle)

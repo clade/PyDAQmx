@@ -92,7 +92,7 @@ elif sys.platform.startswith('darwin'):
 # If the DAQmxConfigTest has been imported, then uses the value from this file
 # This can be used to try different version or compile the module on a plateform where 
 # DAQmx is not installed
-if "DAQmxConfigTest" in sys.modules.keys():
+if "DAQmxConfigTest" in list(sys.modules.keys()):
     from DAQmxConfigTest import *
     if lib_name is None:
         def get_lib():
@@ -104,5 +104,5 @@ if "DAQmxConfigTest" in sys.modules.keys():
             return DAQlib, DAQlib_variadic
 
 if dot_h_file is None or not os.path.exists(dot_h_file):
-    raise NotImplementedError, "Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform)
+    raise NotImplementedError("Location of niDAQmx library and include file unknown on %s - if you find out, please let the PyDAQmx project know" % (sys.platform))
 

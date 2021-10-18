@@ -1,5 +1,5 @@
 import weakref
-import DAQmxConfig
+from . import DAQmxConfig
 
 """ This package import helper functions to pass data to call back functions
 

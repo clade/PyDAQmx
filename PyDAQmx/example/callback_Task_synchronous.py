@@ -33,7 +33,7 @@ class CallbackTaskSynchronous(Task):
             self._newdata_event.set()
         return 0 # The function should return an integer
     def DoneCallback(self, status):
-        print "Status",status.value
+        print("Status",status.value)
         return 0 # The function should return an integer
     def get_data(self, blocking=True, timeout=None):
         if blocking:
@@ -48,10 +48,10 @@ if __name__=="__main__":
     task=CallbackTaskSynchronous()
     task.StartTask()
 
-    print "Acquiring 10 * 1000 samples in continuous mode."
+    print("Acquiring 10 * 1000 samples in continuous mode.")
     for _ in range(10):
         task.get_data(timeout=10.0)
-        print "Acquired %d points" % task.read.value
+        print("Acquired %d points" % task.read.value)
 
     task.StopTask()
     task.ClearTask()

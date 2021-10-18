@@ -33,7 +33,7 @@ class ContinuousPulseTrainGeneration():
 if __name__=="__main__":
     pulse_gene1 = ContinuousPulseTrainGeneration(1.,0.5, "dev1/ctr0", reset=True)
     pulse_gene1.start()
-    a = raw_input("Generating pulse train. Press Enter to interrupt\n")
+    a = input("Generating pulse train. Press Enter to interrupt\n")
     pulse_gene1.stop()
     pulse_gene1.clear()
    

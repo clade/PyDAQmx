@@ -4,7 +4,7 @@ Read the NIDAQmx.h file and "execute" the #define command
 """
 
 import re
-from DAQmxConfig import dot_h_file
+from .DAQmxConfig import dot_h_file
 
 include_file = open(dot_h_file,'r') #Open NIDAQmx.h file
 
@@ -18,7 +18,7 @@ for line in include_file:
 
 for copyright_line in preamble:
     if "Copyright" in copyright_line:
-        DAQmx_copyright_year = max(map(int, re.findall('\d\d\d\d', copyright_line)))
+        DAQmx_copyright_year = max([int(elm) for elm in re.findall('\d\d\d\d', copyright_line)])
         break
 else:
     DAQmx_copyright_year = 2003

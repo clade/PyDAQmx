@@ -53,7 +53,7 @@ if __name__ == '__main__':
     for i,nSamples in enumerate([1000, 2000, 5000]):
         func_name = 'EveryNCallback{0}'.format([1,2][i%2])
         b.start(nSamples, func_name)
-        print "started!"
+        print("started!")
         sleep(.5)
         b.stop()
-        print "stop"
+        print("stop")

@@ -8,7 +8,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 ##### WARNING version string should be modified also in the __init__.py
-version = '1.4.4'
+version = '1.4.5'
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
@@ -114,6 +114,7 @@ Version history
 ===============
 Main changes:
 
+* 1.4.5 All files compatible with Python 2 and Python 3 (remove 2to3)
 * 1.4.4 New location introduced by DAQmx 19
 * 1.4.3 Support for Centos 7
 * 1.4.2 Proper version string
@@ -179,7 +180,7 @@ author.''',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules'], 
      packages=packages, 
-     use_2to3=True, 
+#     use_2to3=True, 
         cmdclass = {'test': Test, 'test_example':TestExample})
 
 auth_name = "Pierre Cladé"

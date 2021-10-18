@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import DAQmxConfig
+from . import DAQmxConfig
 
-from DAQmxTypes import *
-from DAQmxConstants import *
-from DAQmxFunctions import *
-from Task import Task
+from .DAQmxTypes import *
+from .DAQmxConstants import *
+from .DAQmxFunctions import *
+from .Task import Task
 
-import DAQmxConstants
-import DAQmxFunctions
+from . import DAQmxConstants
+from . import DAQmxFunctions
 
 all_types = ['int8', 'uInt8', 'int16', 'uInt16', 'int32', 'uInt32', 'float32', 'float64', 'int64', 'uInt64', 'bool32',
         'TaskHandle', 'CalHandle', 'DAQmxEveryNSamplesEventCallbackPtr', 'DAQmxDoneEventCallbackPtr', 'DAQmxSignalEventCallbackPtr', 'CtypesString']
@@ -24,7 +24,7 @@ for name in DAQmxConstants.constant_list + list(DAQmxFunctions.function_dict.key
     globals()[new_name] = globals()[name]
 
 ##### WARNING, version should also be modified in the setup.py
-__version_info__ = (1, 4, 4)
+__version_info__ = (1, 4, 5)
 __version__ = '.'.join(str(num) for num in __version_info__)
 
 __author__ =u'Pierre Cladé'

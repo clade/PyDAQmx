@@ -3,10 +3,10 @@ import sys
 from ctypes import *
 import warnings
 
-import DAQmxConfig
-from DAQmxTypes import *
-from DAQmxConstants import constant_list
-import DAQmxConstants
+from . import DAQmxConfig
+from .DAQmxTypes import *
+from .DAQmxConstants import constant_list
+from . import DAQmxConstants
 
 class DAQException(Exception):
     """Exception raised from the NIDAQ.
