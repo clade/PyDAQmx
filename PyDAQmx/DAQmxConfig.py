@@ -44,9 +44,9 @@ if sys.platform.startswith('win') or sys.platform.startswith('cli'):
             dot_h_dir_from_reg.append(os.path.join(dir, r"NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h"))
             dot_h_dir_from_reg.append(os.path.join(dir, r"Shared\ExternalCompilerSupport\C\include\NIDAQmx.h"))
 
+    dot_h_file = None
     for file in dot_h_dir_x64 + dot_h_dir_x86 + dot_h_dir_from_reg:
         if os.path.exists(file): dot_h_file = file
-        else: dot_h_file = None
 
     # Name (and eventually path) of the library
     # Default on Windows is nicaiu
