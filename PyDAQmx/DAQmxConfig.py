@@ -13,7 +13,7 @@ NIDAQmxBase = False
 if sys.platform.startswith('win') or sys.platform.startswith('cli'):
     # Full path of the NIDAQmx.h file
     # Default location on Windows XP and Windows 7
-    dot_h_dir_x86, dot_h_dir_x64 = [], []
+    dot_h_dir_x86, dot_h_dir_x64, dot_h_dir_from_reg = [], [], []
     if 'PROGRAMFILES(X86)' in os.environ:
         dot_h_dir_x86 = [os.path.join(os.environ['PROGRAMFILES(X86)'],
                                       r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'),
@@ -24,8 +24,27 @@ if sys.platform.startswith('win') or sys.platform.startswith('cli'):
                                       r'National Instruments\NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h'),
                          os.path.join(os.environ['PROGRAMFILES'],
                                       r'National Instruments\Shared\ExternalCompilerSupport\C\include\NIDAQmx.h')]
+    try:
+        import winreg
+    except ModuleNotFoundError:
+        winreg = None
+    if winreg:
+        dirs_from_reg = []
+        keys = ((r"SOFTWARE\WOW6432Node\National Instruments\Common\Installer", r"NIDIR"),
+                    (r"SOFTWARE\National Instruments\Common\Installer", r"NIDIR64"))
+        reg = winreg.ConnectRegistry(None,winreg.HKEY_LOCAL_MACHINE)
+        for key in keys:
+            try:
+                key_open = winreg.OpenKey(reg, key[0])
+                var = winreg.QueryValueEx(key_open, key[1])
+                dirs_from_reg.append(var[0])
+            except FileNotFoundError:
+                pass
+        for dir in dirs_from_reg:
+            dot_h_dir_from_reg.append(os.path.join(dir, r"NI-DAQ\DAQmx ANSI C Dev\include\NIDAQmx.h"))
+            dot_h_dir_from_reg.append(os.path.join(dir, r"Shared\ExternalCompilerSupport\C\include\NIDAQmx.h"))
 
-    for file in dot_h_dir_x64 + dot_h_dir_x86:
+    for file in dot_h_dir_x64 + dot_h_dir_x86 + dot_h_dir_from_reg:
         if os.path.exists(file): dot_h_file = file
         else: dot_h_file = None
 
