@@ -26,7 +26,7 @@ if sys.platform.startswith('win') or sys.platform.startswith('cli'):
                                       r'National Instruments\Shared\ExternalCompilerSupport\C\include\NIDAQmx.h')]
     try:
         import winreg
-    except ModuleNotFoundError:
+    except ImportError:
         winreg = None
     if winreg:
         dirs_from_reg = []
