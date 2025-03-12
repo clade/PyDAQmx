@@ -43,7 +43,7 @@ class TestPyDAQmxTask(_TestWithDevice):
     def tearDown(self):
         self.task.ClearTask()
     def test_CreateAIVoltageChan(self):
-        self.task.CreateAIVoltageChan(test_device_name+"/ai0","",PyDAQmx.DAQmx_Val_Cfg_Default,-10.0,10.0,PyDAQmx.DAQmx_Val_Volts,None)
+        self.task.CreateAIVoltageChan(test_device_name+"/ai0", "", PyDAQmx.DAQmx_Val_Cfg_Default, -10.0, 10.0, units=PyDAQmx.DAQmx_Val_Volts, customScaleName=None)
 
 
     def test_buffer(self):
