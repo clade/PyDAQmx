@@ -8,7 +8,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 ##### WARNING version string should be modified also in the __init__.py
-version = '1.4.6'
+version = '1.4.7'
 
 import os
 directory = os.path.split(os.path.realpath(__file__))[0]
@@ -114,6 +114,7 @@ Version history
 ===============
 Main changes:
 
+* 1.4.7 Compatible with python 3.13
 * 1.4.6 Use windows registry to search for files
 * 1.4.5 All files compatible with Python 2 and Python 3 (remove 2to3)
 * 1.4.4 New location introduced by DAQmx 19
