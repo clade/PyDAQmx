@@ -44,7 +44,7 @@ class MultiChannelAnalogInput():
             DAQmxCreateTask("",byref(taskHandles[name]))
             DAQmxCreateAIVoltageChan(taskHandles[name],name,"",DAQmx_Val_RSE,
                                      self.limit[name][0],self.limit[name][1],
-                                     DAQmx_Val_Volts,None)
+                                     units=DAQmx_Val_Volts,customScaleName=None)
         self.taskHandles = taskHandles
     def readAll(self):
         return dict([(name,self.read(name)) for name in self.physicalChannel])

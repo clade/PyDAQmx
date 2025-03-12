@@ -99,8 +99,9 @@ def _add_keywords(arg_name):
     s = """def add_keywords_decorator(f):
     def function({0}):return f({0})
     return function"""
-    exec(s.format(', '.join(arg_name)))
-    return locals()['add_keywords_decorator']
+    local_dct = {}
+    exec(s.format(', '.join(arg_name)), local_dct)
+    return local_dct['add_keywords_decorator']
 
 
 #if lib_name is not None:
@@ -172,13 +173,13 @@ type_list_array = ['int8','uInt8','int16','uInt16','int32','uInt32','float32','f
 # Each regular expression is associated with a ctypes type and a number giving the
 # group in which the name of the variable is defined
 const_char = [(re.compile(r'(const char)\s*([^\s]*)\[\]'), CtypesString() ,2)]
-simple_type = [(re.compile('('+_type+')\s*([^\*\[]*)\Z'),eval(_type),2)
+simple_type = [(re.compile('('+_type+r')\s*([^\*\[]*)\Z'),eval(_type),2)
      for _type in type_list]
-pointer_type = [(re.compile('('+_type+')\s*\*([^\*]*)\Z'),
+pointer_type = [(re.compile('('+_type+r')\s*\*([^\*]*)\Z'),
         eval('POINTER('+_type+')'),2) for _type in type_list]
-pointer_type_array = [(re.compile('('+_type+')\s*((?:readArray|writeArray).*)\[\]\Z'),
+pointer_type_array = [(re.compile('('+_type+r')\s*((?:readArray|writeArray).*)\[\]\Z'),
     array_type(_type),2) for _type in type_list_array]
-pointer_type_2 = [(re.compile('('+_type+')\s*([^\s]*)\[\]\Z'),
+pointer_type_2 = [(re.compile('('+_type+r')\s*([^\s]*)\[\]\Z'),
         eval('POINTER('+_type+')'),2) for _type in type_list]
 
 const_char_etoile = [(re.compile(r'(const char)\s*\*([^\*]*)\Z'), CtypesString(), 2)] # match "const char * name"
