@@ -41,6 +41,12 @@ or using `pip <http://www.pip-installer.org/>`_:
 
     pip install PyDAQmx
 
+or using `conda-forge <https://anaconda.org/conda-forge/pydaqmx/>`_:
+
+.. code-block:: sh
+
+    conda install -c conda-forge pydaqmx
+
 You can also directly *move* the :file:`PyDAQmx` directory to a location that
 Python can import from (the directory in which scripts using :mod:`PyDAQmx` are
 run, :data:`sys.path`, etc.)

@@ -7,11 +7,26 @@ Windows 7. It works with Python 2 (from 2.7) and Python 3.
 
 ## Installation
 
-To install this package:
+### source
+
+To install this package from [source](https://github.com/clade/PyDAQmx):
 
 1. Install the NI-DAQmx driver. 
 2. Run `python setup.py install`.
 
+### PyPI
+
+To install this package from [PyPI](https://pypi.org/project/PyDAQmx/):
+
+1. Install the NI-DAQmx driver.
+2. Run `python -m pip install PyDAQmx`
+
+### conda-forge
+
+To install this package from [conda-forge](https://anaconda.org/conda-forge/pydaqmx):
+
+1. Install the NI-DAQmx driver
+2. Run `conda install -c conda-forge pydaqmx`
 
 ## License
 
